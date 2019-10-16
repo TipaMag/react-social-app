@@ -1,0 +1,8 @@
+.item {
+   display: flex;
+   border: 1px solid#000;
+   margin: 5px;
+}
+.item img {
+   width: 50px;
+}

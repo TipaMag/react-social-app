@@ -1,0 +1,29 @@
+.nav {
+   grid-area: n;
+   border: 1px solid black;
+ }
+ .nav ul {
+   list-style: none;
+   margin: 0;
+   padding: 5px;
+ }
+ .item {
+   text-align: center;
+   border: 1px solid black;
+   margin-bottom: 5px;
+   padding: 5px;
+   cursor: pointer;
+   transition: all 0.3s;
+ }
+ .item:hover {
+  background-image: linear-gradient(to right bottom, #dbe2ed, #cfdde3, #c9d8d7, #c7d1cb, #c7c9c1);
+}
+ .item a {
+  display: block;
+  text-decoration: none;
+  font-size: 18px;
+  color: #000;
+}
+.item.active a{
+  color: green;
+}
