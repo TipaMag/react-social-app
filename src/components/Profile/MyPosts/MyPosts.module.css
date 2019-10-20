@@ -1,3 +1,16 @@
+.postsBlock {
+  padding: 5px;
+  border: 1px solid red;
+}
+.postsBlock h3 {
+  margin: 0;
+}
+.addPostBlock {
+  display: grid;
+  grid-template-columns: 8fr 2fr;
+  grid-gap: 10px;
+  margin-bottom: 20px;
+}
 .posts {
   border: 1px dashed #000;
 }

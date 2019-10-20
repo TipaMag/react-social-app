@@ -1,17 +1,13 @@
 import React from 'react';
-import s from './Profile.module.css';
+// import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 
-const Profile = () => {
+const Profile = (props) => {
   return (
-    <div>
-      <div>
-        <img src='http://wowslider.com/sliders/demo-81/data1/images/redkite50498.jpg'></img>
-      </div>
-      <div>
-        <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0GcvltEcK8FCzX_72ZsFqVLHJ7DjHKFViaLIais7bIkHdpq_-'></img>
-      </div>
-      <MyPosts />
+    <div className='profile'>
+      <ProfileInfo />
+      <MyPosts postsData={props.state.postsData} addPost={props.addPost} />
     </div>
   );
 }
