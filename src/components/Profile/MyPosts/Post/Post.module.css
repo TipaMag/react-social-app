@@ -1,6 +1,6 @@
 .item {
    display: flex;
-   border: 1px solid#000;
+   border: 1px solid red;
    margin: 5px;
 }
 .item img {
