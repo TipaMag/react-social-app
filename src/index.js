@@ -1,24 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import App from './App';
-import store from './redux/state';
+import store from './redux/store';
 import * as serviceWorker from './serviceWorker';
 
-export let rerenderEntireTree = () => {
-   
-   for (let key in store) { // BindAll - привязка контекста ко всем методам объекта
-      if (typeof store[key] == 'function') {
-        store[key] = store[key].bind(store);
-      }
-    }
-   ReactDOM.render(<App 
-      state={store.getState()}
-      addPost={store.addPost}
-      updateNewPostText={store.updateNewPostText}
-      addMessage={store.addMessage}
-      updateNewMessageText={store.updateNewMessageText}
-      />, document.getElementById('root'));
+let rerenderEntireTree = () => {
+   ReactDOM.render(
+      <BrowserRouter>
+         <App state={store.getState()} dispatch={store.dispatch.bind(store)} />
+      </BrowserRouter>, document.getElementById('root'))
 }
 rerenderEntireTree()
 store.subscribe(rerenderEntireTree)

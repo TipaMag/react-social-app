@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import './App.css';
 import Header from './components/Header/Header';
 import Navbar from './components/Navbar/Navbar';
@@ -11,23 +11,17 @@ import Settings from './components/Settings/Settings';
 
 const App = (props) => {
   return (
-    <BrowserRouter>
-      <div className='app-wrapper'>
-        <Header />
-        <Navbar sidebar={props.state.sidebar} />
-        <div className='app-wrapper-content'>
-          <Route path='/profile' render={() => <Profile profilePage={props.state.profilePage} 
-                                                        addPost={props.addPost} 
-                                                        updateNewPostText={props.updateNewPostText} />} />
-          <Route path='/dialogs' render={() => <Dialogs dialogsPage={props.state.dialogsPage} 
-                                                        addMessage={props.addMessage}
-                                                        updateNewMessageText={props.updateNewMessageText}/>} />
-          <Route path='/News' component={News} />
-          <Route path='/Music' component={Music} />
-          <Route path='/Settings' component={Settings} />
-        </div>
+    <div className='app-wrapper'>
+      <Header />
+      <Navbar sidebar={props.state.sidebar} />
+      <div className='app-wrapper-content'>
+        <Route path='/profile' render={() => <Profile profilePage={props.state.profilePage} dispatch={props.dispatch} />} />
+        <Route path='/dialogs' render={() => <Dialogs dialogsPage={props.state.dialogsPage} dispatch={props.dispatch} />} />
+        <Route path='/News' component={News} />
+        <Route path='/Music' component={Music} />
+        <Route path='/Settings' component={Settings} />
       </div>
-    </BrowserRouter>
+    </div>
   );
 }
 
