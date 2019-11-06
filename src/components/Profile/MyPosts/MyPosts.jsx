@@ -4,21 +4,21 @@ import Post from './Post/Post'
 
 
 const MyPosts = (props) => {
-  let postsElements = props.postsData.map(item => <Post message={item.message} likesCount={item.likesCount} />)
+  let postsElements = props.profilePage.postsData.map(item => <Post key={item.id} message={item.message} likesCount={item.likesCount} />)
 
-  let onAddPost = () => {
-    props.addPost()
-  }
   let onPostChange = (event) => {
     let text = event.target.value
     props.updateNewPostText(text)
+  }
+  let onAddPost = () => {
+    props.newPost()
   }
 
   return (
     <div className={s.postsBlock}>
       <h3>my posts</h3>
       <div className={s.addPostBlock}>
-        <textarea onChange={onPostChange} value={props.newPostText} />
+        <textarea onChange={onPostChange} value={props.profilePage.newPostText} />
         <button onClick={onAddPost}>Add post</button>
       </div>
       <div className={s.posts}>

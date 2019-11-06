@@ -1,0 +1,21 @@
+.users {
+    margin: 0;
+    padding: 10px;
+    border: 1px solid blue;
+    list-style: none;
+}
+.pageListContainer {
+    display: flex;
+    flex-flow: row wrap;
+}
+.pageListContainer span {
+    cursor: pointer;
+}
+.pageListContainer span:hover {
+    color: green
+}
+.selectedPage {
+    color: red;
+    font-weight: bold;
+    border: 1px solid black
+}

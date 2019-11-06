@@ -1,0 +1,22 @@
+
+.item {
+    display: flex;
+    border: 1px solid red;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+.userAvatar {
+    width: 70px;
+}
+/* span {
+    border: 1px solid black;
+    padding: 0 5px;
+    cursor: pointer;
+}
+span:hover {
+    background-color: #ccc;
+} */
+.selectedPage {
+    color: red;
+    font-weight: bold;
+}
