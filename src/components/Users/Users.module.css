@@ -1,17 +1,21 @@
 .users {
+    padding: 5px;
+    border: 1px solid black
+}
+.usersList {
     margin: 0;
     padding: 10px;
     border: 1px solid blue;
     list-style: none;
 }
-.pageListContainer {
+.usersPagination {
     display: flex;
     flex-flow: row wrap;
 }
-.pageListContainer span {
+.usersPagination span {
     cursor: pointer;
 }
-.pageListContainer span:hover {
+.usersPagination span:hover {
     color: green
 }
 .selectedPage {

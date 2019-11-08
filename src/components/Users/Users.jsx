@@ -5,6 +5,7 @@ import User from './User/User'
 const Users = (props) => {
    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
    let pages = []
+
    for (let i = 1; i <= pagesCount; i++) {
       pages.push(i)
    }
@@ -16,19 +17,22 @@ const Users = (props) => {
       name={item.name}
       status={item.status}
 
-      unfollowUser={props.unfollowUser}
-      followUser={props.followUser} />)
+      unfollow={props.unfollow}
+      follow={props.follow} />)
+
    let pagesList = pages.map(page => {
       return <span className={props.currentPage === page ? s.selectedPage : ''} key={page} onClick={() => { props.getNewPage(page) }}>{page}</span>
    })
 
    return (
-      <ul className={s.users}>
-         <div className={s.pageListContainer}>
+      <div className={s.users}>
+         <div className={s.usersPagination}>
             {pagesList}
          </div>
-         {usersItems}
-      </ul>
+         <ul className={s.usersList}>
+            {usersItems}
+         </ul>
+      </div>
    )
 }
 

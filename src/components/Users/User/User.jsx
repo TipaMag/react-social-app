@@ -1,16 +1,19 @@
 import React from 'react'
 import s from './User.module.css'
-import userPhoto from '../../../assets/images/avatar-icon.png'
+import { NavLink } from 'react-router-dom'
+import defaultUserPhoto from '../../../assets/images/default-avatar-icon.png'
 
 const User = (props) => {
    return (
       <li className={s.item} id={props.id}>
          <div>
-            <img className={s.userAvatar} src={props.smallPhoto != null ? props.smallPhoto : userPhoto} alt='avatar'></img>
+            <NavLink to={'/profile/' + props.id}>
+               <img className={s.userAvatar} src={props.smallPhoto != null ? props.smallPhoto : defaultUserPhoto} alt='avatar'></img>
+            </NavLink>
             <div>
                {props.followed ?
-                  <button onClick={() => { props.unfollowUser(props.id) }}>unfollow</button> :
-                  <button onClick={() => { props.followUser(props.id) }}>follow</button>}
+                  <button onClick={() => { props.unfollow(props.id) }}>unfollow</button> :
+                  <button onClick={() => { props.follow(props.id) }}>follow</button>}
             </div>
          </div>
          <div>
