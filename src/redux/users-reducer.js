@@ -3,17 +3,25 @@ const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
 const SET_CURRENT_USERS_PAGE = 'SET-CURRENT-USERS-PAGE'
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
+const FOLLOWING_IN_PROGRESS = 'FOLLOWING-IN-PROGRESS'
 
 let initialState = {
    users: [],
    pageSize: 5,
    totalUsersCount: 0,
    currentPage: 1,
-   isFetching: false
+   isFetching: false, // preloader
+   followingInProgress: false // following button click disable
 }
 
 const usersReducer = (state = initialState, action) => {
    switch (action.type) {
+      case SET_USERS:
+         return {
+            ...state,
+            users: action.users.items,
+            totalUsersCount: action.users.totalCount,
+         }
       case FOLLOW:
          return {
             ...state,
@@ -34,11 +42,10 @@ const usersReducer = (state = initialState, action) => {
                return user
             })
          }
-      case SET_USERS:
+      case FOLLOWING_IN_PROGRESS:
          return {
             ...state,
-            users: action.users.items,
-            totalUsersCount: action.users.totalCount,
+            followingInProgress: action.isFetching
          }
       case SET_CURRENT_USERS_PAGE:
          return {
@@ -55,6 +62,10 @@ const usersReducer = (state = initialState, action) => {
    }
 }
 
+export const setUsers = (users) => ({
+   type: SET_USERS,
+   users
+})
 export const follow = (userId) => ({
    type: FOLLOW,
    userId
@@ -63,9 +74,9 @@ export const unfollow = (userId) => ({
    type: UNFOLLOW,
    userId
 })
-export const setUsers = (users) => ({
-   type: SET_USERS,
-   users
+export const toggleFollowingProgress = (isFetching) => ({
+   type: FOLLOWING_IN_PROGRESS,
+   isFetching
 })
 export const setCurrentUsersPage = (pageNumber) => ({
    type: SET_CURRENT_USERS_PAGE,

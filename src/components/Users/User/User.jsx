@@ -11,9 +11,9 @@ const User = (props) => {
                <img className={s.userAvatar} src={props.smallPhoto != null ? props.smallPhoto : defaultUserPhoto} alt='avatar'></img>
             </NavLink>
             <div>
-               {props.followed ?
-                  <button onClick={() => { props.unfollow(props.id) }}>unfollow</button> :
-                  <button onClick={() => { props.follow(props.id) }}>follow</button>}
+               {props.followed
+                  ? <button disabled={props.followingInProgress} onClick={() => { props.setUnfollow(props.id) }}>unfollow</button>
+                  : <button disabled={props.followingInProgress} onClick={() => { props.setFollow(props.id) }}>follow</button>}
             </div>
          </div>
          <div>
