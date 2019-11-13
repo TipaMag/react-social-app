@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api"
+
 const FOLLOW = 'FOLLOW'
 const UNFOLLOW = 'UNFOLLOW'
 const SET_USERS = 'SET-USERS'
@@ -11,7 +13,7 @@ let initialState = {
    totalUsersCount: 0,
    currentPage: 1,
    isFetching: false, // preloader
-   followingInProgress: false // following button click disable
+   followingInProgress: []
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -46,6 +48,8 @@ const usersReducer = (state = initialState, action) => {
          return {
             ...state,
             followingInProgress: action.isFetching
+               ? [...state.followingInProgress, action.userId]
+               : [state.followingInProgress.filter(id => id !== action.userId)]
          }
       case SET_CURRENT_USERS_PAGE:
          return {
@@ -74,9 +78,10 @@ export const unfollow = (userId) => ({
    type: UNFOLLOW,
    userId
 })
-export const toggleFollowingProgress = (isFetching) => ({
+export const toggleFollowingProgress = (isFetching, userId) => ({
    type: FOLLOWING_IN_PROGRESS,
-   isFetching
+   isFetching,
+   userId
 })
 export const setCurrentUsersPage = (pageNumber) => ({
    type: SET_CURRENT_USERS_PAGE,
@@ -86,5 +91,17 @@ export const toggleIsFetching = (isFetching) => ({
    type: TOGGLE_IS_FETCHING,
    isFetching
 })
+
+export const getUsersThunkCreator = (pageSize, currentPage) => {  // getUsersThunkCreator
+   return (dispatch) => {
+      dispatch(toggleIsFetching(true))
+      usersAPI.getUsers(pageSize, currentPage) // ----------------usersAPI.getUsers
+         .then((response) => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setUsers(response))
+         })
+   }
+}
+
 
 export default usersReducer

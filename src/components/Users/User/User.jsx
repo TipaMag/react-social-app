@@ -12,8 +12,12 @@ const User = (props) => {
             </NavLink>
             <div>
                {props.followed
-                  ? <button disabled={props.followingInProgress} onClick={() => { props.setUnfollow(props.id) }}>unfollow</button>
-                  : <button disabled={props.followingInProgress} onClick={() => { props.setFollow(props.id) }}>follow</button>}
+                  ? <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.setUnfollow(props.id) }}>
+                     unfollow
+                     </button>
+                  : <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.setFollow(props.id) }}>
+                     follow
+                     </button>}
             </div>
          </div>
          <div>

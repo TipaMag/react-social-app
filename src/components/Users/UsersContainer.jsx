@@ -1,54 +1,42 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setUsers, follow, unfollow, toggleFollowingProgress, setCurrentUsersPage, toggleIsFetching } from '../../redux/users-reducer'
+import { setUsers, follow, unfollow, toggleFollowingProgress, setCurrentUsersPage, toggleIsFetching, getUsersThunkCreator } from '../../redux/users-reducer'
 import Users from './Users'
 import Preloader from '../common/Preloader/Preloader'
 import { usersAPI } from '../../api/api'
 
 class UsersContainer extends React.Component {
    componentDidMount() {
-      this.props.toggleIsFetching(true)
-      usersAPI.getUsers(this.props.pageSize, this.props.currentPage) // -------------usersAPI.getUsers
-         .then((response) => {
-            this.props.toggleIsFetching(false)
-            this.props.setUsers(response)
-         })
+      this.props.getUsers(this.props.pageSize, this.props.currentPage)
    }
    getNewPage = (pageNumber) => {
-      this.props.toggleIsFetching(true)
-      this.props.setCurrentUsersPage(pageNumber)
-      usersAPI.getUsers(this.props.pageSize, pageNumber) // -----------------usersAPI.getUsers
-         .then((response) => {
-            this.props.toggleIsFetching(false)
-            this.props.setUsers(response)
-         })
+      this.props.getUsers(this.props.pageSize, pageNumber)
+      // this.props.toggleIsFetching(true)
+      // this.props.setCurrentUsersPage(pageNumber)
+      // usersAPI.getUsers(this.props.pageSize, pageNumber) // ----------------------------usersAPI.getUsers
+      //    .then((response) => {
+      //       this.props.toggleIsFetching(false)
+      //       this.props.setUsers(response)
+      //    })
    }
    setFollow = (userId) => {
-      this.props.toggleFollowingProgress(true)
-
-
-      usersAPI.setFollow(userId) // --------------usersAPI.setFollow
+      this.props.toggleFollowingProgress(true, userId)
+      usersAPI.setFollow(userId) // ----------------------------------------------------usersAPI.setFollow
          .then((response) => {
             if (response.resultCode === 0) {
                this.props.follow(userId)
             }
-
-            
-            this.props.toggleFollowingProgress(false)
+            this.props.toggleFollowingProgress(false, userId)
          })
    }
    setUnfollow = (userId) => {
-      this.props.toggleFollowingProgress(true)
-
-      
-      usersAPI.setUnfollow(userId) // ------------------usersAPI.setUnfollow
+      this.props.toggleFollowingProgress(true, userId)
+      usersAPI.setUnfollow(userId) // --------------------------------------------------usersAPI.setUnfollow
          .then((response) => {
             if (response.resultCode === 0) {
                this.props.unfollow(userId)
             }
-
-
-            this.props.toggleFollowingProgress(false)
+            this.props.toggleFollowingProgress(false, userId)
          })
    }
    render() {
@@ -56,7 +44,7 @@ class UsersContainer extends React.Component {
          <>
             {this.props.isFetching ? <Preloader /> : null}
             <Users {...this.props}
-               getNewPage={this.getNewPage}
+               getNewPage={this.getNewPage} 
                setFollow={this.setFollow}
                setUnfollow={this.setUnfollow} />
          </>
@@ -78,8 +66,17 @@ export default connect(mapStateToProps, {
    unfollow,
    toggleFollowingProgress,
    setCurrentUsersPage,
-   toggleIsFetching
+   toggleIsFetching,
+   getUsers: getUsersThunkCreator //thunk
 })(UsersContainer)
+
+
+
+
+
+
+
+
 
 
 // let mapDispatchToProps = (dispatch) => {
