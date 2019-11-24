@@ -1,3 +1,5 @@
+import { profileAPI } from "../api/api"
+
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 const SET_USER_PROFILE = 'SET-USER-PROFILE'
@@ -46,13 +48,21 @@ export const setUserProfile = (profile) => ({
    type: SET_USER_PROFILE,
    profile
 })
-export const addPostActionCreator = () => ({
+export const addPost = () => ({
    type: ADD_POST
 })
-export const updateNewPostTextActionCreator = (text) => ({
+export const updateNewPostText = (text) => ({
    type: UPDATE_NEW_POST_TEXT,
    newText: text
 })
-
+// ---------------------- THUNK creators ---------------------
+export const getProfile = (userId) => {
+   return (dispatch) => {
+      profileAPI.getProfile(userId) // profileAPI.getProfile
+         .then((response) => {
+            dispatch(setUserProfile(response))
+         })
+   }
+}
 
 export default profileReducer

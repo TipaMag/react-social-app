@@ -11,7 +11,7 @@ const MyPosts = (props) => {
     props.updateNewPostText(text)
   }
   let onAddPost = () => {
-    props.newPost()
+    props.addPost()
   }
 
   return (

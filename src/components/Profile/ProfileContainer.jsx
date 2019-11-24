@@ -1,20 +1,18 @@
 import React from 'react'
-import { setUserProfile } from '../../redux/profile-reducer'
+import { getProfile } from '../../redux/profile-reducer'
 import Profile from './Profile'
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom';
-import { profileAPI } from '../../api/api'
+import { withRouter } from 'react-router-dom'
+// import { withAuthRedirect } from '../Hoc/withAuthRedirect'
+import { compose } from 'redux'
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
-    let userId  = this.props.match.params.userId
+    let userId = this.props.match.params.userId
     if (!userId) {
       userId = 5070
     }
-    profileAPI.getProfile(userId) // profileAPI.getProfile
-      .then((response) => {
-        this.props.setUserProfile(response)
-      })
+    this.props.getProfile(userId)
   }
   render() {
     return (
@@ -24,13 +22,22 @@ class ProfileContainer extends React.Component {
 }
 
 let mapStateToProps = (state) => ({
-  profile: state.profilePage.profile
+  profile: state.profilePage.profile,
 })
+export default compose( // connect (такой себе рекурсивный декоратор)
+  connect(mapStateToProps, {
+    getProfile //thunk
+  }),
+  withRouter, // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
+  // withAuthRedirect // HOC обёртка (редирект на login-page если не авторизован)
+)(ProfileContainer)
 
 
-let widthUrlDataContainerComponent = withRouter(ProfileContainer) // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
-export default connect(mapStateToProps,
-  {
-    setUserProfile
-  }
-)(widthUrlDataContainerComponent)
+
+
+
+// let AuthRedirectComponent = withAuthRedirect(ProfileContainer) // HOC обёртка (редирект на login-page если не авторизован)
+// let widthUrlDataContainerComponent = withRouter(AuthRedirectComponent) // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
+// export default connect(mapStateToProps, {
+//   getProfile //thunk
+// })(widthUrlDataContainerComponent)

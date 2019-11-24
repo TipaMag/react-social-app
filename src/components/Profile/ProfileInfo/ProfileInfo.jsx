@@ -1,7 +1,8 @@
-import React from 'react';
+import React from 'react'
 import defaultUserImage from '../../../assets/images/default-user-image.png'
-import Preloader from '../../common/Preloader/Preloader';
-import s from './ProfileInfo.module.css';
+import Preloader from '../../common/Preloader/Preloader'
+import s from './ProfileInfo.module.css'
+import ProfileStatus from './ProfileStatus'
 
 const ProfileInfo = (props) => {
   if (!props.profile) {
@@ -11,9 +12,6 @@ const ProfileInfo = (props) => {
   }
   return (
     <div className={s.profileInfo}>
-      {/* <div>
-        <img src={'http://wowslider.com/sliders/demo-81/data1/images/redkite50498.jpg'} alt=''></img>
-      </div> */}
       <div className={s.userPhoto}>
         <img src={props.profile.photos.large != null ? props.profile.photos.large : defaultUserImage} alt='profile_photo'></img>
       </div>
@@ -21,9 +19,7 @@ const ProfileInfo = (props) => {
         <h1 className={s.userFullName}>
           {props.profile.fullName}
         </h1>
-        <span className={s.userAbout}>
-          {props.profile.aboutMe}
-        </span>
+        <ProfileStatus profileStatus={'Hello my friend'}/>
         <ul className={s.userContactsList}>
           contacts:
           <li>facebook: {props.profile.contacts.facebook}</li>
@@ -40,4 +36,4 @@ const ProfileInfo = (props) => {
   );
 }
 
-export default ProfileInfo;
+export default ProfileInfo

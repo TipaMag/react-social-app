@@ -14,13 +14,13 @@ const Users = (props) => {
    let usersItems = props.users.map(item => 
       <User key={item.id} id={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
 
-            setFollow={props.setFollow} //function
-            setUnfollow={props.setUnfollow} //function
+            onFollow={props.onFollow} //function
+            onUnfollow={props.onUnfollow} //function
             followingInProgress={props.followingInProgress}
              />)
 
    let pagesList = pages.map(page => {
-      return <span className={props.currentPage === page ? s.selectedPage : ''} key={page} onClick={() => { props.getNewPage(page) }}>{page}</span>
+      return <span className={props.currentPage === page ? s.selectedPage : ''} key={page} onClick={() => { props.onPageChanged(page) }}>{page}</span>
    })
 
    return (

@@ -1,25 +1,12 @@
 import React from 'react'
 import Header from './Header'
-import { setAuthUserData, setAuthUserSmallPhoto } from '../../redux/auth-reducer'
+import { getAuthUserData } from '../../redux/auth-reducer'
 import { connect } from 'react-redux'
-import { authAPI, profileAPI } from '../../api/api'
+import { compose } from 'redux'
 
 class HeaderContainer extends React.Component {
    componentDidMount() {
-      authAPI.getAuth() //-------------------------------------------------> authAPI.getAuth()
-         .then((response) => {
-            if (response.resultCode === 0) {
-               let { id, login, email } = response.data
-               this.props.setAuthUserData(id, login, email)
-
-               profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
-                  .then((response) => {
-                     if (!response.photos.small) {
-                        this.props.setAuthUserSmallPhoto(response.photos.small)
-                     }
-                  })
-            }
-         })
+      this.props.getAuthUserData()
    }
    render() {
       return (
@@ -34,7 +21,12 @@ let mapStateToProps = (state) => ({
    smallPhoto: state.auth.smallPhoto
 })
 
-export default connect(mapStateToProps, {
-   setAuthUserData,
-   setAuthUserSmallPhoto
-})(HeaderContainer)
+export default compose( // connect (такой себе рекурсивный декоратор)
+   connect(mapStateToProps, {
+      getAuthUserData //thunk
+   })
+)(HeaderContainer)
+
+// export default connect(mapStateToProps, {
+//    getAuthUserData //thunk
+// })(HeaderContainer)
