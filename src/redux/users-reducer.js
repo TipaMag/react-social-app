@@ -97,9 +97,8 @@ export const getUsers = (pageSize, currentPage) => {
       dispatch(toggleIsFetching(true))
       usersAPI.getUsers(pageSize, currentPage) // ----------------usersAPI.getUsers
          .then((response) => {
-            debugger
             dispatch(toggleIsFetching(false))
-            dispatch(setUsers(response))
+            dispatch(setUsers(response.data))
          })
    }
 }
@@ -110,7 +109,7 @@ export const getNewPage = (pageSize, pageNumber) => {
       usersAPI.getUsers(pageSize, pageNumber) // ----------------usersAPI.getUsers
          .then((response) => {
             dispatch(toggleIsFetching(false))
-            dispatch(setUsers(response))
+            dispatch(setUsers(response.data))
          })
    }
 }
@@ -119,7 +118,7 @@ export const setFollow = (userId) => {
       dispatch(toggleFollowingProgress(true, userId))
       usersAPI.setFollow(userId) // ----------------------------------------------------usersAPI.setFollow
          .then((response) => {
-            if (response.resultCode === 0) {
+            if (response.data.resultCode === 0) {
                dispatch(follow(userId))
             }
             dispatch(toggleFollowingProgress(false, userId))
@@ -131,7 +130,7 @@ export const setUnfollow = (userId) => {
       dispatch(toggleFollowingProgress(true, userId))
       usersAPI.setUnfollow(userId) // ----------------------------------------------------usersAPI.setFollow
          .then((response) => {
-            if (response.resultCode === 0) {
+            if (response.data.resultCode === 0) {
                dispatch(unfollow(userId))
             }
             dispatch(toggleFollowingProgress(false, userId))

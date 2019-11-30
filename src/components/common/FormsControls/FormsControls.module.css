@@ -1,0 +1,13 @@
+.formControl {
+    display: flex;
+    /* flex-flow: row wrap; */
+}
+.formControl textarea {
+    resize: none;
+    width: 100%;
+}
+
+
+.inputContainer {
+    display: flex;
+}

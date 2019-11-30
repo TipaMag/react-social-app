@@ -1,7 +1,28 @@
 import React from "react"
+import { connect } from "react-redux"
+import { login } from '../../redux/auth-reducer'
+import LoginReduxForm from './LoginForm/LoginForm'
+
 
 const Login = (props) => {
-    return <h1>Login page</h1>
+
+    const onLogin = (values) => {
+        let {login, password, rememberMe} = values
+        props.login(login, password, rememberMe) 
+    }
+    return (
+        <div>
+            <h1>Login</h1>
+            <LoginReduxForm onSubmit={onLogin} />
+        </div>
+    )
 }
 
-export default Login
+const mapStateToProps = (state) => ({
+
+})
+export default connect(mapStateToProps, {
+    login, // thunk
+})(Login)
+
+// export default Login

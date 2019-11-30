@@ -42,23 +42,33 @@ export const setAuthUserSmallPhoto = (smallPhoto) => ({
    smallPhoto
 })
 // ---------------------- THUNK creators ---------------------
-export const getAuthUserData = () => {
-   return (dispatch) => {
-      authAPI.getAuth() //-------------------------------------------------> authAPI.getAuth()
-         .then((response) => {
-            if (response.resultCode === 0) {
-               let { id, login, email } = response.data
-               dispatch(setAuthUserData(id, login, email))
+export const getAuthUserData = () => (dispatch) => {
+   authAPI.getAuth() //-------------------------------------------------> authAPI.getAuth()
+      .then((response) => {
+         if (response.data.resultCode === 0) {
+            let { id, login, email } = response.data.data
+            dispatch(setAuthUserData(id, login, email))
 
-               profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
-                  .then((response) => {
-                     if (!response.photos.small) {
-                        dispatch(setAuthUserSmallPhoto(response.photos.small))
-                     }
-                  })
-            }
-         })
-   }
+            profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
+               .then((response) => {
+                  if (!response.data.photos.small) {
+                     dispatch(setAuthUserSmallPhoto(response.data.photos.small))
+                  }
+               })
+         }
+      })
+}
+export const login = (userEmail, userPassword, rememberMe) => (dispatch) => {
+   authAPI.login(userEmail, userPassword, rememberMe)
+      .then((response) => {
+         console.log(response.data)
+      })
+}
+export const logout = () => (dispatch) => {
+   authAPI.logout()
+      .then((response) => {
+         console.log(response.data)
+      })
 }
 
 export default authReducer

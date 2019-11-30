@@ -7,3 +7,8 @@
 .userFullName {
     margin: 0;
 }
+
+/* profile-status */
+.statusContainer {
+    border: 1px solid black
+}
