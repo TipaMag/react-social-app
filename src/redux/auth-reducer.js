@@ -1,4 +1,10 @@
-import { authAPI, profileAPI } from "../api/api"
+import {
+   authAPI,
+   profileAPI
+} from "../api/api"
+import {
+   stopSubmit
+} from 'redux-form'
 
 const SET_AUTH_USER_DATA = 'SET-AUTH-USER-DATA'
 const SET_AUTH_SMALL_PHOTO = 'SET-AUTH-SMALL-PHOTO'
@@ -16,25 +22,25 @@ const authReducer = (state = initialState, action) => {
       case SET_AUTH_USER_DATA:
          return {
             ...state,
-            ...action.data,
-            isAuth: true
+            ...action.payload
          }
-      case SET_AUTH_SMALL_PHOTO:
-         return {
-            ...state,
-            smallPhoto: action.smallPhoto
-         }
-      default:
-         return state
+         case SET_AUTH_SMALL_PHOTO:
+            return {
+               ...state,
+               smallPhoto: action.smallPhoto
+            }
+            default:
+               return state
    }
 }
 
-export const setAuthUserData = (userId, login, email) => ({
+export const setAuthUserData = (userId, login, email, isAuth) => ({
    type: SET_AUTH_USER_DATA,
-   data: {
+   payload: {
       userId,
       login,
-      email
+      email,
+      isAuth
    }
 })
 export const setAuthUserSmallPhoto = (smallPhoto) => ({
@@ -43,11 +49,15 @@ export const setAuthUserSmallPhoto = (smallPhoto) => ({
 })
 // ---------------------- THUNK creators ---------------------
 export const getAuthUserData = () => (dispatch) => {
-   authAPI.getAuth() //-------------------------------------------------> authAPI.getAuth()
+   return authAPI.getAuth() //---------------> authAPI.getAuth() (return - для возврата промиса в app-reducer для инициализации)
       .then((response) => {
          if (response.data.resultCode === 0) {
-            let { id, login, email } = response.data.data
-            dispatch(setAuthUserData(id, login, email))
+            let {
+               id,
+               login,
+               email
+            } = response.data.data
+            dispatch(setAuthUserData(id, login, email, true))
 
             profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
                .then((response) => {
@@ -58,16 +68,28 @@ export const getAuthUserData = () => (dispatch) => {
          }
       })
 }
-export const login = (userEmail, userPassword, rememberMe) => (dispatch) => {
-   authAPI.login(userEmail, userPassword, rememberMe)
+export const login = (email, password, rememberMe) => (dispatch) => {
+
+   authAPI.login(email, password, rememberMe)
       .then((response) => {
-         console.log(response.data)
+         if (response.data.resultCode === 0) {
+            dispatch(getAuthUserData())
+         }
+         if (response.data.resultCode === 1) {
+            let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+            let action = stopSubmit('login', { _error: message })
+            dispatch(action)
+         }
       })
 }
 export const logout = () => (dispatch) => {
    authAPI.logout()
       .then((response) => {
-         console.log(response.data)
+         if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false))
+
+            dispatch(getAuthUserData())
+         }
       })
 }
 

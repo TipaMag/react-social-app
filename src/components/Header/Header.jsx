@@ -15,6 +15,7 @@ const Header = (props) => {
                   <div>
                      <img className={s.loginImage} src={props.smallPhoto ? props.smallPhoto: defaultUserImage} alt=''></img>
                      <span>{props.login}</span>
+                     <button onClick={props.logout}>logout</button>
                   </div> :
                   <NavLink to='/login' >Login</NavLink>
             }

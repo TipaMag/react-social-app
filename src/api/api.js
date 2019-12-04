@@ -34,8 +34,8 @@ export const authAPI = { //use headerContainer and login-page
     getAuth() {
         return instance.get('auth/me')
     },
-    login(userEmail, userPassword, rememberMe) {
-        return instance.post(`/auth/login`, {email: userEmail, password: userPassword, rememberMe: rememberMe})
+    login(email, password, rememberMe = false) {
+        return instance.post(`/auth/login`, {email, password, rememberMe})
     },
     logout() {
         return instance.delete(`/auth/login`)

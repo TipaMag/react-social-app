@@ -3,14 +3,14 @@ import { getUserProfile, getUserProfileStatus, updateProfileStatus } from '../..
 import Profile from './Profile'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { withAuthRedirect } from '../Hoc/withAuthRedirect'
+// import { withAuthRedirect } from '../Hoc/withAuthRedirect'
 import { compose } from 'redux'
 
 class ProfileContainer extends React.Component {
   componentDidMount() {
     let userId = this.props.match.params.userId
     if (!userId) {
-      userId = 5070
+      userId = this.props.autorizedUserId
     }
     this.props.getUserProfile(userId)
     this.props.getUserProfileStatus(userId)
@@ -25,6 +25,9 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   profileStatus: state.profilePage.profileStatus,
+
+  autorizedUserId: state.auth.userId,
+  isAuth: state.auth.isAuth
 })
 export default compose( // compose (такой себе рекурсивный декоратор)
   connect(mapStateToProps, {
@@ -33,7 +36,7 @@ export default compose( // compose (такой себе рекурсивный �
     updateProfileStatus //thunk
   }),
   withRouter, // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
-  withAuthRedirect // HOC обёртка (редирект на login-page если не авторизован)
+  // withAuthRedirect // HOC обёртка (редирект на login-page если не авторизован)
 )(ProfileContainer)
 
 

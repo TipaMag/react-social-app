@@ -2,6 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { inputField } from './../../common/FormsControls/FormsControls'
 import { required, maxLength, email } from './../../utils/validators/validators'
+import s from './LoginForm.module.css'
 
 const maxLength30 = maxLength(30)
 const maxLength20 = maxLength(20)
@@ -16,7 +17,7 @@ const LoginForm = (props) => {
                     type='email'
                     component={inputField}
                     label='Email'
-                    placeholder={'login'}
+                    placeholder={'Email'}
                     validate={[required, maxLength30, email]}
                 />
             </div>
@@ -43,6 +44,12 @@ const LoginForm = (props) => {
                     login
                 </button>
             </div>
+            {
+                props.error &&
+                <div className={s.commonError}>
+                    {props.error}
+                </div>
+            }
         </form>
     )
 }
