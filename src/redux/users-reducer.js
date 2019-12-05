@@ -92,21 +92,21 @@ export const toggleIsFetching = (isFetching) => ({
    isFetching
 })
 // ---------------------- THUNK creators ---------------------
-export const getUsers = (pageSize, currentPage) => {
+export const requestUsers = (pageSize, page) => {
    return (dispatch) => {
       dispatch(toggleIsFetching(true))
-      usersAPI.getUsers(pageSize, currentPage) // ----------------usersAPI.getUsers
+      usersAPI.getUsers(pageSize, page) // ----------------usersAPI.getUsers
          .then((response) => {
             dispatch(toggleIsFetching(false))
             dispatch(setUsers(response.data))
          })
    }
 }
-export const getNewPage = (pageSize, pageNumber) => {
+export const getNewPage = (pageSize, page) => {
    return (dispatch) => {
       dispatch(toggleIsFetching(true))
-      dispatch(setCurrentUsersPage(pageNumber))
-      usersAPI.getUsers(pageSize, pageNumber) // ----------------usersAPI.getUsers
+      dispatch(setCurrentUsersPage(page))
+      usersAPI.getUsers(pageSize, page) // ----------------usersAPI.getUsers
          .then((response) => {
             dispatch(toggleIsFetching(false))
             dispatch(setUsers(response.data))

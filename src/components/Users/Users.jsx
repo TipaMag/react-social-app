@@ -3,7 +3,6 @@ import s from './Users.module.css'
 import User from './User/User'
 
 const Users = (props) => {
-   // debugger
    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize)
    let pages = []
 

@@ -30,5 +30,3 @@ const mapStateToProps = (state) => ({
 export default connect(mapStateToProps, {
     login, // thunk
 })(Login)
-
-// export default Login

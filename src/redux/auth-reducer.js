@@ -52,13 +52,8 @@ export const getAuthUserData = () => (dispatch) => {
    return authAPI.getAuth() //---------------> authAPI.getAuth() (return - для возврата промиса в app-reducer для инициализации)
       .then((response) => {
          if (response.data.resultCode === 0) {
-            let {
-               id,
-               login,
-               email
-            } = response.data.data
+            let { id, login, email } = response.data.data
             dispatch(setAuthUserData(id, login, email, true))
-
             profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
                .then((response) => {
                   if (!response.data.photos.small) {
