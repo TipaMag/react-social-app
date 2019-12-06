@@ -20,11 +20,12 @@ class UsersContainer extends React.Component {
       this.props.setUnfollow(userId)
    }
    render() {
+      // console.log('render USERS')
       return (
          <>
             {this.props.isFetching ? <Preloader /> : null}
             <Users {...this.props}
-               onPageChanged={this.onPageChanged} 
+               onPageChanged={this.onPageChanged}
                onFollow={this.onFollow}
                onUnfollow={this.onUnfollow} />
          </>
@@ -32,14 +33,17 @@ class UsersContainer extends React.Component {
    }
 }
 
-let mapStateToProps = (state) => ({
-   users: getUsers(state),
-   pageSize: getUsersPageSize(state),
-   totalUsersCount: getTotalUsersCount(state),
-   currentPage: getCurrentPage(state),
-   isFetching: getIsFetching(state),
-   followingInProgress: getFollowingInProgress(state)
-})
+let mapStateToProps = (state) => {
+   // console.log('mapStateToProps USERS')
+   return ({
+      users: getUsers(state),
+      pageSize: getUsersPageSize(state),
+      totalUsersCount: getTotalUsersCount(state),
+      currentPage: getCurrentPage(state),
+      isFetching: getIsFetching(state),
+      followingInProgress: getFollowingInProgress(state)
+   })
+}
 export default compose( // connect (такой себе рекурсивный декоратор)
    connect(mapStateToProps, {
       requestUsers, //thunk
