@@ -5,6 +5,7 @@ import AddPostReduxForm from './MyPostForm/MyPostForm'
 
 
 const MyPosts = (props) => {
+  // console.log(props)
   let postsElements = props.profilePage.postsData.map(item => <Post key={item.id} message={item.message} likesCount={item.likesCount} />)
 
   let addNewPost = (values) => {

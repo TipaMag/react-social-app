@@ -8,18 +8,3 @@
     border: 1px solid blue;
     list-style: none;
 }
-.usersPagination {
-    display: flex;
-    flex-flow: row wrap;
-}
-.usersPagination span {
-    cursor: pointer;
-}
-.usersPagination span:hover {
-    color: green
-}
-.selectedPage {
-    color: red;
-    font-weight: bold;
-    border: 1px solid black
-}

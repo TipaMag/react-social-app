@@ -7,6 +7,14 @@ const instance = Axios.create({
         'API-KEY': 'ebc7e21a-0187-47c6-b6b1-04fa159fb0a8'
     }
 })
+const profilePhotoInstance = Axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
+    withCredentials: true,
+    headers: {
+        'API-KEY': 'ebc7e21a-0187-47c6-b6b1-04fa159fb0a8',
+        'content-type': 'multipart/form-data'
+    }
+})
 
 export const usersAPI = {
     getUsers(pageSize, currentPage) {
@@ -28,6 +36,9 @@ export const profileAPI = {
     },
     updateProfileStatus(userStatus) {
         return instance.put(`profile/status`, {status: userStatus})
+    },
+    updateProfilePhoto(profilePhoto) {
+        return profilePhotoInstance.put(`profile/photo`, profilePhoto)
     }
 }
 export const authAPI = { //use headerContainer and login-page

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { requestUsers, getNewPage, setFollow, setUnfollow } from '../../redux/users-reducer'
 import Users from './Users'
 import Preloader from '../common/Preloader/Preloader'
-import { compose } from '../../../../../../AppData/Local/Microsoft/TypeScript/3.6/node_modules/redux'
+import { compose } from 'redux'
 import { getUsers, getUsersPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress } from '../../redux/users-selectors'
 
 class UsersContainer extends React.Component {
@@ -20,7 +20,6 @@ class UsersContainer extends React.Component {
       this.props.setUnfollow(userId)
    }
    render() {
-      // console.log('render USERS')
       return (
          <>
             {this.props.isFetching ? <Preloader /> : null}
@@ -34,7 +33,6 @@ class UsersContainer extends React.Component {
 }
 
 let mapStateToProps = (state) => {
-   // console.log('mapStateToProps USERS')
    return ({
       users: getUsers(state),
       pageSize: getUsersPageSize(state),

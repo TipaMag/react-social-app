@@ -2,7 +2,7 @@ import React from 'react'
 import defaultUserImage from '../../../assets/images/default-user-image.png'
 import Preloader from '../../common/Preloader/Preloader'
 import s from './ProfileInfo.module.css'
-import ProfileStatus from './ProfileStatus'
+import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 
 const ProfileInfo = (props) => {
   if (!props.profile) {
@@ -19,7 +19,7 @@ const ProfileInfo = (props) => {
         <h1 className={s.userFullName}>
           {props.profile.fullName}
         </h1>
-        <ProfileStatus profileStatus={props.profileStatus} updateProfileStatus={props.updateProfileStatus}/>
+        <ProfileStatusWithHooks profileStatus={props.profileStatus} updateProfileStatus={props.updateProfileStatus}/>
         <ul className={s.userContactsList}>
           contacts:
           <li>facebook: {props.profile.contacts.facebook}</li>
