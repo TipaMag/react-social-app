@@ -28,13 +28,13 @@ const Paggination = (props) => {
    return (
       <div className={s.pagination}>
          {
-            portionNumber > 1 &&
-            <button onClick={() => {setPortionNumber(portionNumber - 1)}}>PREV</button>
+            // portionNumber > 1 &&
+            <button onClick={() => { setPortionNumber(portionNumber - 1) }} disabled={portionNumber <= 1}>PREV</button>
          }
          {pagesList}
          {
-            portionCount > portionNumber &&
-            <button onClick={() => {setPortionNumber(portionNumber + 1)}}>NEXT</button>
+            // portionCount > portionNumber &&
+            <button onClick={() => { setPortionNumber(portionNumber + 1) }} disabled={portionCount <= portionNumber}>NEXT</button>
          }
       </div>
    )
