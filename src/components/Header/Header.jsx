@@ -13,7 +13,7 @@ const Header = (props) => {
             {
                props.isAuth ?
                   <div>
-                     <img className={s.loginImage} src={props.smallPhoto ? props.smallPhoto: defaultUserImage} alt=''></img>
+                     <img className={s.loginImage} src={props.smallPhoto || defaultUserImage} alt=''></img>
                      <span>{props.login}</span>
                      <button onClick={props.logout}>logout</button>
                   </div> :

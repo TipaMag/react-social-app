@@ -5,6 +5,7 @@ import {
 const ADD_POST = 'profile/ADD-POST'
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
 const SET_USER_PROFILE_STATUS = 'profile/SET-USER-PROFILE-STATUS'
+const SET_USER_PHOTO_SUCCES = 'profile/SET-USER-PHOTO-SUCCES'
 
 let initialState = {
    postsData: [{
@@ -49,18 +50,23 @@ const profileReducer = (state = initialState, action) => {
             ...state,
             postsData: [newPost, ...state.postsData],
          }
-         case SET_USER_PROFILE:
-            return {
-               ...state,
-               profile: action.profile
-            }
-            case SET_USER_PROFILE_STATUS:
-               return {
-                  ...state,
-                  profileStatus: action.profileStatus
-               }
-               default:
-                  return state
+      case SET_USER_PROFILE:
+         return {
+            ...state,
+            profile: action.profile
+         }
+      case SET_USER_PROFILE_STATUS:
+         return {
+            ...state,
+            profileStatus: action.profileStatus
+         }
+      case SET_USER_PHOTO_SUCCES:
+         return {
+            ...state,
+            profile: {...state.profile, photos: action.userPhotos}
+         }
+      default:
+         return state
    }
 }
 
@@ -76,6 +82,10 @@ export const addPost = (newPostBody) => ({
    type: ADD_POST,
    newPostBody
 })
+export const setUserPhotoSuccess = (userPhotos) => ({
+   type: SET_USER_PHOTO_SUCCES,
+   userPhotos
+})
 // ---------------------- THUNK creators ---------------------
 export const getUserProfile = (userId) => async (dispatch) => {
    let response = await profileAPI.getProfile(userId)
@@ -89,6 +99,12 @@ export const updateProfileStatus = (userStatus) => async (dispatch) => {
    let response = await profileAPI.updateProfileStatus(userStatus)
    if (response.data.resultCode === 0) {
       dispatch(setUserProfileStatus(userStatus))
+   }
+}
+export const setProfilePhoto = (formData) => async (dispatch) => {
+   let response = await profileAPI.setProfilePhoto(formData)
+   if (response.data.resultCode === 0) {
+      dispatch(setUserPhotoSuccess(response.data.data.photos))
    }
 }
 

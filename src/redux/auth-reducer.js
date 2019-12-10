@@ -24,13 +24,13 @@ const authReducer = (state = initialState, action) => {
             ...state,
             ...action.payload
          }
-         case SET_AUTH_SMALL_PHOTO:
-            return {
-               ...state,
-               smallPhoto: action.smallPhoto
-            }
-            default:
-               return state
+      case SET_AUTH_SMALL_PHOTO:
+         return {
+            ...state,
+            smallPhoto: action.smallPhoto
+         }
+      default:
+         return state
    }
 }
 
@@ -56,7 +56,7 @@ export const getAuthUserData = () => (dispatch) => {
             dispatch(setAuthUserData(id, login, email, true))
             profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
                .then((response) => {
-                  if (!response.data.photos.small) {
+                  if (response.data.photos.small) {
                      dispatch(setAuthUserSmallPhoto(response.data.photos.small))
                   }
                })

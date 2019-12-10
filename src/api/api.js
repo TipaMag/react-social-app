@@ -37,8 +37,8 @@ export const profileAPI = {
     updateProfileStatus(userStatus) {
         return instance.put(`profile/status`, {status: userStatus})
     },
-    updateProfilePhoto(profilePhoto) {
-        return profilePhotoInstance.put(`profile/photo`, profilePhoto)
+    setProfilePhoto(formData) {
+        return profilePhotoInstance.put(`profile/photo`, formData)
     }
 }
 export const authAPI = { //use headerContainer and login-page
