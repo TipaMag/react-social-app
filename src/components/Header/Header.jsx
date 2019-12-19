@@ -2,24 +2,25 @@ import React from 'react'
 import s from './Header.module.css'
 import Clock from './Clock/Clock'
 import { NavLink } from 'react-router-dom'
+// import socialNetworkLogo from '../../assets/images/social-network-logo.jpg'
 import defaultUserImage from '../../assets/images/default-user-image.png'
 
-const Header = (props) => {
+const Header = ({ isAuth, login, smallPhoto, logout }) => {
    return (
       <header className={s.header}>
-         <img className={s.headerLogo} src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6hIhoCOwJSxZkDCwwPot9ql1mwwjenBu7z68zKaRUzFvnZ_Hp8Q' alt='headerImg'></img>
+         {/* <div className={s.headerLogo}>
+            <img src={socialNetworkLogo} alt='headerImg'></img>
+         </div> */}
          <Clock />
-         <div className={s.loginBlock}>
-            {
-               props.isAuth ?
-                  <div>
-                     <img className={s.loginImage} src={props.smallPhoto || defaultUserImage} alt=''></img>
-                     <span>{props.login}</span>
-                     <button onClick={props.logout}>logout</button>
-                  </div> :
-                  <NavLink to='/login' >Login</NavLink>
-            }
-         </div>
+         {
+            isAuth
+               ? <div className={s.autorize}>
+                  <span className={s.userName}>{login}</span>
+                  <img src={smallPhoto || defaultUserImage} alt='userImg'></img>
+                  <button onClick={logout}>logout</button>
+               </div>
+               : <NavLink className={s.loginBtn} to='/login' >Login</NavLink>
+         }
       </header>
    );
 }

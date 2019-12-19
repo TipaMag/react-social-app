@@ -1,23 +1,43 @@
-.dialog {
-   padding: 5px;
-   border: 1px solid red;
-   margin-bottom: 5px;
-   font-family: 'Courier New', Courier, monospace;
-   font-size: 18px;
+.dialogWrap {
+   font-size: 14px;
 }
-.dialog a {
+.dialogWrap:hover {
+   background-color: rgb(242, 246, 250);
+}
+.dialogWrap a {
    display: flex;
    align-items: center;
    text-decoration: none;
    color: black;
+   padding: 7px 5px;
+   position: relative;
 }
-.dialog a img {
-   border: 1px solid rgb(121, 119, 119);
+.dialogWrap .active {
+   background-color: rgb(100, 144, 177);
+   color: #fff;
+}
+.dialogPhoto {
+   margin-right: 15px;
+   width: 48px;
+   height: 48px;
+}
+.dialogPhoto img {
+   width: 48px;
+   height: 48px;
    border-radius: 50%;
-   padding: 5px;
-   width: 40px;
-   margin-right: 20px;
+   overflow: hidden;
 }
-.dialog .active {
-   color: lightseagreen;
+/* .dialogMessageWrap .userName {
+
+} */
+.dialogMeta {
+   position: absolute;
+   right: 10px;
+}
+.dialogMeta .newMessagesCount {
+   background: #bfbfbf;
+   font-size: 11px;
+   padding: 5px;
+   border-radius: 11px;
+   min-width: 21px;
 }

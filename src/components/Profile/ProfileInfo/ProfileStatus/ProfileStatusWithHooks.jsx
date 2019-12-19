@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import s from './ProfileStatusWithHooks.module.css'
 
-const ProfileStatusWithHooks = (props) => {
+const ProfileStatusWithHooks = ({isOwner, profileStatus, updateProfileStatus}) => {
 
     let [editMode, setEditMode] = useState(false)
-    let [status, setStatus] = useState(props.profileStatus)
+    let [status, setStatus] = useState(profileStatus)
     useEffect(() => {
-        setStatus(props.profileStatus)
-    }, [props.profileStatus])
+        setStatus(profileStatus)
+    }, [profileStatus])
 
     const activateEditMode = () => {
-        setEditMode(true)
+        if (isOwner) {
+            setEditMode(true)
+        }
     }
     const deactivateEditMode = () => {
         setEditMode(false)
-        props.updateProfileStatus(status)
+        updateProfileStatus(status)
     }
     const onStatusChange = (event) => {
         setStatus(event.target.value)
@@ -24,7 +26,7 @@ const ProfileStatusWithHooks = (props) => {
         <div className={s.statusContainer}>
             {!editMode &&
                 <div>
-                    <span onClick={activateEditMode} >{status || 'change status'}</span>
+                    <span onClick={activateEditMode}>{status || 'empty status'}</span>
                 </div>
             }
             {editMode &&

@@ -4,12 +4,25 @@ import Dialog from './Dialog/Dialog'
 import Message from './Message/Message'
 import AddMessageReduxForm from './DialogsForm/DialogsForm'
 
+
 const Dialogs = (props) => {
-   let dialogsElements = props.dialogsPage.dialogsData.map(item => <Dialog key={item.id} id={item.id} avatar={item.avatar} name={item.name} />)
-   let messagesElements = props.dialogsPage.messagesData.map(item => <Message key={item.id} message={item.message} />)
+   let {dialogsPage, getMessages, sendMessage, userId } = props
+
+   let dialogsElements = dialogsPage.dialogsData.map(item =>
+      <Dialog key={item.id}
+         userId={item.id}
+         avatar={item.photos.small}
+         name={item.userName}
+         hasNewMessages={item.hasNewMessages}
+         newMessagesCount={item.newMessagesCount}
+         getMessages={getMessages}/>)
+   let messagesElements = dialogsPage.messagesData.items && dialogsPage.messagesData.items.map(item =>
+      <Message key={item.id}
+         senderName={item.senderName}
+         message={item.body} />) // говнокод поправить потом
 
    const addNewMessage = (values) => {
-      props.sendMessage(values.newMessageBody)
+      sendMessage(userId, values.newMessageBody)
    }
 
    return (
@@ -21,7 +34,7 @@ const Dialogs = (props) => {
             <ul className={s.messagesList}>
                {messagesElements}
             </ul>
-            <AddMessageReduxForm onSubmit={addNewMessage}/>
+            <AddMessageReduxForm onSubmit={addNewMessage} />
          </div>
       </div>
    )

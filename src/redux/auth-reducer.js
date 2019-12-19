@@ -1,6 +1,7 @@
 import {
    authAPI,
-   profileAPI
+   profileAPI,
+   securityAPI
 } from "../api/api"
 import {
    stopSubmit
@@ -8,18 +9,21 @@ import {
 
 const SET_AUTH_USER_DATA = 'auth/SET-AUTH-USER-DATA'
 const SET_AUTH_SMALL_PHOTO = 'auth/SET-AUTH-SMALL-PHOTO'
+const GET_CAPTCHA_URL_SUCCESS = 'auth/GET-CAPTCHA-URL-SUCCESS'
 
 let initialState = {
    userId: null,
    login: null,
    email: null,
    isAuth: false,
-   smallPhoto: null
+   smallPhoto: null,
+   captchaUrl: null
 }
 
 const authReducer = (state = initialState, action) => {
    switch (action.type) {
       case SET_AUTH_USER_DATA:
+      case GET_CAPTCHA_URL_SUCCESS:
          return {
             ...state,
             ...action.payload
@@ -47,6 +51,13 @@ export const setAuthUserSmallPhoto = (smallPhoto) => ({
    type: SET_AUTH_SMALL_PHOTO,
    smallPhoto
 })
+export const getCaptchaUrlSuccess = (captchaUrl) => ({
+   type: GET_CAPTCHA_URL_SUCCESS,
+   payload: {
+      captchaUrl
+   }
+})
+
 // ---------------------- THUNK creators ---------------------
 export const getAuthUserData = () => (dispatch) => {
    return authAPI.getAuth() //---------------> authAPI.getAuth() (return - для возврата промиса в app-reducer для инициализации)
@@ -63,15 +74,17 @@ export const getAuthUserData = () => (dispatch) => {
          }
       })
 }
-export const login = (email, password, rememberMe) => async (dispatch) => {
-   let response = await authAPI.login(email, password, rememberMe)
+export const login = (email, password, rememberMe, captha) => async (dispatch) => {
+   let response = await authAPI.login(email, password, rememberMe, captha)
    if (response.data.resultCode === 0) {
       dispatch(getAuthUserData())
    }
    if (response.data.resultCode === 1) {
       let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
-      let action = stopSubmit('login', { _error: message })
-      dispatch(action)
+      dispatch(stopSubmit('login', { _error: message }))
+   }
+   if (response.data.resultCode === 10) {
+      dispatch(getCaptchaUrl())
    }
 }
 export const logout = () => async (dispatch) => {
@@ -80,6 +93,12 @@ export const logout = () => async (dispatch) => {
       dispatch(setAuthUserData(null, null, null, false))
       dispatch(getAuthUserData())
    }
+}
+
+export const getCaptchaUrl = () => async (dispatch) => {
+   let response = await securityAPI.getCaptchaUrl()
+   const captchaUrl = response.data.url
+   dispatch(getCaptchaUrlSuccess(captchaUrl))
 }
 
 export default authReducer

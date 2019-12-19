@@ -7,10 +7,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import * as serviceWorker from './serviceWorker'
 
-// setInterval(() => {
-//    store.dispatch({type: "FAKE"})
-// }, 3000)
-
 ReactDOM.render(
    <BrowserRouter>
       <Provider store={store}>

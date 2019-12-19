@@ -2,7 +2,7 @@ import React from 'react'
 import s from './ProfilePhoto.module.css'
 import defaultUserImage from './../../../../assets/images/default-user-image.png'
 
-const ProfilePhoto = ({profilePhoto, isOwner, setProfilePhoto}) => {
+const ProfilePhoto = ({ profilePhoto, isOwner, setProfilePhoto }) => {
     return (
         <div className={s.userPhoto}>
             <img src={profilePhoto || defaultUserImage} alt='profile_photo'></img>
@@ -33,11 +33,9 @@ class FileInput extends React.Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    <input type="file" ref={this.fileInput} />
-                </label>
+                <input type="file" ref={this.fileInput} />
                 <button type="submit">Submit</button>
             </form>
-        );
+        )
     }
 }

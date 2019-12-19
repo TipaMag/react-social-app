@@ -25,7 +25,7 @@ const usersReducer = (state = initialState, action) => {
          return {
             ...state,
             users: action.users.items,
-               totalUsersCount: action.users.totalCount,
+            totalUsersCount: action.users.totalCount,
          }
       case FOLLOW_SUCCESS:
          return {

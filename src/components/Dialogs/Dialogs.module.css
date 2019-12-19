@@ -8,8 +8,11 @@
 .dialogsList {
    list-style: none;
    margin: 0;
-   padding: 5px 5px 0 5px;
+   padding: 0;
    border: 1px solid black;
+   max-height: 450px;
+   overflow: auto;
+   min-width: 250px;
 }
 
 .messages {

@@ -8,7 +8,7 @@ const maxLength30 = maxLength(30)
 const maxLength20 = maxLength(20)
 
 const LoginForm = (props) => {
-    const { handleSubmit, pristine, submitting } = props
+    const { handleSubmit, pristine, submitting, error, captchaUrl, getCaptchaUrl } = props
     return (
         <form onSubmit={handleSubmit}>
             <div>
@@ -39,15 +39,27 @@ const LoginForm = (props) => {
                     label='Remember me'
                 />
             </div>
+            { captchaUrl &&
+                <div>
+                    <img src={captchaUrl} alt="captcha"/>
+                    <Field 
+                        name='captcha'
+                        component={inputField}
+                        placeholder={'enter symbols'}
+                        validate={[required]}
+                    />
+                    <button onClick={() => {getCaptchaUrl()}}>update</button>
+                </div>
+            }
             <div>
                 <button type="submit" disabled={pristine || submitting}>
                     login
                 </button>
             </div>
             {
-                props.error &&
+                error &&
                 <div className={s.commonError}>
-                    {props.error}
+                    {error}
                 </div>
             }
         </form>

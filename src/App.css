@@ -1,19 +1,19 @@
 .app-wrapper {
   max-width: 960px;
-  margin: 10px auto;
+  margin: 0 auto;
   padding: 10px;
-  border: 1px solid black;
   display: grid;
   grid-template-areas:
-    'h h'
-    'n c';
+    'header header'
+    'navbar content';
   grid-template-rows: 1fr;
   grid-template-columns: 2fr 10fr;
   grid-gap: 10px;
 }
 
 .app-wrapper-content {
-  grid-area: c;
+  grid-area: content;
   border: 1px solid #000;
   padding: 5px;
+  background-color: #fff;
 }

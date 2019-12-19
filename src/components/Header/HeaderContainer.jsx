@@ -18,7 +18,7 @@ let mapStateToProps = (state) => ({
    smallPhoto: state.auth.smallPhoto
 })
 
-export default compose( // connect (такой себе рекурсивный декоратор)
+export default compose( // compose (такой себе рекурсивный декоратор)
    connect(mapStateToProps, {
       logout //thunk
    })

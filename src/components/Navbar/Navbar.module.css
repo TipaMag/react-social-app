@@ -1,8 +1,8 @@
 .nav {
-   grid-area: n;
-   border: 1px solid black;
+   grid-area: navbar;
+   align-self: start;
    padding: 5px;
-   background-color: lightgray;
+   background-color: #fff;
  }
  .navList {
    list-style: none;
@@ -11,24 +11,36 @@
  }
  .item {
    text-align: center;
-   border: 1px solid black;
-   margin-bottom: 5px;
-   padding: 5px;
    cursor: pointer;
    transition: all 0.3s;
  }
  .item:hover {
-  background-image: linear-gradient(to right bottom, #dbe2ed, #cfdde3, #c9d8d7, #c7d1cb, #c7c9c1);
+  background-color: rgb(242, 246, 250);
 }
  .item a {
+  position: relative;
   display: block;
   text-decoration: none;
   font-size: 18px;
+  padding: 5px;
   color: #000;
 }
 .item .active{
-  color: red;
+  background-color: rgb(100, 144, 177);
+  color: #fff;
 }
+
+.newMessagesCounter {
+  position: absolute;
+  right: 0;
+  background: #bfbfbf;
+  font-size: 11px;
+  padding: 5px;
+  border-radius: 11px;
+  min-width: 21px;
+}
+
+
 
 .friendsList {
   display: grid;

@@ -10,7 +10,9 @@ const Profile = (props) => {
                   profile={props.profile}
                   profileStatus={props.profileStatus}
                   updateProfileStatus={props.updateProfileStatus}
-                  setProfilePhoto={props.setProfilePhoto}/>
+                  setProfilePhoto={props.setProfilePhoto}
+                  saveProfileInfo={props.saveProfileInfo}
+                  onStartChatting={props.onStartChatting}/>
       <MyPostsContainer />
     </div>
   );

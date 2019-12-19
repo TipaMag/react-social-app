@@ -4,15 +4,7 @@ const instance = Axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {
-        'API-KEY': 'ebc7e21a-0187-47c6-b6b1-04fa159fb0a8'
-    }
-})
-const profilePhotoInstance = Axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.0/',
-    withCredentials: true,
-    headers: {
-        'API-KEY': 'ebc7e21a-0187-47c6-b6b1-04fa159fb0a8',
-        'content-type': 'multipart/form-data'
+        'API-KEY': '365354fc-02d3-4a13-bd13-e121984fcdfd'
     }
 })
 
@@ -35,20 +27,47 @@ export const profileAPI = {
         return instance.get(`profile/status/${userId}`)
     },
     updateProfileStatus(userStatus) {
-        return instance.put(`profile/status`, {status: userStatus})
+        return instance.put(`profile/status`, { status: userStatus })
     },
     setProfilePhoto(formData) {
-        return profilePhotoInstance.put(`profile/photo`, formData)
+        return instance.put(`profile/photo`, formData, {
+            headers: { 'content-type': 'multipart/form-data' }
+        })
+    },
+    saveProfileInfo(formData) {
+        return instance.put(`profile/`, formData)
     }
 }
 export const authAPI = { //use headerContainer and login-page
     getAuth() {
         return instance.get('auth/me')
     },
-    login(email, password, rememberMe = false) {
-        return instance.post(`/auth/login`, {email, password, rememberMe})
+    login(email, password, rememberMe = false, captcha = null) {
+        return instance.post(`auth/login`, { email, password, rememberMe, captcha })
     },
     logout() {
-        return instance.delete(`/auth/login`)
+        return instance.delete(`auth/login`)
+    }
+}
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get('security/get-captcha-url')
+    }
+}
+export const dialogsAPI = {
+    getAllDialogs() {
+        return instance.get('dialogs')
+    },
+    getMessages(userId) {
+        return instance.get(`dialogs/${userId}/messages`)
+    },
+    startChatting(userId) {
+        return instance.put(`dialogs/${userId}`)
+    },
+    sendMessage(userId, message) {
+        return instance.post(`dialogs/${userId}/messages`, { body: message})
+    },
+    getNewMessagesCount() {
+        return instance.get('dialogs/messages/new/count')
     }
 }

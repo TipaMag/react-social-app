@@ -3,15 +3,23 @@ import Preloader from '../../common/Preloader/Preloader'
 import s from './ProfileInfo.module.css'
 import ProfileStatusWithHooks from './ProfileStatus/ProfileStatusWithHooks'
 import ProfilePhoto from './ProfilePhoto/ProfilePhoto'
+import ProfileDataForm from './ProfileDataForm/ProfileDataForm'
+import { NavLink } from 'react-router-dom'
 
 const ProfileInfo = (props) => {
-  let { profile, isOwner, setProfilePhoto, profileStatus, updateProfileStatus } = props
-
-  let [moreInfo, setToggleMoreInfo] = useState(false)
-  const toggleMoreInfo = () => {
-    setToggleMoreInfo(!moreInfo)
-  }
   
+  let { profile, isOwner, setProfilePhoto, profileStatus, updateProfileStatus, saveProfileInfo, onStartChatting } = props
+  
+  let [editMode, setEditMode] = useState(false)
+  const toggleEditMode = () => {
+    setEditMode(!editMode)
+  }
+  const onSubmit = (values) => {
+    saveProfileInfo(values).then(() => {
+      toggleEditMode()
+    })
+  }
+
   if (!profile) {
     return (
       <Preloader />
@@ -24,37 +32,45 @@ const ProfileInfo = (props) => {
         <h1 className={s.userFullName}>
           {props.profile.fullName}
         </h1>
-        <ProfileStatusWithHooks profileStatus={profileStatus} updateProfileStatus={updateProfileStatus} />
-        <div className={s.ProfileJobInfo}>
-          <div>
-            <b>Looking for a job</b>: {profile.lookingForAJob ? 'Yes' : 'No'}
-          </div>
-          <div>
-            <b>My professional skills</b>: {profile.lookingForAJobDescription || 'no info'}
-          </div>
-        </div>
-        <div className={s.profileMoreInfo}>
-          {!moreInfo
-            ? <button onClick={toggleMoreInfo}>open more info</button>
-            : <button onClick={toggleMoreInfo}>hide more info</button>
-          }
-        </div>
-        {moreInfo &&
-          <ul className={s.userContactsList}>
-            contacts:
-            {Object.keys(profile.contacts).map(key => {
-              return <Contacts key={key} contactTitle={key} contactValue={profile.contacts[key]} />
-            })}
-          </ul>
+        <ProfileStatusWithHooks profileStatus={profileStatus} updateProfileStatus={updateProfileStatus} isOwner={isOwner} />
+        {!isOwner &&
+          <NavLink to={'/dialogs/' + profile.userId}>
+            <span onClick={onStartChatting}>написать сообщение</span>
+          </NavLink>
+        }
+        {editMode
+          ? <ProfileDataForm initialValues={profile} onSubmit={onSubmit} profile={profile} toggleEditMode={toggleEditMode} />
+          : <ProfileData profile={profile} isOwner={isOwner} toggleEditMode={toggleEditMode} />
         }
       </div>
     </div>
-  );
+  )
 }
 
-const Contacts = ({ contactTitle, contactValue }) => {
+const ProfileData = ({ profile, isOwner, toggleEditMode }) => {
   return (
-    <li><b>{contactTitle}:</b>{contactValue}</li>
+    <div>
+      {isOwner && <div><button onClick={toggleEditMode}>edit</button></div>}
+      <div className={s.ProfileJobInfo}>
+        <div>
+          <b>Looking for a job</b>: {profile.lookingForAJob ? 'Yes' : 'No'}
+        </div>
+        <div>
+          <b>My professional skills</b>: {profile.lookingForAJobDescription || 'no info'}
+        </div>
+        <div>
+          <b>About me</b>: {profile.aboutMe || 'no info'}
+        </div>
+      </div>
+      contacts:
+      <ul className={s.userContactsList}>
+        {Object.keys(profile.contacts).map(key => {
+          return (
+            <li key={key}><b>{key}: </b>{profile.contacts[key]}</li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 

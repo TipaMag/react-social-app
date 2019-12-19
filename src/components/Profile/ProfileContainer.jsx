@@ -1,15 +1,16 @@
-import React from 'react'
-import { getUserProfile, getUserProfileStatus, updateProfileStatus, setProfilePhoto } from '../../redux/profile-reducer'
+import React, { Component } from 'react'
+import { getUserProfile, getUserProfileStatus, updateProfileStatus, setProfilePhoto, saveProfileInfo } from '../../redux/profile-reducer'
+import { startChatting } from '../../redux/dialogs-reducer'
 import Profile from './Profile'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 // import { withAuthRedirect } from '../Hoc/withAuthRedirect'
 import { compose } from 'redux'
 
-class ProfileContainer extends React.Component {
+class ProfileContainer extends Component {
 
   refreshProfile() {
-    let userId = this.props.match.params.userId
+    let userId = this.props.match.params.userId // withrouter даёт доступ к URL
     if (!userId) {
       userId = this.props.autorizedUserId
       if (!userId) {
@@ -32,6 +33,9 @@ class ProfileContainer extends React.Component {
     }
   }
 
+  onStartChatting = () => {
+    this.props.startChatting(this.props.profile.userId)
+  }
 
   render() {
     return (
@@ -41,6 +45,8 @@ class ProfileContainer extends React.Component {
         profileStatus={this.props.profileStatus}
         updateProfileStatus={this.props.updateProfileStatus}
         setProfilePhoto={this.props.setProfilePhoto}
+        saveProfileInfo={this.props.saveProfileInfo}
+        onStartChatting={this.onStartChatting}
       />
     )
   }
@@ -58,7 +64,9 @@ export default compose( // compose (такой себе рекурсивный �
     getUserProfile, //thunk
     getUserProfileStatus, //thunk
     updateProfileStatus, //thunk
-    setProfilePhoto //thunk
+    setProfilePhoto, //thunk
+    saveProfileInfo, //thunk
+    startChatting
   }),
   withRouter, // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
   // withAuthRedirect // HOC обёртка (редирект на login-page если не авторизован)
