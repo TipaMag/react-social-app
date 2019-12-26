@@ -1,18 +1,24 @@
-.pagination {
-    display: flex;
-    flex-flow: row wrap;
+.paggination {
+    display: inline-flex;
+    flex-flow: row nowrap;
+    padding: 5px;
+    border: 1px solid #ccc;
 }
-.pagination span {
+.paggination button {
+    border: none;
+    background-color: #0073A3;
+    color: #fff;
+}
+.paggination span {
     cursor: pointer;
-    padding: 2px;
+    padding: 0 2px;
     margin: 0 2px;
-    border: 1px dashed black;
 }
-.pagination span:hover {
+.paggination span:hover {
     color: blue;
 }
 .selectedPage {
-    color: red;
-    background-color: #363636;
+    color: #fff;
+    background-color: #228cb9;
     font-weight: bold;
 }

@@ -4,6 +4,7 @@ import { reset } from 'redux-form'
 const SET_DIALOGS = 'dialogs/SET_DIALOGS'
 const SET_MESSAGES = 'dialogs/SET_MESSAGES'
 const SET_MESSAGE = 'dialogs/SET-MESSAGE'
+const SET_NEW_MESSAGES_COUNT = 'dialogs/SET-MESSAGES-COUNT'
 
 // let initialState = {
 //    dialogsData: [
@@ -24,7 +25,8 @@ const SET_MESSAGE = 'dialogs/SET-MESSAGE'
 
 let initialState1 = {
    dialogsData: [],
-   messagesData: []
+   messagesData: [],
+   newMessagesCount: ''
 }
 
 const dialogsReducer = (state = initialState1, action) => {
@@ -44,6 +46,11 @@ const dialogsReducer = (state = initialState1, action) => {
             ...state,
             messagesData: {...state.messagesData, ...state.messagesData.items.push(action.newMessage)}
          }
+      case SET_NEW_MESSAGES_COUNT:
+         return {
+            ...state,
+            newMessagesCount: action.messagesCount
+         }
       default:
          return state
    }
@@ -61,10 +68,16 @@ export const setMessage = (newMessage) => ({
    type: SET_MESSAGE,
    newMessage
 })
+export const setNewMessagesCount = (messagesCount) => ({
+   type: SET_NEW_MESSAGES_COUNT,
+   messagesCount
+})
 
 export const getDialogs = () => async (dispatch) => {
-   let response = await dialogsAPI.getAllDialogs()
-   dispatch(setDialogs(response.data))
+   let response = await dialogsAPI.getDialogs()
+   if(response.data) {
+      dispatch(setDialogs(response.data))
+   }
 }
 export const getMessages = (userId) => async (dispatch) => {
    let response = await dialogsAPI.getMessages(userId)
@@ -73,14 +86,13 @@ export const getMessages = (userId) => async (dispatch) => {
 export const startChatting = (userId) => async (dispatch) => {
    let response = await dialogsAPI.startChatting(userId)
    if(response.data.resultCode === 0) {
+      getDialogs()
    }
 }
 export const sendMessage = (userId, messageBody) => async (dispatch) => {
    let response = await dialogsAPI.sendMessage(userId, messageBody)
    if(response.data.resultCode === 0) {
       dispatch(setMessage(response.data.data.message))
-      // console.log(response.data.data.message)
-      // dispatch(getMessages(userId))
       dispatch(reset('dialogsAddMessageForm'))
    }
 }

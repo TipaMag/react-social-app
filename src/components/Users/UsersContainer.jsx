@@ -22,7 +22,10 @@ class UsersContainer extends React.Component {
    render() {
       return (
          <>
-            {this.props.isFetching ? <Preloader /> : null}
+            {this.props.isFetching 
+               ? <Preloader /> 
+               : null
+            }
             <Users {...this.props}
                onPageChanged={this.onPageChanged}
                onFollow={this.onFollow}

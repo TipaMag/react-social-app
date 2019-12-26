@@ -10,7 +10,6 @@
    padding: 0;
  }
  .item {
-   text-align: center;
    cursor: pointer;
    transition: all 0.3s;
  }
@@ -25,9 +24,20 @@
   padding: 5px;
   color: #000;
 }
+.item svg {
+  color: #ccc;
+  width: 15px !important;
+  margin-right: 10px;
+  color: #285473;
+  opacity: 0.75;
+}
 .item .active{
   background-color: rgb(100, 144, 177);
   color: #fff;
+}
+.item .active svg{
+  color: #fff;
+  opacity: 1;
 }
 
 .newMessagesCounter {
@@ -37,7 +47,6 @@
   font-size: 11px;
   padding: 5px;
   border-radius: 11px;
-  min-width: 21px;
 }
 
 

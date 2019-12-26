@@ -1,4 +1,5 @@
 import React from "react"
+import s from './Login.module.css'
 import { connect } from "react-redux"
 import { login, getCaptchaUrl } from '../../redux/auth-reducer'
 import LoginReduxForm from './LoginForm/LoginForm'
@@ -17,8 +18,8 @@ const Login = ({isAuth, login, captchaUrl, getCaptchaUrl}) => {
         )
     }
     return (
-        <div>
-            <h1>Login</h1>
+        <div className={s.login}>
+            <span>Login</span>
             <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl} getCaptchaUrl={getCaptchaUrl}/>
         </div>
     )

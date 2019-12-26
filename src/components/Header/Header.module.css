@@ -1,56 +1,81 @@
 .header {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   grid-area: header;
   background: #0073A3;
-  padding: 7px;
  }
-
- /* .headerLogo img {
-  width: 40px;
- } */
-
 .autorize {
+  position: relative;
   display: flex;
   align-items: center;
-  padding: 5px;
+  padding: 7px;
+  cursor: pointer;
+ }
+ .autorize:hover {
+   background-color: #3d6898;
  }
  .autorize .userName {
   color: #fff;
   margin-right: 10px;
+  margin-bottom: 4px;
  }
- .autorize img {
+ .autorize .userImage {
   width: 28px;
   height: 28px;
   border-radius: 50%;
   margin-right: 10px;
 }
-.autorize button {
-  background-color: #b74915;
-  border: none;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  text-transform: uppercase;
-  border-radius: 5px;
-  cursor: pointer;
+.autorize svg {
+  color: #fff;
+ }
+.autorizeMenu {
+  position: absolute;
+  top: 45px;
+  right: -8px;
+  z-index: 100;
+  margin: 0;
+  padding: 4px 0px;
+  list-style: none;
+  border: 1px solid #c5d0db;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  background: #fff;
+  width: 160px;
 }
-
+.autorizeMenu:before {
+  position: absolute;
+  pointer-events: none;
+  border: solid transparent;
+  content: '';
+  height: 0;
+  width: 0;
+  bottom: 100%;
+  right: 42px;
+  border-width: 6px;
+  margin: 0 -6px;
+  border-bottom-color: #fff;
+}
+.autorizeMenu a {
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px;
+  text-decoration: none;
+  color: #2a5885;
+}
+.autorizeMenu a:hover {
+  background-color: #e4eaf0;
+}
 .loginBtn {
-	box-shadow:inset 0px 34px 0px -15px #b54b3a;
-	background-color:#a73f2d;
-	border:1px solid #241d13;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:4px 23px;
-	text-decoration:none;
-	text-shadow:0px -1px 0px #7a2a1d;
+  background-color: #6ea6ce;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 8px 15px;
+  text-decoration: none;
 }
 .loginBtn:hover {
 	background-color:#b34332;

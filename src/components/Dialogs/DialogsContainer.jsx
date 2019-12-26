@@ -22,7 +22,8 @@ class DialogsContainer extends React.Component {
 
 let mapStateToProps = (state) => {
    return {
-      dialogsPage: state.dialogsPage
+      dialogs: state.dialogsPage.dialogsData,
+      messages: state.dialogsPage.messagesData
    }
 }
 export default compose( // compose (такой себе рекурсивный декоратор)

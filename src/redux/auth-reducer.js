@@ -1,11 +1,5 @@
-import {
-   authAPI,
-   profileAPI,
-   securityAPI
-} from "../api/api"
-import {
-   stopSubmit
-} from 'redux-form'
+import { authAPI, securityAPI } from "../api/api"
+import { stopSubmit } from 'redux-form'
 
 const SET_AUTH_USER_DATA = 'auth/SET-AUTH-USER-DATA'
 const SET_AUTH_SMALL_PHOTO = 'auth/SET-AUTH-SMALL-PHOTO'
@@ -59,20 +53,12 @@ export const getCaptchaUrlSuccess = (captchaUrl) => ({
 })
 
 // ---------------------- THUNK creators ---------------------
-export const getAuthUserData = () => (dispatch) => {
-   return authAPI.getAuth() //---------------> authAPI.getAuth() (return - для возврата промиса в app-reducer для инициализации)
-      .then((response) => {
-         if (response.data.resultCode === 0) {
-            let { id, login, email } = response.data.data
-            dispatch(setAuthUserData(id, login, email, true))
-            profileAPI.getProfile(id) //--------------------------------> profileAPI.getProfile()
-               .then((response) => {
-                  if (response.data.photos.small) {
-                     dispatch(setAuthUserSmallPhoto(response.data.photos.small))
-                  }
-               })
-         }
-      })
+export const getAuthUserData = () => async (dispatch) => {
+   let response = await authAPI.getAuth() //---------------> authAPI.getAuth() (return - для возврата промиса в app-reducer для инициализации)
+   if (response.data.resultCode === 0) {
+      let { id, login, email } = response.data.data
+      dispatch(setAuthUserData(id, login, email, true))
+   }
 }
 export const login = (email, password, rememberMe, captha) => async (dispatch) => {
    let response = await authAPI.login(email, password, rememberMe, captha)

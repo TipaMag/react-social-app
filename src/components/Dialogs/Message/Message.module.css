@@ -1,5 +1,17 @@
 .message {
-   padding: 5px;
-   border: 1px solid red;
-   margin-bottom: 5px;
+   padding: 7px 7px 4px;
+   border: 1px solid #ccc;
+   margin: 7px;
+   position: relative;
+}
+.senderName {
+   font-size: 12px;
+   position: absolute;
+   top: -10px;
+   padding: 0px 5px;
+   background: #fff;
+}
+.senderMessage {
+   font-weight: bold;
+   font-style: italic;
 }

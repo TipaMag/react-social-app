@@ -1,0 +1,14 @@
+.statusContainer {
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+.statusContainer input {
+    padding: 5px 10px;
+    outline: none;
+    width: 96%;
+    font-size: 15px;
+}
+.statusContainer:hover {
+    background-color: rgb(242, 246, 250);
+    cursor: pointer;
+}

@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import { inputField } from './../../common/FormsControls/FormsControls'
 import { required, maxLength, email } from './../../utils/validators/validators'
 import s from './LoginForm.module.css'
+import Button from '../../../elements/Button'
 
 const maxLength30 = maxLength(30)
 const maxLength20 = maxLength(20)
@@ -51,16 +52,9 @@ const LoginForm = (props) => {
                     <button onClick={() => {getCaptchaUrl()}}>update</button>
                 </div>
             }
-            <div>
-                <button type="submit" disabled={pristine || submitting}>
-                    login
-                </button>
-            </div>
-            {
-                error &&
-                <div className={s.commonError}>
-                    {error}
-                </div>
+            <Button type="submit" disabled={pristine || submitting}>login</Button>
+            {error &&
+                <div className={s.commonError}>{error}</div>
             }
         </form>
     )

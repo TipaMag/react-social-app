@@ -1,0 +1,9 @@
+.time {
+   font-size: 10px;
+   position: absolute;
+   top: -8px;
+   right: 0px;
+   padding: 0px 5px;
+   background: #fff;
+   color: #adadad;
+}

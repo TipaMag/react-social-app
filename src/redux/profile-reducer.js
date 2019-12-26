@@ -1,11 +1,11 @@
-import {
-   profileAPI
-} from "../api/api"
-import {
-   stopSubmit
-} from 'redux-form'
+import { profileAPI, dialogsAPI } from "../api/api"
+import { setAuthUserSmallPhoto } from './auth-reducer'
+import { setNewMessagesCount } from "./dialogs-reducer"
+import { stopSubmit } from 'redux-form'
 
 const ADD_POST = 'profile/ADD-POST'
+const SET_AUTHORIZED_USER_PROFILE = 'profile/SET-AUTHORIZED-USER-PROFILE'
+const SET_AUTHORIZED_USER_PROFILE_STATUS = 'profile/SET-AUTHORIZED-USER-PROFILE-STATUS'
 const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
 const SET_USER_PROFILE_STATUS = 'profile/SET-USER-PROFILE-STATUS'
 const SET_USER_PHOTO_SUCCES = 'profile/SET-USER-PHOTO-SUCCES'
@@ -37,6 +37,8 @@ let initialState = {
          likesCount: 23
       }
    ],
+   autorizedProfile: null,
+   autorizedProfileStatus: '',
    profile: null,
    profileStatus: ''
 }
@@ -53,6 +55,16 @@ const profileReducer = (state = initialState, action) => {
             ...state,
             postsData: [newPost, ...state.postsData],
          }
+      case SET_AUTHORIZED_USER_PROFILE:
+         return {
+            ...state,
+            autorizedProfile: action.authorizedProfile
+         }
+      case SET_AUTHORIZED_USER_PROFILE_STATUS:
+         return {
+            ...state,
+            autorizedProfileStatus: action.authorizedProfileStatus
+         }
       case SET_USER_PROFILE:
          return {
             ...state,
@@ -66,13 +78,20 @@ const profileReducer = (state = initialState, action) => {
       case SET_USER_PHOTO_SUCCES:
          return {
             ...state,
-            profile: {...state.profile, photos: action.userPhotos}
+            autorizedProfile: {...state.autorizedProfile, photos: action.userPhotos}
          }
       default:
          return state
    }
 }
-
+export const setAuthorizedUserProfile = (authorizedProfile) => ({
+   type: SET_AUTHORIZED_USER_PROFILE,
+   authorizedProfile
+})
+export const setAuthorizedUserProfileStatus = (authorizedProfileStatus) => ({
+   type: SET_AUTHORIZED_USER_PROFILE_STATUS,
+   authorizedProfileStatus
+})
 export const setUserProfile = (profile) => ({
    type: SET_USER_PROFILE,
    profile
@@ -89,19 +108,32 @@ export const setUserPhotoSuccess = (userPhotos) => ({
    type: SET_USER_PHOTO_SUCCES,
    userPhotos
 })
-// ---------------------- THUNK creators ---------------------
-export const getUserProfile = (userId) => async (dispatch) => {
+
+export const getUserProfile = (userId) => async (dispatch, getState) => {
+   if (userId === getState().auth.userId) {
+      let response = await profileAPI.getProfile(userId)
+      dispatch(setAuthorizedUserProfile(response.data))
+      dispatch(setAuthUserSmallPhoto(response.data.photos.small))
+      let responseCount = await dialogsAPI.getNewMessagesCount()
+      dispatch(setNewMessagesCount(responseCount.data)) 
+      return
+   }
    let response = await profileAPI.getProfile(userId)
    dispatch(setUserProfile(response.data))
 }
-export const getUserProfileStatus = (userId) => async (dispatch) => {
+export const getUserProfileStatus = (userId) => async (dispatch, getState) => {
+   if (userId === getState().auth.userId) {
+      let response = await profileAPI.getProfileStatus(userId)
+      dispatch(setAuthorizedUserProfileStatus(response.data))
+      return
+   }
    let response = await profileAPI.getProfileStatus(userId)
    dispatch(setUserProfileStatus(response.data))
 }
 export const updateProfileStatus = (userStatus) => async (dispatch) => {
    let response = await profileAPI.updateProfileStatus(userStatus)
    if (response.data.resultCode === 0) {
-      dispatch(setUserProfileStatus(userStatus))
+      dispatch(setAuthorizedUserProfileStatus(userStatus))
    }
 }
 export const setProfilePhoto = (formData) => async (dispatch) => {
@@ -114,7 +146,8 @@ export const saveProfileInfo = (formData) => async (dispatch, getState) => {
    let userId = getState().auth.userId
    let response = await profileAPI.saveProfileInfo(formData)
    if (response.data.resultCode === 0) {
-      dispatch(getUserProfile(userId))
+      let response = await profileAPI.getProfile(userId)
+      dispatch(setAuthorizedUserProfile(response.data))
    } else {
       let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
       dispatch(stopSubmit('edit-profile', { _error: message }))

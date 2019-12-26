@@ -7,12 +7,11 @@ const Users = (props) => {
 
    let usersItems = props.users.map(item =>
       <User key={item.id} id={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
-
          onFollow={props.onFollow} //function
          onUnfollow={props.onUnfollow} //function
          followingInProgress={props.followingInProgress}
       />)
-
+      
    return (
       <div className={s.users}>
          <Paggination totalItemsCount={props.totalUsersCount} 

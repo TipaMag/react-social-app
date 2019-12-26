@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, Redirect } from "react-router-dom"
+import { Route, Redirect, Switch } from "react-router-dom"
 import { connect } from 'react-redux'
 import { initializeApp } from './redux/app-reducer'
 import { compose } from 'redux'
@@ -9,6 +9,7 @@ import './App.css'
 import HeaderContainer from './components/Header/HeaderContainer'
 import NavbarContainer from './components/Navbar/NavbarContainer'
 import ProfileContainer from './components/Profile/ProfileContainer'
+import ProfileEditContainer from './components/Profile/ProfileEdit/ProfileEdit'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
 import News from './components/News/News'
 import Music from './components/Music/Music'
@@ -36,22 +37,26 @@ class App extends Component {
                                 <HeaderContainer />
                                 <NavbarContainer />
                                 <div className='app-wrapper-content'>
-                                        <Route path="/"
-                                                render={() => <Redirect to='/profile' />} />
-                                        <Route path='/profile/:userId?'
-                                                render={() => <ProfileContainer />} />
-                                        <Route path='/dialogs/:userId?'
-                                                render={() => <DialogsContainer />} />
-                                        <Route path='/News'
-                                                component={News} />
-                                        <Route path='/Music'
-                                                component={Music} />
-                                        <Route path='/users'
-                                                render={withSuspense(UsersContainer)} />
-                                        <Route path='/Settings'
-                                                component={Settings} />
-                                        <Route path='/Login'
-                                                render={() => <LoginPage />} />
+                                        <Switch>
+                                                <Route exact path="/"
+                                                        render={() => <Redirect to='/profile' />} />
+                                                <Route exact path="/profile/edit"
+                                                        render={() => <ProfileEditContainer />} />
+                                                <Route path='/profile/:userId?'
+                                                        render={() => <ProfileContainer />} />
+                                                <Route path='/dialogs/:userId?'
+                                                        render={() => <DialogsContainer />} />
+                                                <Route path='/News'
+                                                        component={News} />
+                                                <Route path='/Music'
+                                                        component={Music} />
+                                                <Route path='/users'
+                                                        render={withSuspense(UsersContainer)} />
+                                                <Route path='/Settings'
+                                                        component={Settings} />
+                                                <Route path='/Login'
+                                                        render={() => <LoginPage />} />
+                                        </Switch>
                                 </div>
                         </div>
                 )

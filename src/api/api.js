@@ -4,7 +4,7 @@ const instance = Axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {
-        'API-KEY': '365354fc-02d3-4a13-bd13-e121984fcdfd'
+        'API-KEY': 'c5956654-9a37-4486-b8b3-d65049a46b03'
     }
 })
 
@@ -35,7 +35,7 @@ export const profileAPI = {
         })
     },
     saveProfileInfo(formData) {
-        return instance.put(`profile/`, formData)
+        return instance.put(`profile`, formData)
     }
 }
 export const authAPI = { //use headerContainer and login-page
@@ -55,7 +55,7 @@ export const securityAPI = {
     }
 }
 export const dialogsAPI = {
-    getAllDialogs() {
+    getDialogs() {
         return instance.get('dialogs')
     },
     getMessages(userId) {

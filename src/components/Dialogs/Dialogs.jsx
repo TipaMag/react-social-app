@@ -6,9 +6,9 @@ import AddMessageReduxForm from './DialogsForm/DialogsForm'
 
 
 const Dialogs = (props) => {
-   let {dialogsPage, getMessages, sendMessage, userId } = props
+   let {dialogs, messages, getMessages, sendMessage, userId } = props
 
-   let dialogsElements = dialogsPage.dialogsData.map(item =>
+   let dialogsElements = dialogs.map(item =>
       <Dialog key={item.id}
          userId={item.id}
          avatar={item.photos.small}
@@ -16,10 +16,11 @@ const Dialogs = (props) => {
          hasNewMessages={item.hasNewMessages}
          newMessagesCount={item.newMessagesCount}
          getMessages={getMessages}/>)
-   let messagesElements = dialogsPage.messagesData.items && dialogsPage.messagesData.items.map(item =>
+   let messagesElements = messages.items && messages.items.map(item =>
       <Message key={item.id}
          senderName={item.senderName}
-         message={item.body} />) // говнокод поправить потом
+         message={item.body}
+         addedAt={item.addedAt} />)
 
    const addNewMessage = (values) => {
       sendMessage(userId, values.newMessageBody)

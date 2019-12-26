@@ -1,0 +1,14 @@
+.profileData {
+    line-height: 150%;
+}
+.profileDataRow {
+    display: flex;
+    font-size: 13px;
+}
+.rowLabel {
+    width: 170px;
+    color: #828282;
+}
+.profileDataContacts span {
+    padding-left: 30px;
+}

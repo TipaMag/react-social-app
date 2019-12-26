@@ -22,6 +22,10 @@ class FileInput extends React.Component {
     constructor(props) {
         super(props);
         this.fileInput = React.createRef();
+        this.state = {
+            fileSelected: false,
+            fileName: ''
+        }
     }
     handleSubmit = (event) => {
         event.preventDefault();
@@ -29,12 +33,25 @@ class FileInput extends React.Component {
         formData.append('image', this.fileInput.current.files[0])
         this.props.setProfilePhoto(formData)
     }
+    onChangeInput = () => {
+        if (this.fileInput.current.files.length === 1) {
+            this.setState({ fileSelected: true })
+            this.setState({ fileName: this.fileInput.current.files[0].name })
+        } else {
+            this.setState({ fileSelected: false })
+        }
+    }
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input type="file" ref={this.fileInput} />
-                <button type="submit">Submit</button>
+            <form className={s.fileInputForm} onSubmit={this.handleSubmit}>
+                <label className={s.fileInputFormLable}>
+                    {!this.state.fileSelected ? 'Load foto' : this.state.fileName}
+                    <input className={s.inputFile} type="file" onChange={this.onChangeInput} ref={this.fileInput} />
+                </label>
+                {this.state.fileSelected &&
+                    <button className={s.loadPhotoBtn} type="submit">Submit</button>
+                }
             </form>
         )
     }

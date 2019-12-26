@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { getUserProfile, getUserProfileStatus, updateProfileStatus, setProfilePhoto, saveProfileInfo } from '../../redux/profile-reducer'
+import { getUserProfile, getUserProfileStatus, updateProfileStatus, setProfilePhoto } from '../../redux/profile-reducer'
 import { startChatting } from '../../redux/dialogs-reducer'
 import Profile from './Profile'
 import { connect } from 'react-redux'
@@ -8,7 +8,14 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
 class ProfileContainer extends Component {
-
+  componentDidMount() {
+    this.refreshProfile()
+  }
+  // componentDidUpdate(prevProps, prevState) { // при клике на profile когда мы не получаем ID пользователя, обновляем компонент и попадаем на свой профиль
+  //   if (this.props.match.params.userId !== prevProps.match.params.userId) { // без проверки получим зацикленность
+  //     this.refreshProfile()
+  //   }
+  // }
   refreshProfile() {
     let userId = this.props.match.params.userId // withrouter даёт доступ к URL
     if (!userId) {
@@ -24,15 +31,6 @@ class ProfileContainer extends Component {
     this.props.getUserProfile(userId)
     this.props.getUserProfileStatus(userId)
   }
-  componentDidMount() {
-    this.refreshProfile()
-  }
-  componentDidUpdate(prevProps, prevState) { // при клике на profile когда мы не получаем ID пользователя, обновляем компонент и попадаем на свой профиль
-    if (this.props.match.params.userId !== prevProps.match.params.userId) { // без проверки получим зацикленность
-      this.refreshProfile()
-    }
-  }
-
   onStartChatting = () => {
     this.props.startChatting(this.props.profile.userId)
   }
@@ -41,11 +39,10 @@ class ProfileContainer extends Component {
     return (
       <Profile {...this.props}
         isOwner={!this.props.match.params.userId}
-        profile={this.props.profile}
-        profileStatus={this.props.profileStatus}
+        profile={!this.props.match.params.userId ? this.props.autorizedProfile : this.props.profile}
+        profileStatus={!this.props.match.params.userId ? this.props.autorizedProfileStatus : this.props.profileStatus}
         updateProfileStatus={this.props.updateProfileStatus}
         setProfilePhoto={this.props.setProfilePhoto}
-        saveProfileInfo={this.props.saveProfileInfo}
         onStartChatting={this.onStartChatting}
       />
     )
@@ -53,6 +50,8 @@ class ProfileContainer extends Component {
 }
 
 let mapStateToProps = (state) => ({
+  autorizedProfile: state.profilePage.autorizedProfile,
+  autorizedProfileStatus: state.profilePage.autorizedProfileStatus,
   profile: state.profilePage.profile,
   profileStatus: state.profilePage.profileStatus,
 
@@ -65,7 +64,6 @@ export default compose( // compose (такой себе рекурсивный �
     getUserProfileStatus, //thunk
     updateProfileStatus, //thunk
     setProfilePhoto, //thunk
-    saveProfileInfo, //thunk
     startChatting
   }),
   withRouter, // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
