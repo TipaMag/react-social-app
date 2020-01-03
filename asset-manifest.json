@@ -1,28 +1,29 @@
 {
   "files": {
     "main.css": "//tipamag.github.io/react-social-app/static/css/main.3d388010.chunk.css",
-    "main.js": "//tipamag.github.io/react-social-app/static/js/main.86100631.chunk.js",
-    "main.js.map": "//tipamag.github.io/react-social-app/static/js/main.86100631.chunk.js.map",
-    "runtime-main.js": "//tipamag.github.io/react-social-app/static/js/runtime-main.a0e44756.js",
-    "runtime-main.js.map": "//tipamag.github.io/react-social-app/static/js/runtime-main.a0e44756.js.map",
-    "static/js/2.551433b7.chunk.js": "//tipamag.github.io/react-social-app/static/js/2.551433b7.chunk.js",
-    "static/js/2.551433b7.chunk.js.map": "//tipamag.github.io/react-social-app/static/js/2.551433b7.chunk.js.map",
+    "main.js": "//tipamag.github.io/react-social-app/static/js/main.f1554d79.chunk.js",
+    "main.js.map": "//tipamag.github.io/react-social-app/static/js/main.f1554d79.chunk.js.map",
+    "runtime-main.js": "//tipamag.github.io/react-social-app/static/js/runtime-main.540a7b03.js",
+    "runtime-main.js.map": "//tipamag.github.io/react-social-app/static/js/runtime-main.540a7b03.js.map",
+    "static/js/2.219ed1a6.chunk.js": "//tipamag.github.io/react-social-app/static/js/2.219ed1a6.chunk.js",
+    "static/js/2.219ed1a6.chunk.js.map": "//tipamag.github.io/react-social-app/static/js/2.219ed1a6.chunk.js.map",
     "static/css/3.d78a79b2.chunk.css": "//tipamag.github.io/react-social-app/static/css/3.d78a79b2.chunk.css",
-    "static/js/3.51cdb3dc.chunk.js": "//tipamag.github.io/react-social-app/static/js/3.51cdb3dc.chunk.js",
-    "static/js/3.51cdb3dc.chunk.js.map": "//tipamag.github.io/react-social-app/static/js/3.51cdb3dc.chunk.js.map",
+    "static/js/3.c18c7d1e.chunk.js": "//tipamag.github.io/react-social-app/static/js/3.c18c7d1e.chunk.js",
+    "static/js/3.c18c7d1e.chunk.js.map": "//tipamag.github.io/react-social-app/static/js/3.c18c7d1e.chunk.js.map",
     "index.html": "//tipamag.github.io/react-social-app/index.html",
-    "precache-manifest.ff10920b8e0e90a23f1e99b77e8d3566.js": "//tipamag.github.io/react-social-app/precache-manifest.ff10920b8e0e90a23f1e99b77e8d3566.js",
+    "precache-manifest.5a638f03fde3acd8cbee646bea14de7f.js": "//tipamag.github.io/react-social-app/precache-manifest.5a638f03fde3acd8cbee646bea14de7f.js",
     "service-worker.js": "//tipamag.github.io/react-social-app/service-worker.js",
     "static/css/3.d78a79b2.chunk.css.map": "//tipamag.github.io/react-social-app/static/css/3.d78a79b2.chunk.css.map",
     "static/css/main.3d388010.chunk.css.map": "//tipamag.github.io/react-social-app/static/css/main.3d388010.chunk.css.map",
-    "static/js/2.551433b7.chunk.js.LICENSE": "//tipamag.github.io/react-social-app/static/js/2.551433b7.chunk.js.LICENSE",
+    "static/js/2.219ed1a6.chunk.js.LICENSE": "//tipamag.github.io/react-social-app/static/js/2.219ed1a6.chunk.js.LICENSE",
+    "static/media/404-not-found.jpg": "//tipamag.github.io/react-social-app/static/media/404-not-found.5682ea5f.jpg",
     "static/media/Spinner-preloader.svg": "//tipamag.github.io/react-social-app/static/media/Spinner-preloader.f6076e2c.svg",
     "static/media/default-avatar-icon.png": "//tipamag.github.io/react-social-app/static/media/default-avatar-icon.7857b9ce.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.a0e44756.js",
-    "static/js/2.551433b7.chunk.js",
+    "static/js/runtime-main.540a7b03.js",
+    "static/js/2.219ed1a6.chunk.js",
     "static/css/main.3d388010.chunk.css",
-    "static/js/main.86100631.chunk.js"
+    "static/js/main.f1554d79.chunk.js"
   ]
 }
