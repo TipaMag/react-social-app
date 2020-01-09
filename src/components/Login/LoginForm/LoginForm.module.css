@@ -1,3 +1,6 @@
+.loginBtn {
+    width: 100%;
+}
 .commonError {
     display: inline-block;
     border: 1px solid red;

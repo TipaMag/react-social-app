@@ -51,7 +51,6 @@ export const getCaptchaUrlSuccess = (captchaUrl) => ({
       captchaUrl
    }
 })
-
 // ---------------------- THUNK creators ---------------------
 export const getAuthUserData = () => async (dispatch) => {
    let response = await authAPI.getAuth() //---------------> authAPI.getAuth() (return - для возврата промиса в app-reducer для инициализации)

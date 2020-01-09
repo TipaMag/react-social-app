@@ -19,8 +19,19 @@ const Login = ({isAuth, login, captchaUrl, getCaptchaUrl}) => {
     }
     return (
         <div className={s.login}>
-            <span>Login</span>
+            <span className={s.loginTitle}>Login</span>
             <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl} getCaptchaUrl={getCaptchaUrl}/>
+            <div className={s.testAccess}>
+                <span className={s.testAccessTitle}>test access</span>
+                <div>
+                    <span>Email:</span>
+                    <strong>free@samuraijs.com</strong>
+                </div>
+                <div>
+                    <span>Password:</span>
+                    <strong>free</strong>
+                </div>
+            </div>
         </div>
     )
 }
@@ -30,6 +41,6 @@ const mapStateToProps = (state) => ({
     captchaUrl: state.auth.captchaUrl
 })
 export default connect(mapStateToProps, {
-    login, // thunk
-    getCaptchaUrl // thunk
+    login,
+    getCaptchaUrl
 })(Login)

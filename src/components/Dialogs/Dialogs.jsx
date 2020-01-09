@@ -5,8 +5,7 @@ import Message from './Message/Message'
 import AddMessageReduxForm from './DialogsForm/DialogsForm'
 
 
-const Dialogs = (props) => {
-   let {dialogs, messages, getMessages, sendMessage, userId } = props
+const Dialogs = ({dialogs, messages, getMessages, sendMessage, userId }) => {
 
    let dialogsElements = dialogs.map(item =>
       <Dialog key={item.id}
@@ -42,9 +41,3 @@ const Dialogs = (props) => {
 }
 
 export default Dialogs
-
-
-/* <div className={s.addMessage}>
-   <textarea onChange={(event) => { props.onMessageChange(event) }} value={props.dialogsPage.newMessageText} placeholder='Enter you message...'> </textarea>
-   <button onClick={() => { props.onAddMessage() }}>Add message</button>
-</div> */

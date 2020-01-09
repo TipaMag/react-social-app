@@ -3,24 +3,22 @@ import s from './Users.module.css'
 import User from './User/User'
 import Paggination from './../common/Paggination/Paggination'
 
-const Users = (props) => {
-
-   let usersItems = props.users.map(item =>
-      <User key={item.id} id={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
-         onFollow={props.onFollow} //function
-         onUnfollow={props.onUnfollow} //function
-         followingInProgress={props.followingInProgress}
-      />)
-      
+const Users = ({users, onFollow, onUnfollow, followingInProgress, totalUsersCount, pageSize, currentPage, onPageChanged}) => {
    return (
       <div className={s.users}>
-         <Paggination totalItemsCount={props.totalUsersCount} 
-            pageSize={props.pageSize} 
-            currentPage={props.currentPage} 
-            onPageChanged={props.onPageChanged}
+         <Paggination totalItemsCount={totalUsersCount} 
+            pageSize={pageSize} 
+            currentPage={currentPage} 
+            onPageChanged={onPageChanged}
          />
          <ul className={s.usersList}>
-            {usersItems}
+            {users.map(item =>
+               <User key={item.id} id={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
+                  onFollow={onFollow}
+                  onUnfollow={onUnfollow}
+                  followingInProgress={followingInProgress}
+               />)
+            }
          </ul>
       </div>
    )

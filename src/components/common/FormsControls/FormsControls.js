@@ -10,7 +10,8 @@ export const textareaField = ({
             <textarea {...input} placeholder={placeholder} />
             {touched &&
                 ((error && <span className={s.errorMessage}>{error}</span>) ||
-                    (warning && <span className={s.warningMessage}>{warning}</span>))}
+                    (warning && <span className={s.warningMessage}>{warning}</span>))
+            }
         </div>
     )
 
@@ -21,13 +22,15 @@ export const inputField = ({
     placeholder,
     meta: { touched, error, warning }
 }) => (
-        <div className={s.inputContainer}>
-            <label>{label}</label>
+        // <div className={s.inputContainer}>
             <div className={s.formControl}>
-                <input {...input} type={type} placeholder={placeholder} />
+                <label>{label}
+                    <input {...input} type={type} placeholder={placeholder} />
+                </label>
                 {touched &&
                     ((error && <span className={s.errorMessage}>{error}</span>) ||
-                        (warning && <span className={s.warningMessage}>{warning}</span>))}
+                        (warning && <span className={s.warningMessage}>{warning}</span>))
+                }
             </div>
-        </div>
+        // </div>
     )

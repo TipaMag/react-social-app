@@ -17,7 +17,7 @@ const LoginForm = (props) => {
                     name='email'
                     type='email'
                     component={inputField}
-                    label='Email'
+                    // label='Email'
                     placeholder={'Email'}
                     validate={[required, maxLength30, email]}
                 />
@@ -27,7 +27,7 @@ const LoginForm = (props) => {
                     name='password'
                     type='password'
                     component={inputField}
-                    label='Password'
+                    // label='Password'
                     placeholder={'password'}
                     validate={[required, maxLength20]}
                 />
@@ -52,7 +52,7 @@ const LoginForm = (props) => {
                     <button onClick={() => {getCaptchaUrl()}}>update</button>
                 </div>
             }
-            <Button type="submit" disabled={pristine || submitting}>login</Button>
+            <Button className={s.loginBtn} type="submit" disabled={pristine || submitting}>login</Button>
             {error &&
                 <div className={s.commonError}>{error}</div>
             }

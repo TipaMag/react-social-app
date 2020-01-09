@@ -140,6 +140,7 @@ export const setProfilePhoto = (formData) => async (dispatch) => {
    let response = await profileAPI.setProfilePhoto(formData)
    if (response.data.resultCode === 0) {
       dispatch(setUserPhotoSuccess(response.data.data.photos))
+      dispatch(setAuthUserSmallPhoto(response.data.data.photos.small))
    }
 }
 export const saveProfileInfo = (formData) => async (dispatch, getState) => {
@@ -156,25 +157,3 @@ export const saveProfileInfo = (formData) => async (dispatch, getState) => {
 }
 
 export default profileReducer
-
-
-// export const getUserProfile = (userId) => (dispatch) => {
-//    profileAPI.getProfile(userId) // profileAPI.getProfile
-//       .then((response) => {
-//          dispatch(setUserProfile(response.data))
-//       })
-// }
-// export const getUserProfileStatus = (userId) => (dispatch) => {
-//    profileAPI.getProfileStatus(userId) // profileAPI.getProfileStatus
-//       .then((response) => {
-//          dispatch(setUserProfileStatus(response.data))
-//       })
-// }
-// export const updateProfileStatus = (userStatus) => (dispatch) => {
-//    profileAPI.updateProfileStatus(userStatus) // profileAPI.updateProfileStatus
-//       .then((response) => {
-//          if (response.data.resultCode === 0) {
-//             dispatch(setUserProfileStatus(userStatus))
-//          }
-//       })
-// }

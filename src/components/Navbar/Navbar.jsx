@@ -7,7 +7,6 @@ import { faHome, faComments, faUsers, faNewspaper, faMusic, faCogs } from '@fort
 import Counter from './../common/Counter/Counter'
 
 const Navbar = ({ friends, newMessagesCount }) => {
-
   return (
     <nav className={s.nav}>
       <ul className={s.navList}>

@@ -7,8 +7,7 @@ import { textareaField } from './../../common/FormsControls/FormsControls'
 
 const maxLength300 = maxLength(300)
 
-const AddMessageForm = (props) => {
-    const { handleSubmit, pristine, submitting } = props
+const AddMessageForm = ({ handleSubmit, pristine, submitting }) => {
     return (
         <form onSubmit={handleSubmit} className={s.addPostForm}>
             <Field
@@ -17,9 +16,7 @@ const AddMessageForm = (props) => {
                 component={textareaField}
                 validate={maxLength300}
             />
-            <button type="submit" disabled={pristine || submitting}>
-                Add message...
-            </button>
+            <button type="submit" disabled={pristine || submitting}>add message</button>
         </form>
     )
 }

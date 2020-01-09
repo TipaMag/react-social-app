@@ -58,12 +58,12 @@ let mapStateToProps = (state) => ({
   autorizedUserId: state.auth.userId,
   isAuth: state.auth.isAuth
 })
-export default compose( // compose (такой себе рекурсивный декоратор)
+export default compose(
   connect(mapStateToProps, {
-    getUserProfile, //thunk
-    getUserProfileStatus, //thunk
-    updateProfileStatus, //thunk
-    setProfilePhoto, //thunk
+    getUserProfile,
+    getUserProfileStatus,
+    updateProfileStatus,
+    setProfilePhoto,
     startChatting
   }),
   withRouter, // оборачиваем компоненту widhRouter-ом, для доступа к URL строке

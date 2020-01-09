@@ -16,6 +16,8 @@ import Music from './components/Music/Music'
 import Settings from './components/Settings/Settings'
 import LoginPage from './components/Login/login'
 import Preloader from './components/common/Preloader/Preloader'
+import NotFound from './components/common/NotFound/NotFound'
+
 
 import withSuspense from './components/Hoc/withSuspense'
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'))
@@ -56,6 +58,11 @@ class App extends Component {
                                                         component={Settings} />
                                                 <Route path='/Login'
                                                         render={() => <LoginPage />} />
+                                                        
+                                                <Route path='/404'
+                                                        render={() => <NotFound />} />
+                                                <Route path='*'
+                                                        render={() => <Redirect to='/404' />} />
                                         </Switch>
                                 </div>
                         </div>

@@ -6,30 +6,14 @@ const SET_MESSAGES = 'dialogs/SET_MESSAGES'
 const SET_MESSAGE = 'dialogs/SET-MESSAGE'
 const SET_NEW_MESSAGES_COUNT = 'dialogs/SET-MESSAGES-COUNT'
 
-// let initialState = {
-//    dialogsData: [
-//       { id: 1, name: 'Andrey', avatar: 'https://image.flaticon.com/icons/svg/145/145859.svg' },
-//       { id: 2, name: 'Sanya', avatar: 'https://image.flaticon.com/icons/svg/145/145859.svg' },
-//       { id: 3, name: 'Anya', avatar: 'https://image.flaticon.com/icons/svg/145/145862.svg' },
-//       { id: 4, name: 'Gena', avatar: 'https://image.flaticon.com/icons/svg/145/145859.svg' },
-//       { id: 5, name: 'Marina', avatar: 'https://image.flaticon.com/icons/svg/145/145862.svg' }
-//    ],
-//    messagesData: [
-//       { id: 1, message: 'Hello' },
-//       { id: 2, message: 'hi' },
-//       { id: 3, message: 'How are you' },
-//       { id: 4, message: 'Fine... and you?' },
-//       { id: 5, message: 'Nice... thanks' }
-//    ]
-// }
 
-let initialState1 = {
+let initialState = {
    dialogsData: [],
    messagesData: [],
    newMessagesCount: ''
 }
 
-const dialogsReducer = (state = initialState1, action) => {
+const dialogsReducer = (state = initialState, action) => {
    switch (action.type) {
       case SET_DIALOGS:
          return {
@@ -96,25 +80,5 @@ export const sendMessage = (userId, messageBody) => async (dispatch) => {
       dispatch(reset('dialogsAddMessageForm'))
    }
 }
-
-
-
-
-// export const sendMessage = (id,message) => async (dispatch) => {
-//    dispatch(reset('Message'));  // очистка текстерии
-//    let response = await dialogsAPI.sendMessage(id,message);
-//    if (response.data.resultCode === 0) {
-//        dispatch(upDialogOnTop(id));  
-// //подем диалога на верх ( по дефолтну диалоги по дате новых сообщений сортируются так что просто поднимаю в стейте чтобы повсторный запрос неделать)
-//        dispatch(setNewMessageInState(response.data.data.message))  //с респонса добавляю сообщение в стейт
-// он приходит с айди и всеми нужными данными
-//    }
-// };
-
-// case SET_NEW_MESSAGE_IN_STATE:
-//             return {
-//                ...state, 
-//                currentDialogsMessage: [...state.currentDialogsMessage,action.message]
-//             };
 
 export default dialogsReducer

@@ -17,11 +17,11 @@ const User = (props) => {
          </div>
          <div className={s.followingBtn}>
             {props.followed
-               ? <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.onUnfollow(props.id) }}>
-                  unfollow
-                     </button>
-               : <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.onFollow(props.id) }}>
-                  follow
+               ?  <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.onUnfollow(props.id) }}>
+                     unfollow
+                  </button>
+               :  <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.onFollow(props.id) }}>
+                     follow
                   </button>
             }
          </div>
