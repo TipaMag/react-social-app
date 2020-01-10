@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "//tipamag.github.io/react-social-app/precache-manifest.7c697d87d93f09ba8537df4719521a7a.js"
+  "//tipamag.github.io/react-social-app/precache-manifest.43ae40595b86c22612178d193df9626d.js"
 );
 
 self.addEventListener('message', (event) => {

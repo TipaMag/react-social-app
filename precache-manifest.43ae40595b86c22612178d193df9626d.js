@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "74231ccd83145daaf19f1b9b04b3d761",
+    "revision": "0f6ddd85f1082e4f6b60d5c918b1e84b",
     "url": "//tipamag.github.io/react-social-app/index.html"
   },
   {
@@ -8,24 +8,24 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "//tipamag.github.io/react-social-app/static/css/3.d78a79b2.chunk.css"
   },
   {
-    "revision": "50a1a11896ecc0c5bd01",
-    "url": "//tipamag.github.io/react-social-app/static/css/main.63570a68.chunk.css"
+    "revision": "1d1e05808f36a47b3fc1",
+    "url": "//tipamag.github.io/react-social-app/static/css/main.cbab13b0.chunk.css"
   },
   {
-    "revision": "49553cb40a69fdefba82",
-    "url": "//tipamag.github.io/react-social-app/static/js/2.62ac5da0.chunk.js"
+    "revision": "e2be7a012660b997225c",
+    "url": "//tipamag.github.io/react-social-app/static/js/2.e56693b2.chunk.js"
   },
   {
     "revision": "1b98b700a4867e0978732113f35bf606",
-    "url": "//tipamag.github.io/react-social-app/static/js/2.62ac5da0.chunk.js.LICENSE"
+    "url": "//tipamag.github.io/react-social-app/static/js/2.e56693b2.chunk.js.LICENSE"
   },
   {
     "revision": "930f6d9215a9be60a561",
     "url": "//tipamag.github.io/react-social-app/static/js/3.ddb32059.chunk.js"
   },
   {
-    "revision": "50a1a11896ecc0c5bd01",
-    "url": "//tipamag.github.io/react-social-app/static/js/main.ae1deb60.chunk.js"
+    "revision": "1d1e05808f36a47b3fc1",
+    "url": "//tipamag.github.io/react-social-app/static/js/main.f6a797d6.chunk.js"
   },
   {
     "revision": "de32d3388bca8fd6da4d",
