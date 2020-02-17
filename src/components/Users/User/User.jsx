@@ -2,31 +2,40 @@ import React from 'react'
 import s from './User.module.css'
 import { NavLink } from 'react-router-dom'
 import defaultUserPhoto from '../../../assets/images/default-avatar-icon.png'
+import Button from './../../../elements/Button'
+import styled from 'styled-components'
 
-const User = (props) => {
+let ListItem = styled.li`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 5px;
+   border: 1px solid #ccc;
+`
+
+const User = ({userId, smallPhoto, name, status, followed, followingInProgress, onUnfollow, onFollow}) => {
    return (
-      <li className={s.user} id={props.id}>
+      <ListItem id={userId}>
          <div className={s.userPhoto}>
-            <NavLink to={'/profile/' + props.id}>
-               <img className={s.userAvatar} src={props.smallPhoto != null ? props.smallPhoto : defaultUserPhoto} alt='avatar'></img>
+            <NavLink to={'/profile/' + userId}>
+               <img className={s.userAvatar} src={smallPhoto != null ? smallPhoto : defaultUserPhoto} alt='avatar'></img>
             </NavLink>
          </div>
          <div className={s.userInfo}>
-            <span>{props.name}</span>
-            <span>{props.status}</span>
+            <span className={s.userInfoName}>{name}</span>
+            <span className={s.userInfoTitle}>{status}</span>
          </div>
          <div className={s.followingBtn}>
-            {props.followed
-               ?  <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.onUnfollow(props.id) }}>
+            {followed
+               ?  <Button disabled={followingInProgress.some(id => id === userId)} onClick={() => { onUnfollow(userId) }}>
                      unfollow
-                  </button>
-               :  <button disabled={props.followingInProgress.some(id => id === props.id)} onClick={() => { props.onFollow(props.id) }}>
+                  </Button>
+               :  <Button disabled={followingInProgress.some(id => id === userId)} onClick={() => { onFollow(userId) }}>
                      follow
-                  </button>
+                  </Button>
             }
          </div>
-      </li>
+      </ListItem>
    )
 }
-
 export default User

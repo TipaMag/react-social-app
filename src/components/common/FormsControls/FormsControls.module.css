@@ -1,11 +1,12 @@
 .formControl {
     display: flex;
     flex-flow: column;
-    margin-bottom: 10px;
 }
 .formControl textarea {
     resize: none;
     width: 100%;
+    padding: 7px;
+    box-sizing: border-box;
 }
 input[type=text],
 input[type=password],

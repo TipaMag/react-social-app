@@ -45,16 +45,14 @@ let mapStateToProps = (state) => {
       followingInProgress: getFollowingInProgress(state)
    })
 }
-export default compose( // connect (такой себе рекурсивный декоратор)
+export default compose(
    connect(mapStateToProps, {
-      requestUsers, //thunk
-      getNewPage, //thunk
-      setFollow, //thunk
-      setUnfollow //thunk
+      requestUsers,
+      getNewPage,
+      setFollow,
+      setUnfollow
    })
 )(UsersContainer)
-
-
 
 
 

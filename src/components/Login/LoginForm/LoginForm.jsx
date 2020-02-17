@@ -11,7 +11,7 @@ const maxLength20 = maxLength(20)
 const LoginForm = (props) => {
     const { handleSubmit, pristine, submitting, error, captchaUrl, getCaptchaUrl } = props
     return (
-        <form onSubmit={handleSubmit}>
+        <form className={s.loginForm} onSubmit={handleSubmit}>
             <div>
                 <Field
                     name='email'
@@ -28,7 +28,7 @@ const LoginForm = (props) => {
                     type='password'
                     component={inputField}
                     // label='Password'
-                    placeholder={'password'}
+                    placeholder={'Password'}
                     validate={[required, maxLength20]}
                 />
             </div>
@@ -52,7 +52,7 @@ const LoginForm = (props) => {
                     <button onClick={() => {getCaptchaUrl()}}>update</button>
                 </div>
             }
-            <Button className={s.loginBtn} type="submit" disabled={pristine || submitting}>login</Button>
+            <Button className={s.loginBtn} type="submit" disabled={pristine || submitting}>sign in</Button>
             {error &&
                 <div className={s.commonError}>{error}</div>
             }

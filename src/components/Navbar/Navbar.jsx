@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faComments, faUsers, faNewspaper, faMusic, faCogs } from '@fortawesome/free-solid-svg-icons'
 import Counter from './../common/Counter/Counter'
 
-const Navbar = ({ friends, newMessagesCount }) => {
+const Navbar = ({ friends, newMessagesCount, isAuth }) => {
   return (
     <nav className={s.nav}>
       <ul className={s.navList}>
@@ -15,11 +15,13 @@ const Navbar = ({ friends, newMessagesCount }) => {
         </li>
         <li className={s.item}>
           <NavLink to='/dialogs' activeClassName={s.active}><FontAwesomeIcon icon={faComments} />Messages
-            {newMessagesCount > 0 && <Counter count={newMessagesCount} />}
+            {(newMessagesCount > 0 && isAuth) && 
+              <Counter count={newMessagesCount} />
+            }
           </NavLink>
         </li>
         <li className={s.item}>
-          <NavLink to='/users' activeClassName={s.active}><FontAwesomeIcon icon={faUsers} />users</NavLink>
+          <NavLink to='/users' activeClassName={s.active}><FontAwesomeIcon icon={faUsers} />Users</NavLink>
         </li>
         <li className={s.item}>
           <NavLink to='/News' activeClassName={s.active}><FontAwesomeIcon icon={faNewspaper} />News</NavLink>
@@ -31,12 +33,16 @@ const Navbar = ({ friends, newMessagesCount }) => {
           <NavLink to='/Settings' activeClassName={s.active}><FontAwesomeIcon icon={faCogs} />Settings</NavLink>
         </li>
       </ul>
-      <h3>Friends</h3>
-      <ul className={s.friendsList}>
-        {friends.map(item =>
-          <Friends key={item.id} name={item.name} avatar={item.avatar} />)
-        }
-      </ul>
+      {isAuth && 
+        <div className={s.friends}>
+          <h3>Friends</h3>
+          <ul className={s.friendsList}>
+            {friends.map(item =>
+                <Friends key={item.id} name={item.name} avatar={item.avatar} />)
+            }
+          </ul>
+        </div>
+      }
     </nav>
   )
 }

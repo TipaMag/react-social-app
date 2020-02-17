@@ -14,7 +14,6 @@ const Header = ({ isAuth, login, smallPhoto, logout }) => {
       setToggleMode(!toggleMode)
    }
 
-
    return (
       <header className={s.header}>
          {/* <div className={s.headerLogo}>

@@ -1,26 +1,30 @@
 import React from 'react'
-import s from './Users.module.css'
-import User from './User/User'
 import Paggination from './../common/Paggination/Paggination'
+import User from './User/User'
 
-const Users = ({users, onFollow, onUnfollow, followingInProgress, totalUsersCount, pageSize, currentPage, onPageChanged}) => {
+import { UsersContainer, Controls, UsersList } from './Users.styles'
+
+
+const Users = ({ users, onFollow, onUnfollow, followingInProgress, totalUsersCount, pageSize, currentPage, onPageChanged }) => {
    return (
-      <div className={s.users}>
-         <Paggination totalItemsCount={totalUsersCount} 
-            pageSize={pageSize} 
-            currentPage={currentPage} 
-            onPageChanged={onPageChanged}
-         />
-         <ul className={s.usersList}>
+      <UsersContainer>
+         <Controls>
+            <Paggination totalItemsCount={totalUsersCount}
+               pageSize={pageSize}
+               currentPage={currentPage}
+               onPageChanged={onPageChanged}
+            />
+         </Controls>
+         <UsersList>
             {users.map(item =>
-               <User key={item.id} id={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
+               <User key={item.id} userId={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
                   onFollow={onFollow}
                   onUnfollow={onUnfollow}
                   followingInProgress={followingInProgress}
                />)
             }
-         </ul>
-      </div>
+         </UsersList>
+      </UsersContainer>
    )
 }
 

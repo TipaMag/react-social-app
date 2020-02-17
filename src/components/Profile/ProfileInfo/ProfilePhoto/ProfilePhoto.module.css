@@ -1,48 +1,13 @@
-.userPhoto {
+.userPhotoContainer {
     position: relative;
     height: 200px;
     padding: 5px;
     background-color: #fff;
 }
-.userPhoto img {
-    width: 200px;
+.userPhotoContainer img {
+    width: 100%;
     align-self: start;
 }
-.userPhoto:hover .fileInputForm {
-    z-index: 1;
-}
-.fileInputForm {
+.userPhotoContainer:hover form {
     display: flex;
-    z-index: -1;
-    flex-direction: column;
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    width: 200px;
-    color: #fff;
-    background-color: rgba(29,32,34,.7);
-}
-.fileInputFormLable {
-    text-align: center;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-.inputFile {
-    width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}
-.loadPhotoBtn {
-    background-color: #f4511e;
-    border: none;
-    color: white;
-    padding: 6px;
-    font-size: 16px;
-    cursor: pointer;
-}
-.loadPhotoBtn:hover {
-    opacity: 1;
 }

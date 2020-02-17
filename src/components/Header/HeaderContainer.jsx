@@ -5,9 +5,8 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 
 const HeaderContainer = (props) => {
-
    return (
-      <Header {...props} logout={props.logout}/>
+      <Header {...props}/>
    )
 }
 
@@ -16,13 +15,8 @@ let mapStateToProps = (state) => ({
    isAuth: state.auth.isAuth,
    smallPhoto: state.auth.smallPhoto
 })
-
-export default compose( // compose (такой себе рекурсивный декоратор)
+export default compose(
    connect(mapStateToProps, {
-      logout //thunk
+      logout
    })
 )(HeaderContainer)
-
-// export default connect(mapStateToProps, {
-//    getAuthUserData //thunk
-// })(HeaderContainer)

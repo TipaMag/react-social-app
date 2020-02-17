@@ -1,7 +1,6 @@
 .nav {
    grid-area: navbar;
    align-self: start;
-   padding: 5px;
    background-color: #fff;
  }
  .navList {
@@ -49,8 +48,9 @@
   border-radius: 11px;
 }
 
-
-
+.friends {
+  padding: 5px;
+}
 .friendsList {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

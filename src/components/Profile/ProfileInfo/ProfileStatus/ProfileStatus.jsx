@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import s from './ProfileStatus.module.css'
 
 const ProfileStatus = ({isOwner, profileStatus, updateProfileStatus}) => {
-
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(profileStatus)
     useEffect(() => {
@@ -15,8 +14,10 @@ const ProfileStatus = ({isOwner, profileStatus, updateProfileStatus}) => {
         }
     }
     const deactivateEditMode = () => {
+        if (profileStatus !== status) {
+            updateProfileStatus(status)
+        }
         setEditMode(false)
-        updateProfileStatus(status)
     }
     const onStatusChange = (event) => {
         setStatus(event.target.value)

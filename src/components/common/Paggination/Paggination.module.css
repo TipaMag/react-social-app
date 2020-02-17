@@ -2,12 +2,12 @@
     display: inline-flex;
     flex-flow: row nowrap;
     padding: 5px;
-    border: 1px solid #ccc;
 }
 .paggination button {
     border: none;
     background-color: #0073A3;
     color: #fff;
+    cursor: pointer;
 }
 .paggination span {
     cursor: pointer;

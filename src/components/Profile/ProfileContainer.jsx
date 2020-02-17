@@ -32,7 +32,9 @@ class ProfileContainer extends Component {
     this.props.getUserProfileStatus(userId)
   }
   onStartChatting = () => {
-    this.props.startChatting(this.props.profile.userId)
+      if (this.props.isAuth) {
+        this.props.startChatting(this.props.profile.userId)
+      }
   }
 
   render() {
@@ -69,13 +71,3 @@ export default compose(
   withRouter, // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
   // withAuthRedirect // HOC обёртка (редирект на login-page если не авторизован)
 )(ProfileContainer)
-
-
-
-
-
-// let AuthRedirectComponent = withAuthRedirect(ProfileContainer) // HOC обёртка (редирект на login-page если не авторизован)
-// let widthUrlDataContainerComponent = withRouter(AuthRedirectComponent) // оборачиваем компоненту widhRouter-ом, для доступа к URL строке
-// export default connect(mapStateToProps, {
-//   getProfile //thunk
-// })(widthUrlDataContainerComponent)

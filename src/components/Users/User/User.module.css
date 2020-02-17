@@ -1,11 +1,22 @@
-.user {
-    display: grid;
-    grid-template-columns: 55px auto 60px;
-    grid-gap: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 5px;
-    padding: 5px;
+.userPhoto {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+.userPhoto a {
+    display: flex;
 }
 .userAvatar {
     width: 55px;
+}
+.userInfo {
+    display: flex;
+    flex-flow: column;
+    flex-grow: 2;
+}
+.userInfoTitle {
+    color: #afafaf;
+}
+.followingBtn {
+    margin: 0 20px;
 }

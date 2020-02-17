@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import s from './Paggination.module.css'
 
-const Paggination = (props) => {
-   let { totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10 } = props
+const Paggination = ({ totalItemsCount, pageSize, currentPage, onPageChanged, portionSize = 10 }) => {
 
    let pagesCount = Math.ceil(totalItemsCount / pageSize)
    let pages = []

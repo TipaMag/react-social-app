@@ -15,6 +15,7 @@ const Dialogs = ({dialogs, messages, getMessages, sendMessage, userId }) => {
          hasNewMessages={item.hasNewMessages}
          newMessagesCount={item.newMessagesCount}
          getMessages={getMessages}/>)
+
    let messagesElements = messages.items && messages.items.map(item =>
       <Message key={item.id}
          senderName={item.senderName}

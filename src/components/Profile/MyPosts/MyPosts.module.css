@@ -1,11 +1,9 @@
-.postsBlock {
+.postsWrapper {
   padding: 5px;
-  border: 1px solid #ccc;
-}
-.postsBlock h3 {
-  margin: 0;
 }
 
-.posts {
-  border: 1px dashed #000;
+.postsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

@@ -1,37 +1,43 @@
 import React, { useEffect } from 'react'
-import { getDialogs, getMessages, sendMessage } from '../../redux/dialogs-reducer'
+import { getDialogs, getMessages, sendMessage, setMessages } from '../../redux/dialogs-reducer'
 import Dialogs from './Dialogs'
 import { connect } from 'react-redux'
 import { withAuthRedirect } from '../Hoc/withAuthRedirect'
 import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
 
-let DialogsContainer = (props) => {
-   let { getDialogs, getMessages, match } = props
+const DialogsContainer = (props) => {
+   let { getDialogs, getMessages, match, setMessages } = props
+   let userId = match.params.userId
 
    useEffect(() => {
+      console.log('firsUseEffect')
       getDialogs()
-      if (match.params.userId) {
-         getMessages(match.params.userId)
+      if (userId) {
+         getMessages(userId)
+      }
+      return () => {
+         console.log('UnmountUseEffect')
+         setMessages([])
       }
    }, [])
    
    return (
-      <Dialogs {...props} userId={match.params.userId} />
+      <Dialogs {...props} userId={userId} />
    )
 }
 
-let mapStateToProps = (state) => {
-   return {
-      dialogs: state.dialogsPage.dialogsData,
-      messages: state.dialogsPage.messagesData
-   }
-}
-export default compose( // compose (такой себе рекурсивный декоратор)
+let mapStateToProps = (state) => ({
+   dialogs: state.dialogsPage.dialogsData,
+   messages: state.dialogsPage.messagesData
+})
+export default compose(
    connect(mapStateToProps, {
       getDialogs,
       getMessages,
-      sendMessage
+      sendMessage,
+
+      setMessages // actionCreator*
    }),
    withRouter,
    withAuthRedirect // HOC обёртка (редирект на login-page если не авторизован)
