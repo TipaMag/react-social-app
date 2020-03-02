@@ -1,12 +1,12 @@
 .userPhotoContainer {
     position: relative;
     height: 200px;
-    padding: 5px;
     background-color: #fff;
+    margin-bottom: 5px;
 }
 .userPhotoContainer img {
     width: 100%;
-    align-self: start;
+    height: 100%;
 }
 .userPhotoContainer:hover form {
     display: flex;

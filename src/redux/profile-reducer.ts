@@ -1,31 +1,30 @@
-import { profileAPI, dialogsAPI } from "../api/api"
+import { profileAPI, ResultCodesEnum } from "../api/api"
 import { setAuthUserSmallPhoto } from './auth-reducer'
-import { setNewMessagesCount } from "./dialogs-reducer"
+import { getNewMessagesCount } from "./dialogs-reducer"
 import { stopSubmit, reset } from 'redux-form'
-import { PostType, ProfileType, PhotosType } from "../types/types"
 
-const SET_POST = 'profile/ADD-POST'
-const SET_AUTHORIZED_USER_PROFILE = 'profile/SET-AUTHORIZED-USER-PROFILE'
-const SET_AUTHORIZED_USER_PROFILE_STATUS = 'profile/SET-AUTHORIZED-USER-PROFILE-STATUS'
-const SET_USER_PROFILE = 'profile/SET-USER-PROFILE'
-const SET_USER_PROFILE_STATUS = 'profile/SET-USER-PROFILE-STATUS'
-const SET_USER_PHOTO_SUCCES = 'profile/SET-USER-PHOTO-SUCCES'
+import { ProfileInitial, ProfileType, PhotosType } from "../types/Profile-types"
+import { SET_POST, SET_AUTHORIZED_USER_PROFILE, SET_AUTHORIZED_USER_PROFILE_STATUS, SET_USER_PROFILE, 
+   SET_USER_PROFILE_STATUS, SET_USER_PHOTO_SUCCES, 
+   ProfileActionTypes,
+   AppActionTypes, } from "../types/actions"
+import { AppStateType } from "./redux-store"
+import { ThunkAction } from "redux-thunk"
 
 
-let initialState = {
+let initialState: ProfileInitial = {
    postsData: [
       {id: 1,message: 'Hello World',likesCount: 12},
       {id: 2,message: 'test post 2',likesCount: 3},
       {id: 3,message: 'test post 3',likesCount: 11}
-   ] as Array<PostType>,
-   autorizedProfile: null as ProfileType | null,
+   ],
+   autorizedProfile: null,
    autorizedProfileStatus: '',
-   profile: null as ProfileType | null,
+   profile: null,
    profileStatus: ''
 }
-type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ProfileActionTypes): ProfileInitial => {
    switch (action.type) {
       case SET_POST:
          let newPost = {
@@ -70,104 +69,81 @@ const profileReducer = (state = initialState, action: any): InitialStateType => 
    }
 }
 
-type SetAuthorizedUserProfileActionType = {
-   type: typeof SET_AUTHORIZED_USER_PROFILE,
-   authorizedProfile: ProfileType
-}
-export const setAuthorizedUserProfile = (authorizedProfile: ProfileType): SetAuthorizedUserProfileActionType => ({
+
+export const setAuthorizedUserProfile = (authorizedProfile: ProfileType): AppActionTypes => ({
    type: SET_AUTHORIZED_USER_PROFILE,
    authorizedProfile
 })
-type SetAuthorizedUserProfileStatusActionType = {
-   type: typeof SET_AUTHORIZED_USER_PROFILE_STATUS,
-   authorizedProfileStatus: string
-}
-export const setAuthorizedUserProfileStatus = (authorizedProfileStatus: string): SetAuthorizedUserProfileStatusActionType => ({
+export const setAuthorizedUserProfileStatus = (authorizedProfileStatus: string): AppActionTypes => ({
    type: SET_AUTHORIZED_USER_PROFILE_STATUS,
    authorizedProfileStatus
 })
-type SetUserProfileActionType = {
-   type: typeof SET_USER_PROFILE,
-   profile: ProfileType
-}
-export const setUserProfile = (profile: ProfileType): SetUserProfileActionType => ({
+export const setUserProfile = (profile: ProfileType): AppActionTypes => ({
    type: SET_USER_PROFILE,
    profile
 })
-type SetUserProfileStatusActionType = {
-   type: typeof SET_USER_PROFILE_STATUS,
-   profileStatus: string
-}
-export const setUserProfileStatus = (profileStatus: string): SetUserProfileStatusActionType => ({
+export const setUserProfileStatus = (profileStatus: string): AppActionTypes => ({
    type: SET_USER_PROFILE_STATUS,
    profileStatus
 })
-type SetPostActionType = {
-   type: typeof SET_POST,
-   newPostBody: string
-}
-export const setPost = (newPostBody: string): SetPostActionType => ({
+export const setPost = (newPostBody: string): AppActionTypes => ({
    type: SET_POST,
    newPostBody
 })
-type SetUserPhotoSuccessActionType = {
-   type: typeof SET_USER_PHOTO_SUCCES,
-   userPhotos: PhotosType
-}
-export const setUserPhotoSuccess = (userPhotos: PhotosType): SetUserPhotoSuccessActionType  => ({
+export const setUserPhotoSuccess = (userPhotos: PhotosType): AppActionTypes  => ({
    type: SET_USER_PHOTO_SUCCES,
    userPhotos
 })
 
-export const getUserProfile = (userId: number) => async (dispatch: any, getState: any) => {
+type GetStateType = () => AppStateType
+type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionTypes>
+export const getUserProfile = (userId: number): ThunkType => async (dispatch, getState: GetStateType) => {
    if (userId === getState().auth.userId) {
       let response = await profileAPI.getProfile(userId)
       dispatch(setAuthorizedUserProfile(response.data))
       dispatch(setAuthUserSmallPhoto(response.data.photos.small))
-      if (getState().auth.isAuth) {
-         let responseCount = await dialogsAPI.getNewMessagesCount()
-         dispatch(setNewMessagesCount(responseCount.data)) 
-      }
+      dispatch(getUserProfileStatus(userId))
+      dispatch(getNewMessagesCount())
       return
    }
    let response = await profileAPI.getProfile(userId)
    dispatch(setUserProfile(response.data))
+   dispatch(getUserProfileStatus(userId))
 }
-export const getUserProfileStatus = (userId: number) => async (dispatch: any, getState: any) => {
+export const getUserProfileStatus = (userId: number): ThunkType => async (dispatch, getState: GetStateType) => {
+   let response = await profileAPI.getProfileStatus(userId)
    if (userId === getState().auth.userId) {
-      let response = await profileAPI.getProfileStatus(userId)
       dispatch(setAuthorizedUserProfileStatus(response.data))
       return
    }
-   let response = await profileAPI.getProfileStatus(userId)
    dispatch(setUserProfileStatus(response.data))
 }
-export const updateProfileStatus = (userStatus: string) => async (dispatch: any) => {
-   let response = await profileAPI.updateProfileStatus(userStatus)
-   if (response.data.resultCode === 0) {
-      dispatch(setAuthorizedUserProfileStatus(userStatus))
+export const updateProfileStatus = (status: string): ThunkType => async (dispatch) => {
+   let response = await profileAPI.updateProfileStatus(status)
+   if (response.resultCode === ResultCodesEnum.Success) {
+      dispatch(setAuthorizedUserProfileStatus(status))
    }
 }
-export const setProfilePhoto = (formData: any) => async (dispatch: any) => {
+export const setProfilePhoto = (formData: FormData): ThunkType => async (dispatch) => {
    let response = await profileAPI.setProfilePhoto(formData)
-   if (response.data.resultCode === 0) {
-      dispatch(setUserPhotoSuccess(response.data.data.photos))
-      dispatch(setAuthUserSmallPhoto(response.data.data.photos.small))
+   if (response.resultCode === ResultCodesEnum.Success) {
+      dispatch(setUserPhotoSuccess(response.data.photos))
+      dispatch(setAuthUserSmallPhoto(response.data.photos.small))
    }
 }
-export const saveProfileInfo = (formData: any) => async (dispatch: any, getState: any) => {
+export const saveProfileInfo = (formData: any): ThunkType => async (dispatch, getState: GetStateType) => {
    let userId = getState().auth.userId
    let response = await profileAPI.saveProfileInfo(formData)
-   if (response.data.resultCode === 0) {
+   if (response.resultCode === ResultCodesEnum.Success) {
       let response = await profileAPI.getProfile(userId)
       dispatch(setAuthorizedUserProfile(response.data))
    } else {
-      let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+      let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
       dispatch(stopSubmit('edit-profile', { _error: message }))
       return Promise.reject(message)
    }
 }
-export const addPost = (formData: any) => (dispatch: any) => {
+export const addPost = (formData: any): ThunkType => (dispatch) => {
    dispatch(setPost(formData))
    dispatch(reset('profileAddPostForm'))
 }

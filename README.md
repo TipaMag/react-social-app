@@ -1,7 +1,7 @@
-Social app
+# React social-app
 
-https://tipamag.github.io/react-social-app
+`Link to deployed project:` https://tipamag.github.io/react-social-app
 
-Test access:
-Email: free@samuraijs.com
-Password: free
+**Test access:**
+Email: **`free@samuraijs.com`**
+Password: **`free`**

@@ -6,10 +6,10 @@ import { compose } from 'redux'
 import { withRouter } from 'react-router-dom'
 
 import './App.css'
-import HeaderContainer from './components/Header/HeaderContainer'
-import NavbarContainer from './components/Navbar/NavbarContainer'
-import ProfileContainer from './components/Profile/ProfileContainer'
-import ProfileEditContainer from './components/Profile/ProfileEdit/ProfileEdit'
+import Header from './components/Header/Header'
+import Navbar from './components/Navbar/Navbar'
+import Profile from './components/Profile/Profile'
+import ProfileEdit from './components/ProfileEdit/ProfileEdit'
 import DialogsContainer from './components/Dialogs/DialogsContainer'
 import News from './components/News/News'
 import Music from './components/Music/Music'
@@ -36,16 +36,16 @@ class App extends Component {
                 }
                 return (
                         <div className='app-wrapper'>
-                                <HeaderContainer />
-                                <NavbarContainer />
+                                <Header />
+                                <Navbar />
                                 <div className='app-wrapper-content'>
                                         <Switch>
                                                 <Route exact path="/"
                                                         render={() => <Redirect to='/profile' />} />
                                                 <Route exact path="/profile/edit"
-                                                        render={() => <ProfileEditContainer />} />
+                                                        render={() => <ProfileEdit />} />
                                                 <Route path='/profile/:userId?'
-                                                        render={() => <ProfileContainer />} />
+                                                        render={() => <Profile />} />
                                                 <Route path='/dialogs/:userId?'
                                                         render={() => <DialogsContainer />} />
                                                 <Route path='/News'
@@ -58,7 +58,6 @@ class App extends Component {
                                                         component={Settings} />
                                                 <Route path='/Login'
                                                         render={() => <LoginPage />} />
-                                                        
                                                 <Route path='/404'
                                                         render={() => <NotFound />} />
                                                 <Route path='*'

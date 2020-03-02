@@ -10,16 +10,11 @@
     align-self: start;
 }
 .profilePhotoContainer a {
-    text-decoration: none;
     display: block;
-    background-color: #0073A3;
-    color: #fff;
-    text-align: center;
-    line-height: 2;
 }
-
-
-
+.profilePhotoContainer a button{
+    width: 100%;
+}
 .userDescription {
     display: grid;
     grid-template-rows: auto auto auto;

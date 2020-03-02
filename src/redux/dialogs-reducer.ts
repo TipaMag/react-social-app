@@ -1,47 +1,22 @@
-import { dialogsAPI } from "../api/api"
+import { dialogsAPI, ResultCodesEnum } from "../api/api"
 import { reset } from 'redux-form'
+import { DialogsInitial, DialogType, MessagesDataType, MessageType } from "../types/Dialogs-types"
+import { DialogsActionTypes, AppActionTypes, SET_DIALOGS, SET_MESSAGES, CLEAR_MESSAGES, SET_MESSAGE, SET_NEW_MESSAGES_COUNT} from "../types/actions"
+import { ThunkAction } from "redux-thunk"
+import { AppStateType } from "./redux-store"
 
-const SET_DIALOGS = 'dialogs/SET_DIALOGS'
-const SET_MESSAGES = 'dialogs/SET_MESSAGES'
-const SET_MESSAGE = 'dialogs/SET-MESSAGE'
-const SET_NEW_MESSAGES_COUNT = 'dialogs/SET-MESSAGES-COUNT'
 
-type DialogType = {
-   id: number
-   userName: string
-   hasNewMessages: boolean
-   lastDialogActivityDate: string
-   lastUserActivityDate: string
-   newMessagesCount: number
-}
-type MessagesDataType = {
-   items: Array<MessageType>,
-   totalCount: number,
-   error: null
-}
-type MessageType = {
-   id: string
-   body: string
-   translatedBody: null | string
-   addedAt: string
-   senderId: number
-   senderName: string
-   recipientId: number
-   viewed: boolean
-}
-
-let initialState = {
-   dialogsData: [] as Array<DialogType>,
+const initialState: DialogsInitial = {
+   dialogsData: [],
    messagesData: {
       items: [],
       totalCount: 0,
       error: null
-   } as MessagesDataType,
+   },
    newMessagesCount: 0
 }
-type InitialStateType = typeof initialState
 
-const dialogsReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+const dialogsReducer = (state = initialState, action: DialogsActionTypes): DialogsInitial => {
    switch (action.type) {
       case SET_DIALOGS:
          return {
@@ -52,6 +27,15 @@ const dialogsReducer = (state: InitialStateType = initialState, action: any): In
          return {
             ...state,
             messagesData: { ...action.messages }
+         }
+      case CLEAR_MESSAGES:
+         return {
+            ...state,
+            messagesData: {
+               items: [],
+               totalCount: 0,
+               error: null
+            }
          }
       case SET_MESSAGE:
          return {
@@ -73,61 +57,54 @@ const dialogsReducer = (state: InitialStateType = initialState, action: any): In
    }
 }
 
-type SetDialogsActionType = {
-   type: typeof SET_DIALOGS,
-   dialogs: DialogType
-}
-export const setDialogs = (dialogs: DialogType): SetDialogsActionType => ({
+
+export const setDialogs = (dialogs: Array<DialogType>): AppActionTypes => ({
    type: SET_DIALOGS,
    dialogs
 })
-type SetMessagesActionType = {
-   type: typeof SET_MESSAGES,
-   messages: MessagesDataType
-}
-export const setMessages = (messages: MessagesDataType): SetMessagesActionType => ({
+export const setMessages = (messages: MessagesDataType): AppActionTypes => ({
    type: SET_MESSAGES,
    messages
 })
-type SetMessageActionType = {
-   type: typeof SET_MESSAGE,
-   newMessage: MessageType
-}
-export const setMessage = (newMessage: MessageType): SetMessageActionType => ({
+export const clearMessages = (): AppActionTypes => ({
+   type: CLEAR_MESSAGES,
+})
+export const setMessage = (newMessage: MessageType ): AppActionTypes => ({
    type: SET_MESSAGE,
    newMessage,
 })
-type SetNewMessagesCountActionType = {
-   type: typeof SET_NEW_MESSAGES_COUNT,
-   messagesCount: number
-}
-export const setNewMessagesCount = (messagesCount: number): SetNewMessagesCountActionType => ({
+export const setNewMessagesCount = (messagesCount: number): AppActionTypes => ({
    type: SET_NEW_MESSAGES_COUNT,
    messagesCount
 })
 
-export const getDialogs = () => async (dispatch: any) => {
+type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionTypes>
+export const getDialogs = (): ThunkType => async (dispatch) => {
    let response = await dialogsAPI.getDialogs()
    if (response.data) {
       dispatch(setDialogs(response.data))
    }
 }
-export const getMessages = (userId: number) => async (dispatch: any) => {
+export const getMessages = (userId: number): ThunkType => async (dispatch) => {
    let response = await dialogsAPI.getMessages(userId)
    dispatch(setMessages(response.data))
 }
-export const startChatting = (userId: number) => async (dispatch: any) => {
+export const startChatting = (userId: number): ThunkType => async (dispatch) => {
    let response = await dialogsAPI.startChatting(userId)
-   if (response.data.resultCode === 0) {
-      getDialogs()
+   if (response.resultCode === ResultCodesEnum.Success) {
+      dispatch(getDialogs())
    }
 }
-export const sendMessage = (userId: number, messageBody: string) => async (dispatch: any) => {
+export const sendMessage = (userId: number, messageBody: string): ThunkType => async (dispatch) => {
    let response = await dialogsAPI.sendMessage(userId, messageBody)
-   if (response.data.resultCode === 0) {
-      dispatch(setMessage(response.data.data.message))
+   if (response.resultCode === ResultCodesEnum.Success) {
+      dispatch(setMessage(response.data.message))
       dispatch(reset('dialogsAddMessageForm'))
    }
+}
+export const getNewMessagesCount = (): ThunkType => async (dispatch) => {
+   let response = await dialogsAPI.getNewMessagesCount()
+   dispatch(setNewMessagesCount(response.data))
 }
 
 export default dialogsReducer

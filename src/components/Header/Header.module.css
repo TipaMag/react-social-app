@@ -11,6 +11,7 @@
   align-items: center;
   padding: 7px;
   cursor: pointer;
+  outline: none;
  }
  .autorize:hover {
    background-color: #3d6898;
