@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "//tipamag.github.io/react-social-app/static/css/main.e310f99e.chunk.css",
-    "main.js": "//tipamag.github.io/react-social-app/static/js/main.8297680b.chunk.js",
-    "main.js.map": "//tipamag.github.io/react-social-app/static/js/main.8297680b.chunk.js.map",
+    "main.js": "//tipamag.github.io/react-social-app/static/js/main.b8c01396.chunk.js",
+    "main.js.map": "//tipamag.github.io/react-social-app/static/js/main.b8c01396.chunk.js.map",
     "runtime-main.js": "//tipamag.github.io/react-social-app/static/js/runtime-main.7aa12a6f.js",
     "runtime-main.js.map": "//tipamag.github.io/react-social-app/static/js/runtime-main.7aa12a6f.js.map",
     "static/js/2.ae7eb27f.chunk.js": "//tipamag.github.io/react-social-app/static/js/2.ae7eb27f.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.47c1663c.chunk.js": "//tipamag.github.io/react-social-app/static/js/3.47c1663c.chunk.js",
     "static/js/3.47c1663c.chunk.js.map": "//tipamag.github.io/react-social-app/static/js/3.47c1663c.chunk.js.map",
     "index.html": "//tipamag.github.io/react-social-app/index.html",
-    "precache-manifest.9a73ae256f4471714303f163af3787f2.js": "//tipamag.github.io/react-social-app/precache-manifest.9a73ae256f4471714303f163af3787f2.js",
+    "precache-manifest.ca8879f0c51836fe41283ad5fec26c40.js": "//tipamag.github.io/react-social-app/precache-manifest.ca8879f0c51836fe41283ad5fec26c40.js",
     "service-worker.js": "//tipamag.github.io/react-social-app/service-worker.js",
     "static/css/main.e310f99e.chunk.css.map": "//tipamag.github.io/react-social-app/static/css/main.e310f99e.chunk.css.map",
     "static/js/2.ae7eb27f.chunk.js.LICENSE": "//tipamag.github.io/react-social-app/static/js/2.ae7eb27f.chunk.js.LICENSE",
@@ -22,6 +22,6 @@
     "static/js/runtime-main.7aa12a6f.js",
     "static/js/2.ae7eb27f.chunk.js",
     "static/css/main.e310f99e.chunk.css",
-    "static/js/main.8297680b.chunk.js"
+    "static/js/main.b8c01396.chunk.js"
   ]
 }

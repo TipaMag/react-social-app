@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6337592d3acc76cf8182c6587d47a8e5",
+    "revision": "41f90aac73a268b604b4fd2507026112",
     "url": "//tipamag.github.io/react-social-app/index.html"
   },
   {
-    "revision": "9e0772c16bd192063edb",
+    "revision": "a8e8fd28f4a33be1723d",
     "url": "//tipamag.github.io/react-social-app/static/css/main.e310f99e.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "//tipamag.github.io/react-social-app/static/js/3.47c1663c.chunk.js"
   },
   {
-    "revision": "9e0772c16bd192063edb",
-    "url": "//tipamag.github.io/react-social-app/static/js/main.8297680b.chunk.js"
+    "revision": "a8e8fd28f4a33be1723d",
+    "url": "//tipamag.github.io/react-social-app/static/js/main.b8c01396.chunk.js"
   },
   {
     "revision": "0e5a9a1df9b55b7c6e8a",
