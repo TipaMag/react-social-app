@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "//tipamag.github.io/react-social-app/static/css/main.e310f99e.chunk.css",
-    "main.js": "//tipamag.github.io/react-social-app/static/js/main.b8c01396.chunk.js",
-    "main.js.map": "//tipamag.github.io/react-social-app/static/js/main.b8c01396.chunk.js.map",
+    "main.css": "//tipamag.github.io/react-social-app/static/css/main.ffbfee84.chunk.css",
+    "main.js": "//tipamag.github.io/react-social-app/static/js/main.6187d00e.chunk.js",
+    "main.js.map": "//tipamag.github.io/react-social-app/static/js/main.6187d00e.chunk.js.map",
     "runtime-main.js": "//tipamag.github.io/react-social-app/static/js/runtime-main.7aa12a6f.js",
     "runtime-main.js.map": "//tipamag.github.io/react-social-app/static/js/runtime-main.7aa12a6f.js.map",
     "static/js/2.ae7eb27f.chunk.js": "//tipamag.github.io/react-social-app/static/js/2.ae7eb27f.chunk.js",
@@ -10,9 +10,9 @@
     "static/js/3.47c1663c.chunk.js": "//tipamag.github.io/react-social-app/static/js/3.47c1663c.chunk.js",
     "static/js/3.47c1663c.chunk.js.map": "//tipamag.github.io/react-social-app/static/js/3.47c1663c.chunk.js.map",
     "index.html": "//tipamag.github.io/react-social-app/index.html",
-    "precache-manifest.ca8879f0c51836fe41283ad5fec26c40.js": "//tipamag.github.io/react-social-app/precache-manifest.ca8879f0c51836fe41283ad5fec26c40.js",
+    "precache-manifest.01d3f4c639fa4575f8eb94902b6b52ac.js": "//tipamag.github.io/react-social-app/precache-manifest.01d3f4c639fa4575f8eb94902b6b52ac.js",
     "service-worker.js": "//tipamag.github.io/react-social-app/service-worker.js",
-    "static/css/main.e310f99e.chunk.css.map": "//tipamag.github.io/react-social-app/static/css/main.e310f99e.chunk.css.map",
+    "static/css/main.ffbfee84.chunk.css.map": "//tipamag.github.io/react-social-app/static/css/main.ffbfee84.chunk.css.map",
     "static/js/2.ae7eb27f.chunk.js.LICENSE": "//tipamag.github.io/react-social-app/static/js/2.ae7eb27f.chunk.js.LICENSE",
     "static/media/404-not-found.jpg": "//tipamag.github.io/react-social-app/static/media/404-not-found.5682ea5f.jpg",
     "static/media/Spinner-preloader.svg": "//tipamag.github.io/react-social-app/static/media/Spinner-preloader.f6076e2c.svg",
@@ -21,7 +21,7 @@
   "entrypoints": [
     "static/js/runtime-main.7aa12a6f.js",
     "static/js/2.ae7eb27f.chunk.js",
-    "static/css/main.e310f99e.chunk.css",
-    "static/js/main.b8c01396.chunk.js"
+    "static/css/main.ffbfee84.chunk.css",
+    "static/js/main.6187d00e.chunk.js"
   ]
 }
