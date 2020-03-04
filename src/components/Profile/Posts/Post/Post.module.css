@@ -1,15 +1,17 @@
 .post {
    display: flex;
-   flex-flow: column;
-   border: 1px solid #ccc;
-   margin-bottom: 5px;
+   flex-flow: row;
+   align-items: center;
+   background-color: var(--WHITE);
+   padding: 10px;
+   margin-bottom: 10px;
 }
 .postHeader {
    display: flex;
    align-items: center;
-   margin: 10px 10px 0px;
+   margin-right: 20px;
 }
-.post img {
+.postHeader img {
    width: 50px;
    margin-right: 15px;
 }
@@ -22,9 +24,13 @@
 }
 /* ---------------- */
 .postContent {
-   padding: 5px 10px;
+   flex: 1 1;
 }
-
+.likeWrap {
+   display: flex;
+   align-items: center;
+   margin: 0 10px;
+}
 .likeWrap .likeIcon {
    color: #9e9e9e;
    cursor: pointer;
@@ -32,6 +38,9 @@
 .likeWrap .likeIcon:hover {
    color: green;
 }
-.likeWrap span {
+.likeWrap .likeCount {
+   display: block;
+   width: 30px;
+   text-align: center;
    margin-left: 7px;
 }

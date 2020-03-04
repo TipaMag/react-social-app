@@ -19,15 +19,11 @@ const Post: React.FC<Props> = ({message, likesCount}) => {
             </div>
          </div>
          <div className={s.postContent}>
-            <div className={s.postText}>
-               {message}
-            </div>
-            <div className={s.likeWrap}>
-               <FontAwesomeIcon className={s.likeIcon} icon={faThumbsUp} />
-               <span className={s.likeCount}>
-                  {likesCount}
-               </span>
-            </div>
+            <div className={s.postText}>{message}</div>
+         </div>
+         <div className={s.likeWrap}>
+            <FontAwesomeIcon className={s.likeIcon} icon={faThumbsUp} />
+            <span className={s.likeCount}>{likesCount}</span>
          </div>
       </li>
    );

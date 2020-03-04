@@ -1,5 +1,5 @@
 import React from 'react'
-import s from './MyPostForm.module.css'
+import s from './PostsForm.module.css'
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
 import { maxLength } from '../../../utils/validators/validators'
 import { textareaField } from '../../../common/FormsControls/FormsControls'
@@ -14,10 +14,10 @@ interface OwnProps {
 type Props = OwnProps & InjectedFormProps<{}, OwnProps>
 const AddPostForm: React.FC<Props> = ({ handleSubmit, pristine, submitting }) => {
     return (
-        <form onSubmit={handleSubmit} className={s.addPostForm}>
+        <form className={s.addPostForm} onSubmit={handleSubmit} >
             <Field
                 name={'newPostBody'}
-                placeholder={'Post message'}
+                placeholder={'Post message... (now offline)'}
                 component={textareaField}
                 validate={maxLength10}
             />

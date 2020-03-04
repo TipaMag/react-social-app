@@ -22,11 +22,7 @@ const ProfileInfo: React.FC<Props> = ({ isOwner, profile, profileStatus, isAuth,
       startChatting(profile.userId)
     }
   }
-  if (!profile) {
-    return (
-      <Preloader />
-    )
-  }
+  if (!profile) return <Preloader />
   return (
     <div className={s.profileInfo}>
       <div className={s.profilePhotoContainer}>
@@ -36,18 +32,20 @@ const ProfileInfo: React.FC<Props> = ({ isOwner, profile, profileStatus, isAuth,
           setProfilePhoto={setProfilePhoto}
         />
         {!isOwner &&
-          <Link to={'/dialogs/' + profile.userId} onClick={onStartChatting}>
+          <Link className={s.writeMessageBtn} to={'/dialogs/' + profile.userId} onClick={onStartChatting}>
             <Button type="button">write a message</Button>
           </Link>
         }
       </div>
       <div className={s.userDescription}>
         <h1 className={s.userFullName}>{profile.fullName}</h1>
-        <ProfileStatus
-          isOwner={isOwner}
-          profileStatus={profileStatus}
-          updateProfileStatus={updateProfileStatus}
-        />
+        {(isOwner || profileStatus) &&
+          <ProfileStatus
+            isOwner={isOwner}
+            profileStatus={profileStatus}
+            updateProfileStatus={updateProfileStatus}
+          />
+        }
         <ProfileData profile={profile} />
       </div>
     </div>

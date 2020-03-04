@@ -4,11 +4,11 @@ import styled from 'styled-components'
 let Time = styled.span`
     font-size: 10px;
     position: absolute;
-    top: -8px;
-    right: 0px;
+    top: -5px;
+    right: 5px;
     padding: 0px 5px;
     background: #fff;
-    color: #adadad;
+    color: var(--DARK-BLUE);
 `
 interface Props {
     addedAt: string

@@ -1,28 +1,35 @@
 .profileInfo {
     display: grid;
     grid-template-rows: 1fr;
-    grid-template-columns: 210px auto;
-    grid-gap: 5px;
-    background-color: #EDEEF0;
+    grid-template-columns: 200px auto;
+    grid-gap: 10px;
     position: relative;
+    border-radius: 5px;
 }
 .profilePhotoContainer {
+    padding: 10px;
+    background-color: var(--WHITE);
     align-self: start;
+    border-radius: 5px;
 }
-.profilePhotoContainer a {
+.writeMessageBtn {
+    margin-top: 10px;
     display: block;
 }
-.profilePhotoContainer a button{
+.writeMessageBtn button{
     width: 100%;
+    padding: 6px 13px;
 }
 .userDescription {
     display: grid;
     grid-template-rows: auto auto auto;
     grid-gap: 5px;
     background-color: #fff;
-    padding: 5px;
+    padding: 10px;
 }
 .userFullName {
+    font-size: 20px;
+    line-height: 27px;
     margin: 0;
 }
 

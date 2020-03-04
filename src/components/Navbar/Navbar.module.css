@@ -1,26 +1,28 @@
 .nav {
    grid-area: navbar;
    align-self: start;
-   background-color: #fff;
  }
- .navList {
+.navList {
    list-style: none;
    margin: 0;
    padding: 0;
  }
- .item {
+.item {
    cursor: pointer;
    transition: all 0.3s;
+   border-radius: 5px;
+   overflow: hidden;
+   margin-bottom: 3px;
  }
- .item:hover {
-  background-color: rgb(242, 246, 250);
+.item:hover {
+  background-color: var(--WHITE)
 }
- .item a {
+.item a {
   position: relative;
   display: block;
   text-decoration: none;
   font-size: 18px;
-  padding: 5px;
+  padding: 5px 10px;
   color: #000;
 }
 .item svg {
@@ -31,8 +33,8 @@
   opacity: 0.75;
 }
 .item .active{
-  background-color: rgb(100, 144, 177);
-  color: #fff;
+  background-color: var(--DARK-BLUE);
+  color: var(--WHITE);
 }
 .item .active svg{
   color: #fff;

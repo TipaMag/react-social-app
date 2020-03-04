@@ -3,7 +3,7 @@ import { addPost } from '../../../redux/profile-reducer'
 import { connect } from 'react-redux'
 import s from './Posts.module.css'
 import Post from './Post/Post'
-import AddPostReduxForm from './MyPostForm/MyPostForm'
+import AddPostReduxForm from './PostsForm/PostsForm'
 import { AppStateType } from '../../../redux/redux-store'
 import { PostType } from '../../../types/Profile-types'
 

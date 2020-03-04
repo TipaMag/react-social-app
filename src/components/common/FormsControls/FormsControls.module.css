@@ -10,9 +10,9 @@
 input[type=text],
 input[type=password],
 input[type=email] {
-    box-sizing: border-box;
+    width: 100%;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid var(--DARK-GRAY);
     padding: 5px 10px;
     font-size: 16px;
     border-radius: 5px;
@@ -25,8 +25,8 @@ input[type=email] {
     margin-top: 5px;
 }
 .errorMessage {
-    background-color: #ffb6b6;
+    background-color: var(--RED);
 }
 .warningMessage {
-    background-color: #f6ffba;
+    background-color: var(--YELLOW);
 }

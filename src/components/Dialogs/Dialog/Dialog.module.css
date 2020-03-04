@@ -1,20 +1,23 @@
-.dialogWrap {
+.dialogItem {
    font-size: 14px;
+   border-radius: 5px;
+   overflow: hidden;
+   margin-bottom: 5px;
 }
-.dialogWrap:hover {
-   background-color: rgb(242, 246, 250);
+.dialogItem:hover {
+   background-color: var(--DARK-GRAY)
 }
-.dialogWrap a {
+.dialogItem .active {
+   background-color: var(--DARK-BLUE);
+   color: #fff;
+}
+.dialogItem a {
    display: flex;
    align-items: center;
    text-decoration: none;
    color: black;
-   padding: 3px 5px;
+   padding: 5px;
    position: relative;
-}
-.dialogWrap .active {
-   background-color: rgb(100, 144, 177);
-   color: #fff;
 }
 .dialogPhoto {
    margin-right: 15px;
@@ -27,9 +30,6 @@
    border-radius: 50%;
    overflow: hidden;
 }
-/* .dialogMessageWrap .userName {
-
-} */
 .dialogMeta {
    position: absolute;
    right: 10px;

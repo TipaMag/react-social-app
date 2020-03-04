@@ -9,7 +9,7 @@ const Form = styled.form`
     display: grid;
     grid-template-columns: 8fr 2fr;
     grid-gap: 10px;
-    margin-bottom: 20px;
+    background-color: var(--WHITE);
   `
 
 const maxLength300 = maxLength(300)

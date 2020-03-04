@@ -20,7 +20,7 @@ const Dialog: React.FC<Props> = ({userId, avatar, name, hasNewMessages, newMessa
       getMessages(userId)
    }
    return (
-      <li className={s.dialogWrap}>
+      <li className={s.dialogItem}>
          <NavLink activeClassName={s.active} to={path} onClick={getUserMessages}>
             <div className={s.dialogPhoto}>
                <img src={avatar || defaultUserImage} alt='avatar'></img>

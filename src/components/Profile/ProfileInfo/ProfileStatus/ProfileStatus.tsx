@@ -31,7 +31,7 @@ const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus, updateProfileSt
     return (
         <div className={s.statusContainer} onClick={activateEditMode}>
             {!editMode &&
-                <span>{status || 'empty status'}</span>
+                <span className={s.status}>{status || 'empty status'}</span>
             }
             {editMode &&
                 <input onChange={onStatusChange} onBlur={deactivateEditMode} autoFocus={true} value={status} />

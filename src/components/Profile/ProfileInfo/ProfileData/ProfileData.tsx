@@ -1,6 +1,6 @@
 import React from 'react'
 import s from './ProfileData.module.css'
-import { ProfileType } from '../../../../types/Profile-types'
+import { ProfileType, ContactsType } from '../../../../types/Profile-types'
 
 interface Props {
   profile: ProfileType
@@ -9,6 +9,7 @@ const ProfileData: React.FC<Props> = ({ profile }) => {
   return (
     <div className={s.profileData}>
       <div className={s.profileDataShort}>
+        <span className={s.profileDataHeader}>Main information</span>
         <div className={s.profileDataRow}>
           <div className={s.rowLabel}>Looking for a job:</div>
           <div className={s.rowLabeled}>{profile.lookingForAJob ? 'Yes' : 'No'}</div>
@@ -23,13 +24,12 @@ const ProfileData: React.FC<Props> = ({ profile }) => {
         </div>
       </div>
       <div className={s.profileDataContacts}>
-        <span>contacts</span> 
-          {Object.keys(profile.contacts).map(key => {
+        <span className={s.profileDataHeader}>Contact information</span> 
+          {Object.keys(profile.contacts).map((key) => {
           return (
             <div className={s.profileDataRow} key={key}>
               <div className={s.rowLabel}>{key}:</div>
-              //@ts-ignore
-              <div className={s.rowLabeled}>{profile.contacts[key]}</div>
+              <div className={s.rowLabeled}>{profile.contacts[key as keyof ContactsType]}</div>
             </div>
           )
         })}

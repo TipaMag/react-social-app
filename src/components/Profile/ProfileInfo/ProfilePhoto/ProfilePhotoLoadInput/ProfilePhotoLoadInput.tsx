@@ -15,19 +15,14 @@ const FileInput: React.FC<OwnProps> = ({setProfilePhoto}) => {
         fileName: '',
         file: null
     })
-    let trimFileName = (fileName: string, length: number) => {
-        let croppedName = fileName.slice(0, length)
-        let fileType = fileName.substr(-3, 3)
-        return croppedName + '...' + fileType
-    }
     let handleChange = (fileData: FileList | null) => {
         if (fileData?.length) {
+            let fileName = fileData[0].name
             setState({ 
                 fileSelected: true, 
-                fileName: fileData[0].name.length > 15 ? trimFileName(fileData[0].name, 15) : fileData[0].name,
+                fileName: fileName.length > 15 ? fileName.slice(0, 15) : fileName,
                 file: fileData[0]
             })
-            console.log(typeof fileData[0])
         } else {
             setState({ 
                 fileSelected: false, 
@@ -41,7 +36,7 @@ const FileInput: React.FC<OwnProps> = ({setProfilePhoto}) => {
         let formData = new FormData()
         formData.append('image', state.file)
         setProfilePhoto(formData)
-        setState({ fileSelected: true, fileName: '', file: null })
+        setState({ fileSelected: false, fileName: '', file: null })
     }
     return (
         <form className={s.fileInputForm} onSubmit={handleSubmit}>

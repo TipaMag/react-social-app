@@ -1,17 +1,17 @@
 .app-wrapper {
   max-width: 960px;
   margin: 0 auto;
-  padding: 5px;
+  padding: 10px;
   display: grid;
   grid-template-areas:
     'header header'
     'navbar content';
   grid-template-rows: 1fr;
-  grid-template-columns: 2fr 10fr;
-  grid-gap: 5px;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 10px;
 }
 
 .app-wrapper-content {
   grid-area: content;
-  background-color: #fff;
+  position: relative;
 }

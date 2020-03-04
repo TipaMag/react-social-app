@@ -1,17 +1,23 @@
 .statusContainer {
-    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
 }
-.statusContainer span {
-    display: inline-block;
+.statusContainer:hover {
+    background-color: var(--LIGHT-GRAY);
+    cursor: pointer;
+}
+.statusContainer .status {
+    display: block;
+    font-size: 13px;
+    line-height: 16px;
+    width: 100%;
+    padding: 5px 10px;
 }
 .statusContainer input {
+    padding: 5px 10px;
     outline: none;
     width: 100%;
     font-size: 15px;
     border: none;
-    background-color: rgb(242, 246, 250);
-}
-.statusContainer:hover {
-    background-color: rgb(100, 144, 177);
-    cursor: pointer;
+    background-color: var(--SOFT-BLUE);
 }

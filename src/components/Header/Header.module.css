@@ -3,7 +3,8 @@
   justify-content: space-between;
   align-items: center;
   grid-area: header;
-  background: #0073A3;
+  background: var(--DARK-BLUE);
+  border-radius: 5px;
  }
 .autorize {
   position: relative;

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export default styled.button`
     color: #fff;
-    background-color: #6ea6ce;
+    background-color: var(--DARK-BLUE);
     font-size: 14px;
     padding: 4px 13px;
     border: none;
@@ -10,7 +10,7 @@ export default styled.button`
     outline: none;
     transition: 0.2s;
     &:hover {
-        background-color: #256fa5;
+        background-color: var(--LIGHT-BLUE);
     }
     &:active {
         transform: translateY(1px) 

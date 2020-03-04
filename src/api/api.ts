@@ -7,7 +7,7 @@ const instance = Axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {
-        'API-KEY': '12313bd5-bcad-4586-8724-83ffdb4c8894'
+        'API-KEY': '6c3d1700-155c-4611-a8e7-cad02c878cc6'
     }
 })
 export enum ResultCodesEnum {

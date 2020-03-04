@@ -20,26 +20,30 @@ const Dialogs: React.FC<Props> = ({dialogs, messages, userId, getMessages, sendM
    return (
       <DialogsContainer>
          <DialogsList>
-            {dialogs.map(item =>
-               <Dialog key={item.id}
-                  userId={item.id}
-                  avatar={item.photos.small}
-                  name={item.userName}
-                  hasNewMessages={item.hasNewMessages}
-                  newMessagesCount={item.newMessagesCount}
-                  getMessages={getMessages}
-               />)
-            }
+            <ul>
+               {dialogs.map(item =>
+                  <Dialog key={item.id}
+                     userId={item.id}
+                     avatar={item.photos.small}
+                     name={item.userName}
+                     hasNewMessages={item.hasNewMessages}
+                     newMessagesCount={item.newMessagesCount}
+                     getMessages={getMessages}
+                  />)
+               }
+            </ul>
          </DialogsList>
          <Messages>
             <MessagesList>
-               {messages.items.map(item =>
-                  <Message key={item.id}
-                     senderName={item.senderName}
-                     message={item.body}
-                     addedAt={item.addedAt}
-                  />)
-               }
+               <ul>
+                  {messages.items.map(item =>
+                     <Message key={item.id}
+                        senderName={item.senderName}
+                        message={item.body}
+                        addedAt={item.addedAt}
+                     />)
+                  }
+               </ul>
             </MessagesList>
             <AddMessageReduxForm onSubmit={addNewMessage} />
          </Messages>
