@@ -38,6 +38,7 @@ export const SET_DIALOGS = 'SET_DIALOGS'
 export const SET_MESSAGES = 'SET_MESSAGES'
 export const CLEAR_MESSAGES = 'CLEAR_MESSAGES'
 export const SET_MESSAGE = 'SET-MESSAGE'
+export const DELETE_MESSAGE = 'DELETE-MESSAGE'
 export const SET_NEW_MESSAGES_COUNT = 'SET-MESSAGES-COUNT'
 
 export interface SetDialogsAction {
@@ -55,6 +56,10 @@ export interface SetMessageAction {
     type: typeof SET_MESSAGE
     newMessage: MessageType
 }
+export interface DeleteMessageAction {
+    type: typeof DELETE_MESSAGE
+    messageId: string
+}
 export interface SetNewMessagesCountAction {
     type: typeof SET_NEW_MESSAGES_COUNT
     messagesCount: number
@@ -62,7 +67,8 @@ export interface SetNewMessagesCountAction {
 export type DialogsActionTypes = SetDialogsAction 
     | SetMessagesAction
     | ClearMessagesAction
-    | SetMessageAction 
+    | SetMessageAction
+    | DeleteMessageAction
     | SetNewMessagesCountAction
 
 //Profile >
@@ -111,6 +117,7 @@ export const SET_USERS = 'SET-USERS'
 export const SET_CURRENT_USERS_PAGE = 'SET-CURRENT-USERS-PAGE'
 export const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING'
 export const FOLLOWING_IN_PROGRESS = 'FOLLOWING-IN-PROGRESS'
+export const SET_SEARCH_USER = 'SET_SEARCH_USER'
 
 export interface SetUsersAction { 
     type: typeof SET_USERS
@@ -137,14 +144,19 @@ export interface ToggleIsFetchingAction {
     type: typeof TOGGLE_IS_FETCHING
     isFetching: boolean 
 }
+export interface SetSearchUser { 
+    type: typeof SET_SEARCH_USER,
+    searchUser: string
+ }
 export type UsersActionTypes = SetUsersAction 
     | FollowSuccessAction 
     | UnfollowSuccessAction 
     | ToggleFollowingProgressAction 
     | SetCurrentUsersPageAction 
     | ToggleIsFetchingAction
+    | SetSearchUser
 
-
+    
 
 // ------------------------------
 export type AppActionTypes = InitializedSuccessActionType | AuthActionTypes | DialogsActionTypes | ProfileActionTypes | UsersActionTypes

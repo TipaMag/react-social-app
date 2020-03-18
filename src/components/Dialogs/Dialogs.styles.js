@@ -8,7 +8,7 @@ export const DialogsContainer = styled.div`
 `
 
 export const DialogsList = styled.div`
-   width: 250px;
+   min-width: 220px;
    position: relative;
    & ul {
       position: absolute;

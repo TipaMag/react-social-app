@@ -1,8 +1,8 @@
 import { usersAPI, ResultCodesEnum } from "../api/api"
 import { updateObjectInArray } from "../components/utils/object-helpers"
 import { UsersInitial, UsersType } from "../types/Users-types"
-import { SET_USERS, FOLLOW_SUCCESS, UNFOLLOW_SUCCESS, FOLLOWING_IN_PROGRESS, SET_CURRENT_USERS_PAGE, TOGGLE_IS_FETCHING, 
-   AppActionTypes, UsersActionTypes} from "../types/actions"
+import { SET_USERS, FOLLOW_SUCCESS, UNFOLLOW_SUCCESS, FOLLOWING_IN_PROGRESS, SET_CURRENT_USERS_PAGE, TOGGLE_IS_FETCHING, SET_SEARCH_USER, 
+   AppActionTypes, UsersActionTypes } from "../types/actions"
 import { ThunkAction } from "redux-thunk"
 import { AppStateType } from "./redux-store"
 import { Dispatch } from "redux"
@@ -18,7 +18,8 @@ let initialState: UsersInitial = {
    totalUsersCount: 0, // убрать потом... totalCount теперь есть у users
    currentPage: 1, // start page
    isFetching: false, // preloader
-   followingInProgress: []// array of users id`s
+   followingInProgress: [],// array of users id`s
+   searchUser: ''
 }
 
 const usersReducer = (state = initialState, action: UsersActionTypes): UsersInitial => {
@@ -62,6 +63,11 @@ const usersReducer = (state = initialState, action: UsersActionTypes): UsersInit
             ...state,
             isFetching: action.isFetching
          }
+      case SET_SEARCH_USER:
+         return {
+            ...state,
+            searchUser: action.searchUser,
+         }
       default:
          return state
    }
@@ -93,12 +99,18 @@ export const toggleIsFetching = (isFetching: boolean): AppActionTypes => ({
    type: TOGGLE_IS_FETCHING,
    isFetching 
 })
+export const setSearchUser = (searchUser: string): AppActionTypes => ({ 
+   type: SET_SEARCH_USER,
+   searchUser 
+})
 
+
+type GetStateType = () => AppStateType
 type DispatchType = Dispatch<AppActionTypes>
 type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionTypes>
-export const requestUsers = (pageSize: number, page: number): ThunkType => async (dispatch) => {
+export const requestUsers = (pageSize: number, page: number): ThunkType => async (dispatch, getState: GetStateType) => {
    dispatch(toggleIsFetching(true))
-   let response = await usersAPI.getUsers(pageSize, page)
+   let response = await usersAPI.getUsers(pageSize, page, getState().usersPage.searchUser)
    dispatch(toggleIsFetching(false))
    dispatch(setUsers(response.data))
 }
@@ -117,12 +129,19 @@ export const setFollow = (userId: number): ThunkType => async (dispatch) => {
 export const setUnfollow = (userId: number): ThunkType => async (dispatch) => {
    _followUnfollowFlow(dispatch, userId, usersAPI.setUnfollow.bind(usersAPI), unfollowSuccess)
 }
-export const getNewPage = (pageSize: number, page: number): ThunkType => async (dispatch) => {
+
+export const getNewPage = (pageSize: number, page: number): ThunkType => async (dispatch, getState: GetStateType) => {
    dispatch(toggleIsFetching(true))
    dispatch(setCurrentUsersPage(page))
-   let response = await usersAPI.getUsers(pageSize, page)
+   let response = await usersAPI.getUsers(pageSize, page, getState().usersPage.searchUser)
    dispatch(toggleIsFetching(false))
    dispatch(setUsers(response.data))
+}
+export const searchUsers = (searchUser: string): ThunkType => async (dispatch, getState: GetStateType) => {
+   if (searchUser !== getState().usersPage.searchUser) {
+      dispatch(setSearchUser(searchUser))
+      dispatch(setCurrentUsersPage(1))
+   }
 }
 
 export default usersReducer

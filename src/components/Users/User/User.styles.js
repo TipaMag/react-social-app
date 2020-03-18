@@ -4,12 +4,13 @@ export const ListItem = styled.li`
    display: flex;
    justify-content: space-between;
    align-items: center;
-   padding: 5px;
-   border: 1px solid #ccc;
+   padding: 3px;
+   border: 1px solid var(--DARK-BLUE);
+   border-radius: 4px;
 `
 export const UserPhoto = styled.div`
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     overflow: hidden;
     margin-right: 20px;

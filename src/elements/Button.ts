@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 export default styled.button`
+    background-color: ${props => props.disabled ? 'var(--DARK-GRAY)' : 'var(--DARK-BLUE)'};
     color: #fff;
-    background-color: var(--DARK-BLUE);
+    border-radius: 4px;
     font-size: 14px;
     padding: 4px 13px;
     border: none;

@@ -1,37 +1,28 @@
 import React from 'react'
-import styled from 'styled-components'
 import DateTime from '../../common/DateTime/DateTime'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { MessageItem, SenderName, SenderMessage, TrashBtn } from './Message.styles'
 
-const MessageItem = styled.li`
-   padding: 17px 7px 4px;
-   margin: 7px 0 12px 0;
-   position: relative;
-   background-color: var(--WHITE);
-   border-radius: 5px;
-`
-const SenderName = styled.span`
-   font-size: 12px;
-   position: absolute;
-   top: -5px;
-   padding: 0px 5px;
-   background: #fff;
-   border-radius: 5px;
-   color: var(--DARK-BLUE);
-`
-const SenderMessage = styled.span`
-   font-weight: bold;
-   font-style: italic;
-`
+
 interface Props {
+   messageId: string
    senderName: string
    message: string
    addedAt: string
+   onRemoveMessage: (messageId: string) => void
 }
-const Message: React.FC<Props> = ({ senderName, message, addedAt }) => {
+const Message: React.FC<Props> = ({ messageId, senderName, message, addedAt, onRemoveMessage }) => {
+   const handleClick = () => {
+      onRemoveMessage(messageId)
+   }
    return (
       <MessageItem>
          <SenderName>{senderName}</SenderName>
          <SenderMessage>{message}</SenderMessage>
+         <TrashBtn onClick={handleClick} type='button'>
+            <FontAwesomeIcon icon={faTrashAlt}/>
+         </TrashBtn>
          <DateTime addedAt={addedAt} />
       </MessageItem>
    )

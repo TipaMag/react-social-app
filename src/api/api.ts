@@ -64,8 +64,8 @@ type SetFollowUnfollowResponse = {
     resultCode: ResultCodesEnum
 }
 export const usersAPI = {
-    getUsers(pageSize: number, currentPage: number) {
-        return instance.get<GetUsersResponse>(`users?count=${pageSize}&page=${currentPage}`)
+    getUsers(pageSize: number, currentPage: number, term: string) {
+        return instance.get<GetUsersResponse>(`users?count=${pageSize}&page=${currentPage}&term=${term}`)
     },
     setFollow(userId: number) {
         return instance.post<SetFollowUnfollowResponse>(`follow/${userId}`).then(res => res.data)
@@ -138,6 +138,9 @@ export const dialogsAPI = {
     },
     sendMessage(userId: number, message: string) {
         return instance.post<SendMessageResponse>(`dialogs/${userId}/messages`, { body: message }).then(res => res.data)
+    },
+    removeMessage(messageId: string) {
+        return instance.delete(`dialogs/messages/${messageId}`).then(res => res.data)
     },
     getNewMessagesCount() {
         return instance.get<number>('dialogs/messages/new/count')

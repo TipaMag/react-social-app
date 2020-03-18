@@ -1,23 +1,41 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+
 import Paggination from '../common/Paggination/Paggination'
 import User from './User/User'
 import { UsersContainer, Controls, UsersList } from './Users.styles'
+
+import { getUsers, getAuth, getUsersPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress, getSearchUser } from '../../redux/users-selectors'
+import { AppStateType } from '../../redux/redux-store'
 import { UserType } from '../../types/Users-types'
+import { requestUsers, getNewPage, setFollow, setUnfollow, searchUsers } from '../../redux/users-reducer'
+import { startChatting } from '../../redux/dialogs-reducer'
+import Preloader from '../common/Preloader/Preloader'
+import Search from './Search/Search'
 
-interface Props {
-   users: Array<UserType>
-   isAuth: boolean
-   onPageChanged: (page: number) => void
-   onFollow: (userId: number) => void
-   onUnfollow: (userId: number) => void
-   startChatting: (userId: number) => void
-   followingInProgress: Array<number>
-   totalUsersCount: number
-   pageSize: number
-   currentPage: number
-}
 
-const Users: React.FC<Props> = ({ users, isAuth, onPageChanged, onFollow, onUnfollow, startChatting, followingInProgress, totalUsersCount, pageSize, currentPage }) => {
+type Props = MapStateProps & MapDispatchProps
+const Users: React.FC<Props> = ({ users, isAuth, isFetching, startChatting, followingInProgress, totalUsersCount, pageSize, currentPage, ...props }) => {
+
+   useEffect(() => {
+      props.requestUsers(pageSize, currentPage)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [props.searchUser])
+   const onPageChanged = (page: number) => {
+      props.getNewPage(pageSize, page)
+   }
+   const onFollow = (userId: number) => {
+      props.setFollow(userId)
+   }
+   const onUnfollow = (userId: number) => {
+      props.setUnfollow(userId)
+   }
+   const onSearchUser = (searchUser: string) => {
+      props.searchUsers(searchUser)
+   }
+
+   // if (isFetching) return <Preloader/>
    return (
       <UsersContainer>
          <Controls>
@@ -26,20 +44,66 @@ const Users: React.FC<Props> = ({ users, isAuth, onPageChanged, onFollow, onUnfo
                currentPage={currentPage}
                onPageChanged={onPageChanged}
             />
+            <Search onSearchUser={onSearchUser} />
          </Controls>
-         <UsersList>
-            {users.map(item =>
-               <User key={item.id} userId={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
-                  isAuth={isAuth}
-                  onFollow={onFollow}
-                  onUnfollow={onUnfollow}
-                  startChatting={startChatting}
-                  followingInProgress={followingInProgress}
-               />)
-            }
-         </UsersList>
+         {isFetching ?
+            <Preloader /> :
+            (users.length > 1) ?
+               <UsersList>
+                  {users.map(item =>
+                     <User key={item.id} userId={item.id} name={item.name} smallPhoto={item.photos.small} followed={item.followed} status={item.status}
+                        isAuth={isAuth}
+                        onFollow={onFollow}
+                        onUnfollow={onUnfollow}
+                        startChatting={startChatting}
+                        followingInProgress={followingInProgress}
+                     />)
+                  }
+               </UsersList> :
+               <div>no items</div>
+         }
       </UsersContainer>
    )
 }
 
-export default Users
+interface MapStateProps {
+   users: Array<UserType>
+   isAuth: boolean
+   pageSize: number
+   totalUsersCount: number
+   currentPage: number
+   isFetching: boolean
+   followingInProgress: Array<number>
+   searchUser: string
+}
+interface MapDispatchProps {
+   requestUsers: (pageSize: number, page: number) => void
+   getNewPage: (pageSize: number, page: number) => void
+   setFollow: (userId: number) => void
+   setUnfollow: (userId: number) => void
+   searchUsers: (searchUser: string) => void
+
+   startChatting: (userId: number) => void
+}
+let mapStateToProps = (state: AppStateType) => ({
+   users: getUsers(state),
+   isAuth: getAuth(state),
+   pageSize: getUsersPageSize(state),
+   totalUsersCount: getTotalUsersCount(state),
+   currentPage: getCurrentPage(state),
+   isFetching: getIsFetching(state),
+   followingInProgress: getFollowingInProgress(state),
+   searchUser: getSearchUser(state)
+})
+
+export default compose(
+   connect<MapStateProps, MapDispatchProps, null, AppStateType>(mapStateToProps, {
+      requestUsers,
+      getNewPage,
+      setFollow,
+      setUnfollow,
+      searchUsers,
+
+      startChatting
+   })
+)(Users)

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import defaultUserPhoto from '../../../assets/images/default-avatar-icon.png'
 import Button from '../../../elements/Button'
 import { ListItem, UserPhoto, UserInfo, UserInfoName, UserInfoTitle, SendMessageBtn, FollowingBtn } from './User.styles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 interface Props {
    userId: number
@@ -33,7 +35,9 @@ const User: React.FC<Props> = ({ userId, smallPhoto, name, status, followed, isA
             <>
                <SendMessageBtn>
                   <Link to={'/dialogs/' + userId} onClick={() => startChatting(userId)}>
-                     <Button type="button">write a message</Button>
+                     <Button type="button">
+                        <FontAwesomeIcon icon={faEnvelope}/>
+                     </Button>
                   </Link>
                </SendMessageBtn>
                <FollowingBtn>

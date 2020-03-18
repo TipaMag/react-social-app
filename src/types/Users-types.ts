@@ -1,10 +1,11 @@
 export interface UsersInitial {
     users: UsersType
     pageSize: number
-    totalUsersCount: number,
-    currentPage: number,
+    totalUsersCount: number
+    currentPage: number
     isFetching: boolean
     followingInProgress: any
+    searchUser: string
 }
 export interface UsersType {
     items: Array<UserType>

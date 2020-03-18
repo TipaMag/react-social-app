@@ -7,7 +7,7 @@ import Button from '../../../elements/Button'
 
 const Form = styled.form`
     display: grid;
-    grid-template-columns: 8fr 2fr;
+    grid-template-columns: 9fr 1fr;
     grid-gap: 10px;
     background-color: var(--WHITE);
   `
@@ -19,6 +19,7 @@ interface OwnProps {
 }
 type Props = OwnProps & InjectedFormProps<{}, OwnProps>
 const AddMessageForm: React.FC<Props> = ({ handleSubmit, pristine, submitting }) => {
+
     return (
         <Form onSubmit={handleSubmit}>
             <Field
@@ -27,7 +28,7 @@ const AddMessageForm: React.FC<Props> = ({ handleSubmit, pristine, submitting })
                 component={textareaField}
                 validate={maxLength300}
             />
-            <Button type="submit" disabled={pristine || submitting}>send message</Button>
+            <Button type="submit" disabled={pristine || submitting}>send</Button>
         </Form>
     )
 }

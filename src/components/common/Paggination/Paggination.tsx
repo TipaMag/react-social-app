@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { PagginationContainer, PageNumber } from './Paggination.styles'
 import Button from '../../../elements/Button'
 
@@ -18,23 +18,26 @@ const Paggination: React.FC<Props> = ({ totalItemsCount, pageSize, currentPage, 
    }
    let portionCount = Math.ceil(pagesCount / portionSize)
    let [portionNumber, setPortionNumber] = useState(1)
+   
+   useEffect(() => {
+      setPortionNumber(1)
+   }, [totalItemsCount])
+
    let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1
    let rightPortionPageNumber = portionNumber * portionSize
 
-   let pagesList = pages
-      .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
-      .map(page => {
-         return (
-            <PageNumber selectedPage={currentPage === page} key={page} onClick={() => onPageChanged(page)}>
-               {page}
-            </PageNumber>
-         )
-      })
    return (
       <PagginationContainer>
-         <Button onClick={() => setPortionNumber(portionNumber - 1)} disabled={portionNumber <= 1}>PREV</Button>
-         {pagesList}
-         <Button onClick={() => setPortionNumber(portionNumber + 1)} disabled={portionCount <= portionNumber}>NEXT</Button>
+         <Button onClick={() => setPortionNumber(portionNumber - 1)} disabled={portionNumber <= 1}>{'<<'}</Button>
+         {pages
+            .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
+            .map(page => (
+               <PageNumber selectedPage={currentPage === page} key={page} onClick={() => onPageChanged(page)}>
+                  {page}
+               </PageNumber>
+            ))
+         }
+         <Button onClick={() => setPortionNumber(portionNumber + 1)} disabled={portionCount <= portionNumber}>{'>>'}</Button>
       </PagginationContainer>
    )
 }

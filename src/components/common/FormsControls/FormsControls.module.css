@@ -25,7 +25,7 @@ input[type=email] {
     margin-top: 5px;
 }
 .errorMessage {
-    background-color: var(--RED);
+    background-color: var(--LIGHT-RED);
 }
 .warningMessage {
     background-color: var(--YELLOW);
