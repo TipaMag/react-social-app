@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import Paggination from '../common/Paggination/Paggination'
 import User from './User/User'
-import { UsersContainer, Controls, UsersList } from './Users.styles'
+import { Container, Controls, UsersList, NoUsers } from './Users.styles'
 
 import { getUsers, getAuth, getUsersPageSize, getTotalUsersCount, getCurrentPage, getIsFetching, getFollowingInProgress, getSearchUser } from '../../redux/users-selectors'
 import { AppStateType } from '../../redux/redux-store'
@@ -35,15 +35,16 @@ const Users: React.FC<Props> = ({ users, isAuth, isFetching, startChatting, foll
       props.searchUsers(searchUser)
    }
 
-   // if (isFetching) return <Preloader/>
    return (
-      <UsersContainer>
+      <Container>
          <Controls>
-            <Paggination totalItemsCount={totalUsersCount}
-               pageSize={pageSize}
-               currentPage={currentPage}
-               onPageChanged={onPageChanged}
-            />
+            {users.length > 0 &&
+               <Paggination totalItemsCount={totalUsersCount}
+                  pageSize={pageSize}
+                  currentPage={currentPage}
+                  onPageChanged={onPageChanged}
+               />
+            }
             <Search onSearchUser={onSearchUser} />
          </Controls>
          {isFetching ?
@@ -60,9 +61,11 @@ const Users: React.FC<Props> = ({ users, isAuth, isFetching, startChatting, foll
                      />)
                   }
                </UsersList> :
-               <div>no items</div>
+               <NoUsers>
+                  <span>no users found</span>
+               </NoUsers>
          }
-      </UsersContainer>
+      </Container>
    )
 }
 

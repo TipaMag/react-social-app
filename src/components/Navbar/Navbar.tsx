@@ -3,14 +3,7 @@ import s from "./Navbar.module.css"
 import { NavLink } from "react-router-dom"
 import FriendsElement from "./Friends/Friends"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faHome,
-  faComments,
-  faUsers,
-  faNewspaper,
-  faMusic,
-  faCogs
-} from "@fortawesome/free-solid-svg-icons"
+import { faHome, faComments, faUsers, faNewspaper, faMusic, faCogs } from "@fortawesome/free-solid-svg-icons"
 import Counter from "../common/Counter/Counter"
 import { Friends } from "../../redux/sidebar-reducer"
 import { connect } from "react-redux"
@@ -89,7 +82,7 @@ let mapStateToProps = (state: AppStateType) => ({
   friends: state.sidebar.friends,
   newMessagesCount: state.dialogsPage.newMessagesCount
 })
-export default connect<MapStateProps, {}, null, AppStateType>(
-  mapStateToProps,
-  {}
+export default connect<MapStateProps, {}, null, AppStateType>( mapStateToProps, {
+  
+}
 )(Navbar)

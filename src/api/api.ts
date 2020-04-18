@@ -1,9 +1,9 @@
-import Axios from "axios"
+import axios from "axios"
 import { UsersType } from "../types/Users-types"
 import { ProfileType } from "../types/Profile-types"
 import { DialogType, MessagesDataType, MessageType } from "../types/Dialogs-types"
 
-const instance = Axios.create({
+const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
     headers: {

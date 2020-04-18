@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const MessageItem = styled.li`
    padding: 20px 35px 5px 10px;
-   margin: 7px 0 12px 0;
+   margin: 5px 0px;
    position: relative;
    background-color: var(--WHITE);
    border-radius: 5px;
@@ -24,8 +24,7 @@ export const SenderName = styled.span`
    left: 25px;
    color: var(--DARK-BLUE);
 `
-export const SenderMessage = styled.span`
-   font-style: italic;
+export const MessageBody = styled.span`
    display: flex;
 `
 export const TrashBtn = styled.button`

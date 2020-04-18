@@ -1,17 +1,24 @@
 import React from "react"
 import s from './Login.module.css'
-import { connect } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { login, getCaptchaUrl } from '../../redux/auth-reducer'
 import LoginReduxForm from './LoginForm/LoginForm'
 import { Redirect } from 'react-router-dom'
 import { AppStateType } from "../../redux/redux-store"
 
-type Props = MapStateProps & MapDispatchProps
-const Login: React.FC<Props> = ({ isAuth, captchaUrl, login, getCaptchaUrl }) => {
+export interface ILoginFormData {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+const Login: React.FC = () => {
+    const dispatch = useDispatch()
+    const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
+    const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
 
-    const onSubmit = (values: any) => {
-        let { email, password, rememberMe, captcha } = values
-        login(email, password, rememberMe, captcha)
+    const onSubmit = (formData: ILoginFormData) => {
+        dispatch(login(formData.email, formData.password, formData.rememberMe, formData.captcha))
     }
     if (isAuth) return <Redirect to='/profile' />
     return (
@@ -32,20 +39,27 @@ const Login: React.FC<Props> = ({ isAuth, captchaUrl, login, getCaptchaUrl }) =>
         </div>
     )
 }
+export default Login
 
-interface MapStateProps {
-    isAuth: boolean
-    captchaUrl: string | null
-}
-interface MapDispatchProps {
-    login: (email: string, password: string, rememberMe: boolean, captha?: string) => void
-    getCaptchaUrl: () => void
-}
-const mapStateToProps = (state: AppStateType) => ({
-    isAuth: state.auth.isAuth,
-    captchaUrl: state.auth.captchaUrl
-})
-export default connect<MapStateProps, MapDispatchProps, null, AppStateType>(mapStateToProps, {
-    login,
-    getCaptchaUrl
-})(Login)
+
+
+
+
+// type Props = MapStateProps & MapDispatchProps
+
+// interface MapStateProps {
+//     isAuth: boolean
+//     captchaUrl: string | null
+// }
+// interface MapDispatchProps {
+//     login: (email: string, password: string, rememberMe: boolean, captha?: string) => void
+//     getCaptchaUrl: () => void
+// }
+// const mapStateToProps = (state: AppStateType) => ({
+//     isAuth: state.auth.isAuth,
+//     captchaUrl: state.auth.captchaUrl
+// })
+// export default connect<MapStateProps, MapDispatchProps, {}, AppStateType>(mapStateToProps, {
+//     login,
+//     getCaptchaUrl
+// })(Login)

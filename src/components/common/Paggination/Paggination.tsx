@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { PagginationContainer, PageNumber } from './Paggination.styles'
+import { Container, PageNumber } from './Paggination.styles'
 import Button from '../../../elements/Button'
 
 interface Props {
@@ -27,7 +27,7 @@ const Paggination: React.FC<Props> = ({ totalItemsCount, pageSize, currentPage, 
    let rightPortionPageNumber = portionNumber * portionSize
 
    return (
-      <PagginationContainer>
+      <Container>
          <Button onClick={() => setPortionNumber(portionNumber - 1)} disabled={portionNumber <= 1}>{'<<'}</Button>
          {pages
             .filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
@@ -38,7 +38,7 @@ const Paggination: React.FC<Props> = ({ totalItemsCount, pageSize, currentPage, 
             ))
          }
          <Button onClick={() => setPortionNumber(portionNumber + 1)} disabled={portionCount <= portionNumber}>{'>>'}</Button>
-      </PagginationContainer>
+      </Container>
    )
 }
 

@@ -1,23 +1,10 @@
 import { dialogsAPI, ResultCodesEnum } from "../api/api"
 import { reset } from "redux-form"
-import {
-  DialogsInitial,
-  DialogType,
-  MessagesDataType,
-  MessageType
-} from "../types/Dialogs-types"
-import {
-  DialogsActionTypes,
-  AppActionTypes,
-  SET_DIALOGS,
-  SET_MESSAGES,
-  CLEAR_MESSAGES,
-  SET_MESSAGE,
-  SET_NEW_MESSAGES_COUNT,
-  DELETE_MESSAGE
-} from "../types/actions"
+import { DialogsInitial, DialogType, MessagesDataType, MessageType } from "../types/Dialogs-types"
+// import { DialogsActionTypes, AppActionTypes, SET_DIALOGS, SET_MESSAGES, CLEAR_MESSAGES, SET_MESSAGE, SET_NEW_MESSAGES_COUNT, DELETE_MESSAGE
+// } from "../types/actions"
 import { ThunkAction } from "redux-thunk"
-import { AppStateType } from "./redux-store"
+import { AppStateType, InferActionsTypes } from "./redux-store"
 
 const initialState: DialogsInitial = {
   dialogsData: [],
@@ -29,22 +16,19 @@ const initialState: DialogsInitial = {
   newMessagesCount: 0
 }
 
-const dialogsReducer = (
-  state = initialState,
-  action: DialogsActionTypes
-): DialogsInitial => {
+const dialogsReducer = ( state = initialState, action: DialogsActionsTypes ): DialogsInitial => {
   switch (action.type) {
-    case SET_DIALOGS:
+    case 'SET_DIALOGS':
       return {
         ...state,
         dialogsData: action.dialogs
       }
-    case SET_MESSAGES:
+    case 'SET_MESSAGES':
       return {
         ...state,
         messagesData: { ...action.messages }
       }
-    case CLEAR_MESSAGES:
+    case 'CLEAR_MESSAGES':
       return {
         ...state,
         messagesData: {
@@ -53,7 +37,7 @@ const dialogsReducer = (
           error: null
         }
       }
-    case SET_MESSAGE:
+    case 'SET_MESSAGE':
       return {
         ...state,
         messagesData: {
@@ -62,16 +46,20 @@ const dialogsReducer = (
           totalCount: state.messagesData.totalCount + 1
         }
       }
-    case DELETE_MESSAGE:
+    case 'DELETE_MESSAGE':
       return {
         ...state,
         messagesData: {
           ...state.messagesData,
-          items: [...state.messagesData.items.filter(item => item.id !== action.messageId)],
+          items: [
+            ...state.messagesData.items.filter(
+              item => item.id !== action.messageId
+            )
+          ],
           totalCount: state.messagesData.totalCount - 1
         }
       }
-    case SET_NEW_MESSAGES_COUNT:
+    case 'SET_NEW_MESSAGES_COUNT':
       return {
         ...state,
         newMessagesCount: action.messagesCount
@@ -81,40 +69,45 @@ const dialogsReducer = (
   }
 }
 
-export const setDialogs = (dialogs: Array<DialogType>): AppActionTypes => ({
-  type: SET_DIALOGS,
-  dialogs
-})
-export const setMessages = (messages: MessagesDataType): AppActionTypes => ({
-  type: SET_MESSAGES,
-  messages
-})
-export const clearMessages = (): AppActionTypes => ({
-  type: CLEAR_MESSAGES
-})
-export const setMessage = (newMessage: MessageType): AppActionTypes => ({
-  type: SET_MESSAGE,
-  newMessage
-})
-export const deleteMessage = (messageId: string): AppActionTypes => ({
-  type: DELETE_MESSAGE,
-  messageId
-})
-export const setNewMessagesCount = (messagesCount: number): AppActionTypes => ({
-  type: SET_NEW_MESSAGES_COUNT,
-  messagesCount
-})
+type DialogsActionsTypes = InferActionsTypes<typeof dialogsActions>
 
-type ThunkType = ThunkAction<void, AppStateType, unknown, AppActionTypes>
+export const dialogsActions = {
+  setDialogs: (dialogs: Array<DialogType>) => ({
+    type: 'SET_DIALOGS',
+    dialogs
+  } as const),
+  setMessages: (messages: MessagesDataType) => ({
+    type: 'SET_MESSAGES',
+    messages
+  } as const),
+  clearMessages: () => ({
+    type: 'CLEAR_MESSAGES'
+  } as const),
+  setMessage: (newMessage: MessageType) => ({
+    type: 'SET_MESSAGE',
+    newMessage
+  } as const),
+  deleteMessage: (messageId: string) => ({
+    type: 'DELETE_MESSAGE',
+    messageId
+  } as const),
+  setNewMessagesCount: (messagesCount: number) => ({
+    type: 'SET_NEW_MESSAGES_COUNT',
+    messagesCount
+  } as const)
+}
+
+
+type ThunkType = ThunkAction<void, AppStateType, {}, DialogsActionsTypes>
 export const getDialogs = (): ThunkType => async dispatch => {
   let response = await dialogsAPI.getDialogs()
   if (response.data) {
-    dispatch(setDialogs(response.data))
+    dispatch(dialogsActions.setDialogs(response.data))
   }
 }
 export const getMessages = (userId: number): ThunkType => async dispatch => {
   let response = await dialogsAPI.getMessages(userId)
-  dispatch(setMessages(response.data))
+  dispatch(dialogsActions.setMessages(response.data))
 }
 export const startChatting = (userId: number): ThunkType => async dispatch => {
   let response = await dialogsAPI.startChatting(userId)
@@ -122,28 +115,25 @@ export const startChatting = (userId: number): ThunkType => async dispatch => {
     dispatch(getDialogs())
   }
 }
-export const sendMessage = (
-  userId: number,
-  messageBody: string
-): ThunkType => async dispatch => {
+export const sendMessage = ( userId: number, messageBody: string ): ThunkType => async dispatch => {
   let response = await dialogsAPI.sendMessage(userId, messageBody)
   if (response.resultCode === ResultCodesEnum.Success) {
-    dispatch(setMessage(response.data.message))
+    dispatch(dialogsActions.setMessage(response.data.message))
     dispatch(reset("dialogsAddMessageForm"))
   }
 }
-export const removeMessage = (
-  messageId: string
-): ThunkType => async dispatch => {
+export const removeMessage = ( messageId: string ): ThunkType => async dispatch => {
   let response = await dialogsAPI.removeMessage(messageId)
   if (response.resultCode === ResultCodesEnum.Success) {
-    dispatch(deleteMessage(messageId))
+    dispatch(dialogsActions.deleteMessage(messageId))
   }
 }
-
 export const getNewMessagesCount = (): ThunkType => async dispatch => {
   let response = await dialogsAPI.getNewMessagesCount()
-  dispatch(setNewMessagesCount(response.data))
+  dispatch(dialogsActions.setNewMessagesCount(response.data))
+}
+export const clearMessages = (): ThunkType => async dispatch => {
+  dispatch(dialogsActions.clearMessages())
 }
 
 export default dialogsReducer

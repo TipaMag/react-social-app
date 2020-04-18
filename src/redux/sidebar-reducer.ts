@@ -1,5 +1,5 @@
 import defaultImg from './../../src/assets/images/default-user-image.png'
-import { AppActionTypes } from '../types/actions'
+// import { AppActionTypes } from '../types/actions'
 
 interface InitialStateType {
    friends: Friends[]
@@ -21,7 +21,7 @@ let initialState: InitialStateType = {
    newMessagesCount: ''
 }
 
-const sidebarReducer = (state = initialState, action: AppActionTypes): InitialStateType => {
+const sidebarReducer = (state = initialState, action: any): InitialStateType => {
    switch (action.type) {
       default:
          return state

@@ -24,6 +24,10 @@ let rootReducer = combineReducers({
 
 export type AppStateType = ReturnType<typeof rootReducer>
 
+export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
+// export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+
+
 // declare global {
 //    interface Window {
 //    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any

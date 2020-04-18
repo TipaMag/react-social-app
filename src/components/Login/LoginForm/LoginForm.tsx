@@ -1,9 +1,10 @@
 import React from 'react'
 import { Field, reduxForm, InjectedFormProps } from 'redux-form'
-import { inputField } from '../../common/FormsControls/FormsControls'
+import { inputField, inputCheckboxField } from '../../common/FormsControls/FormsControls'
 import { required, maxLength, email } from '../../utils/validators/validators'
 import s from './LoginForm.module.css'
 import Button from '../../../elements/Button'
+import { ILoginFormData } from '../login'
 
 const maxLength30 = maxLength(30)
 const maxLength20 = maxLength(20)
@@ -11,9 +12,9 @@ const maxLength20 = maxLength(20)
 interface Props {
     captchaUrl: string | null
     getCaptchaUrl: () => void
-    onSubmit: (values: any) => void
+    onSubmit: (formData: ILoginFormData) => void
 }
-const LoginForm: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmit, pristine, submitting, error, captchaUrl, getCaptchaUrl }) => {
+const LoginForm: React.FC<Props & InjectedFormProps<ILoginFormData, Props>> = ({ handleSubmit, pristine, submitting, error, captchaUrl, getCaptchaUrl }) => {
     return (
         <form className={s.loginForm} onSubmit={handleSubmit}>
             <Field name='email' type='email' component={inputField}
@@ -24,7 +25,7 @@ const LoginForm: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmi
                 placeholder={'Password'}
                 validate={[required, maxLength20]}
             />
-            <Field name='rememberMe' type='checkbox' component={inputField}
+            <Field name='rememberMe' type='checkbox' component={inputCheckboxField}
                 label='Remember me'
             />
             {captchaUrl &&
@@ -37,13 +38,13 @@ const LoginForm: React.FC<Props & InjectedFormProps<{}, Props>> = ({ handleSubmi
                     <button onClick={() => { getCaptchaUrl() }}>update</button>
                 </div>
             }
-            <Button className={s.loginBtn} type="submit" disabled={pristine || submitting}>sign in</Button>
+            <Button className={s.loginBtn} type="submit" disabled={pristine || submitting}>Login</Button>
             {error &&
                 <div className={s.commonError}>{error}</div>
             }
         </form>
     )
 }
-export default reduxForm<{}, Props>({
+export default reduxForm<ILoginFormData, Props>({
     form: 'login'
 })(LoginForm)
