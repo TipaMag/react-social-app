@@ -1,12 +1,39 @@
 import React, { useState, useEffect } from 'react'
-import s from './ProfileStatus.module.css'
+import styled from 'styled-components'
+import { useDispatch } from 'react-redux'
+import { updateProfileStatus } from '../../../../redux/profile-reducer'
+
+const StatusContainer = styled.div`
+    border-radius: 5px;
+    overflow: hidden;
+    &:hover {
+        background-color: var(--LIGHT-GRAY);
+        cursor: pointer;
+    }
+`
+const StatusText = styled.span`
+    display: block;
+    font-size: 13px;
+    line-height: 16px;
+    width: 100%;
+    padding: 5px 10px;
+`
+const StatusInput = styled.input`
+    padding: 5px 10px;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    border: none;
+    background-color: var(--SOFT-BLUE);
+`
 
 interface Props {
     isOwner: boolean
     profileStatus: string
-    updateProfileStatus: (status: string) => void
 }
-const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus, updateProfileStatus}) => {
+const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus}) => {
+    const dispatch = useDispatch()
+    
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(profileStatus)
     useEffect(() => {
@@ -20,7 +47,7 @@ const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus, updateProfileSt
     }
     const deactivateEditMode = () => {
         if (profileStatus !== status) {
-            updateProfileStatus(status)
+            dispatch(updateProfileStatus(status))
         }
         setEditMode(false)
     }
@@ -29,14 +56,10 @@ const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus, updateProfileSt
     }
 
     return (
-        <div className={s.statusContainer} onClick={activateEditMode}>
-            {!editMode &&
-                <span className={s.status}>{status || 'empty status'}</span>
-            }
-            {editMode &&
-                <input onChange={onStatusChange} onBlur={deactivateEditMode} autoFocus={true} value={status} />
-            }
-        </div>
+        <StatusContainer onClick={activateEditMode}>
+            { !editMode && <StatusText>{status || 'empty status'}</StatusText> }
+            { editMode && <StatusInput onChange={onStatusChange} onBlur={deactivateEditMode} autoFocus={true} value={status} /> }
+        </StatusContainer>
     )
 }
 export default ProfileStatus

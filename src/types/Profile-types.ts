@@ -1,11 +1,3 @@
-export interface ProfileInitial {
-    postsData: Array<PostType>
-    autorizedProfile: ProfileType | null
-    autorizedProfileStatus: string
-    profile: ProfileType | null
-    profileStatus: string
-}
-
 export interface PostType {
     id: number
     message: string

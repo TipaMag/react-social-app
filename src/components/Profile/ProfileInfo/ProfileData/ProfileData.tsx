@@ -5,9 +5,10 @@ import { ProfileType, ContactsType } from '../../../../types/Profile-types'
 interface Props {
   profile: ProfileType
 }
-const ProfileData: React.FC<Props> = ({ profile }) => {
-  return (
+const ProfileData: React.FC<Props> = ({ profile }) => (
+
     <div className={s.profileData}>
+
       <div className={s.profileDataShort}>
         <span className={s.profileDataHeader}>Main information</span>
         <div className={s.profileDataRow}>
@@ -23,9 +24,10 @@ const ProfileData: React.FC<Props> = ({ profile }) => {
           <div className={s.rowLabeled}>{profile.aboutMe || 'no info'}</div>
         </div>
       </div>
+
       <div className={s.profileDataContacts}>
         <span className={s.profileDataHeader}>Contact information</span> 
-          {Object.keys(profile.contacts).map((key) => {
+        {Object.keys(profile.contacts).map((key) => {
           return (
             <div className={s.profileDataRow} key={key}>
               <div className={s.rowLabel}>{key}:</div>
@@ -34,8 +36,8 @@ const ProfileData: React.FC<Props> = ({ profile }) => {
           )
         })}
       </div>
+      
     </div>
-  )
-}
+)
 
 export default ProfileData

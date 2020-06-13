@@ -1,22 +1,25 @@
-import { dialogsAPI, ResultCodesEnum } from "../api/api"
-import { reset } from "redux-form"
-import { DialogsInitial, DialogType, MessagesDataType, MessageType } from "../types/Dialogs-types"
-// import { DialogsActionTypes, AppActionTypes, SET_DIALOGS, SET_MESSAGES, CLEAR_MESSAGES, SET_MESSAGE, SET_NEW_MESSAGES_COUNT, DELETE_MESSAGE
-// } from "../types/actions"
+import { ResultCodesEnum } from "../api/api"
 import { ThunkAction } from "redux-thunk"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { reset } from "redux-form"
+import { DialogType, MessagesDataType, MessageType } from "../types/Dialogs-types"
 
-const initialState: DialogsInitial = {
-  dialogsData: [],
+import { AppStateType, InferActionsTypes } from "./redux-store"
+import { dialogsAPI } from "../api/dialogs-api"
+
+
+const initialState = {
+  dialogsData: [] as Array<DialogType>,
   messagesData: {
     items: [],
     totalCount: 0,
-    error: null
-  },
+    error: ''
+  } as MessagesDataType,
   newMessagesCount: 0
 }
 
-const dialogsReducer = ( state = initialState, action: DialogsActionsTypes ): DialogsInitial => {
+type InitialStateType = typeof initialState
+
+const dialogsReducer = ( state = initialState, action: DialogsActionsTypes ): InitialStateType => {
   switch (action.type) {
     case 'SET_DIALOGS':
       return {
@@ -99,15 +102,14 @@ export const dialogsActions = {
 
 
 type ThunkType = ThunkAction<void, AppStateType, {}, DialogsActionsTypes>
+
 export const getDialogs = (): ThunkType => async dispatch => {
   let response = await dialogsAPI.getDialogs()
-  if (response.data) {
-    dispatch(dialogsActions.setDialogs(response.data))
-  }
+  dispatch(dialogsActions.setDialogs(response))
 }
 export const getMessages = (userId: number): ThunkType => async dispatch => {
   let response = await dialogsAPI.getMessages(userId)
-  dispatch(dialogsActions.setMessages(response.data))
+  dispatch(dialogsActions.setMessages(response))
 }
 export const startChatting = (userId: number): ThunkType => async dispatch => {
   let response = await dialogsAPI.startChatting(userId)
@@ -130,9 +132,9 @@ export const removeMessage = ( messageId: string ): ThunkType => async dispatch 
 }
 export const getNewMessagesCount = (): ThunkType => async dispatch => {
   let response = await dialogsAPI.getNewMessagesCount()
-  dispatch(dialogsActions.setNewMessagesCount(response.data))
+  dispatch(dialogsActions.setNewMessagesCount(response))
 }
-export const clearMessages = (): ThunkType => async dispatch => {
+export const clearMessages = (): ThunkType => dispatch => {
   dispatch(dialogsActions.clearMessages())
 }
 

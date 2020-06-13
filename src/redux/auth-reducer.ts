@@ -1,23 +1,24 @@
-import { authAPI, securityAPI, ResultCodesEnum, ResultCodeForCaptcha } from "../api/api"
-import { stopSubmit, FormAction } from 'redux-form'
-import { getUserProfile } from "./profile-reducer"
-
-import { AuthInitial } from "../types/Auth-types"
-// import { SET_AUTH_USER_DATA, GET_CAPTCHA_URL_SUCCESS, SET_AUTH_SMALL_PHOTO, AuthActionTypes, AppActionTypes } from "../types/actions"
-import { ThunkAction } from "redux-thunk"
 import { AppStateType, InferActionsTypes } from "./redux-store"
+import { ThunkAction } from "redux-thunk"
+import { stopSubmit, FormAction } from 'redux-form'
 
-   
-let initialState: AuthInitial = {
-   userId: null,
-   login: null,
-   email: null,
+import { getUserProfile } from "./profile-reducer"
+import { ResultCodesEnum, ResultCodeForCaptchaEnum } from "../api/api"
+import { authAPI } from "../api/auth.api"
+import { securityAPI } from "../api/security-api"
+
+
+let initialState = {
+   userId: null as number | null,
+   login: null as string | null,
+   email: null as string | null,
    isAuth: false,
-   smallPhoto: null,
-   captchaUrl: null
+   smallPhoto: null as string | null,
+   captchaUrl: null as string | null
 }
+type AuthInitialStateType = typeof initialState
 
-const authReducer = (state = initialState, action: AuthActionsTypes): AuthInitial => {
+const authReducer = (state = initialState, action: AuthActionsTypes): AuthInitialStateType => {
    switch (action.type) {
       case 'SET_AUTH_USER_DATA':
          return {
@@ -76,7 +77,7 @@ export const login = (email: string, password: string, rememberMe?: boolean, cap
       let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
       dispatch(stopSubmit('login', { _error: message }))
    }
-   if (response.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
+   if (response.resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
       dispatch(getCaptchaUrl())
    }
 }
@@ -87,9 +88,10 @@ export const logout = (): ThunkType => async (dispatch) => {
    }
 }
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
-   let response = await securityAPI.getCaptchaUrl()
-   const captchaUrl = response.url
+   let data = await securityAPI.getCaptchaUrl()
+   const captchaUrl = data.url
    dispatch(authActions.getCaptchaUrlSuccess(captchaUrl))
+   // dispatch({type: "sfsff"})
 }
 
 export default authReducer

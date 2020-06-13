@@ -1,30 +1,29 @@
-import { profileAPI, ResultCodesEnum } from "../api/api"
+import { stopSubmit, reset, FormAction } from 'redux-form'
+import { ThunkAction } from "redux-thunk"
+import { AppStateType, InferActionsTypes } from "./redux-store"
+
+import { ResultCodesEnum } from "../api/api"
+
+import { ProfileType, PhotosType, PostType } from "../types/Profile-types"
 import { authActions, AuthActionsTypes } from './auth-reducer'
 import { getNewMessagesCount } from "./dialogs-reducer"
-import { stopSubmit, reset, FormAction } from 'redux-form'
-
-import { ProfileInitial, ProfileType, PhotosType } from "../types/Profile-types"
-// import { SET_POST, SET_AUTHORIZED_USER_PROFILE, SET_AUTHORIZED_USER_PROFILE_STATUS, SET_USER_PROFILE, 
-//    SET_USER_PROFILE_STATUS, SET_USER_PHOTO_SUCCES, 
-//    ProfileActionTypes,
-//    AppActionTypes, } from "../types/actions"
-import { AppStateType, InferActionsTypes } from "./redux-store"
-import { ThunkAction } from "redux-thunk"
+import { profileAPI } from '../api/profile-api'
 
 
-let initialState: ProfileInitial = {
+let initialState = {
    postsData: [
       {id: 1,message: 'Hello World',likesCount: 12},
       {id: 2,message: 'test post 2',likesCount: 3},
       {id: 3,message: 'test post 3',likesCount: 11}
-   ],
-   autorizedProfile: null,
+   ] as Array<PostType>,
+   autorizedProfile: null as ProfileType | null,
    autorizedProfileStatus: '',
-   profile: null,
+   profile: null as ProfileType | null,
    profileStatus: ''
 }
+type InitialStateType = typeof initialState
 
-const profileReducer = (state = initialState, action: ProfileActionsTypes): ProfileInitial => {
+const profileReducer = (state = initialState, action: ProfileActionsTypes): InitialStateType => {
    switch (action.type) {
       case 'SET_POST':
          let newPost = {
@@ -104,24 +103,24 @@ type ThunkType = ThunkAction<void, AppStateType, {}, ActionsTypes>
 
 export const getUserProfile = (userId: number): ThunkType => async (dispatch, getState: GetStateType) => {
    if (userId === getState().auth.userId) {
-      let response = await profileAPI.getProfile(userId)
-      dispatch(profileActions.setAuthorizedUserProfile(response.data))
-      dispatch(authActions.setAuthUserSmallPhoto(response.data.photos.small))
+      let data = await profileAPI.getProfile(userId)
+      dispatch(profileActions.setAuthorizedUserProfile(data))
+      dispatch(authActions.setAuthUserSmallPhoto(data.photos.small))
       dispatch(getUserProfileStatus(userId))
       dispatch(getNewMessagesCount())
       return
    }
-   let response = await profileAPI.getProfile(userId)
-   dispatch(profileActions.setUserProfile(response.data))
+   let data = await profileAPI.getProfile(userId)
+   dispatch(profileActions.setUserProfile(data))
    dispatch(getUserProfileStatus(userId))
 }
 export const getUserProfileStatus = (userId: number): ThunkType => async (dispatch, getState: GetStateType) => {
-   let response = await profileAPI.getProfileStatus(userId)
+   let data = await profileAPI.getProfileStatus(userId)
    if (userId === getState().auth.userId) {
-      dispatch(profileActions.setAuthorizedUserProfileStatus(response.data))
+      dispatch(profileActions.setAuthorizedUserProfileStatus(data))
       return
    }
-   dispatch(profileActions.setUserProfileStatus(response.data))
+   dispatch(profileActions.setUserProfileStatus(data))
 }
 export const updateProfileStatus = (status: string): ThunkType => async (dispatch) => {
    let response = await profileAPI.updateProfileStatus(status)
@@ -136,12 +135,12 @@ export const setProfilePhoto = (formData: FormData): ThunkType => async (dispatc
       dispatch(authActions.setAuthUserSmallPhoto(response.data.photos.small))
    }
 }
-export const saveProfileInfo = (formData: any): ThunkType => async (dispatch, getState: GetStateType) => {
+export const saveProfileInfo = (formData: ProfileType): ThunkType => async (dispatch, getState: GetStateType) => {
    let userId = getState().auth.userId
    let response = await profileAPI.saveProfileInfo(formData)
    if (response.resultCode === ResultCodesEnum.Success) {
-      let response = await profileAPI.getProfile(userId)
-      dispatch(profileActions.setAuthorizedUserProfile(response.data))
+      let data = await profileAPI.getProfile(userId)
+      dispatch(profileActions.setAuthorizedUserProfile(data))
    } else {
       let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
       dispatch(stopSubmit('edit-profile', { _error: message }))

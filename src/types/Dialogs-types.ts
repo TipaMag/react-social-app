@@ -1,9 +1,4 @@
-export interface DialogsInitial {
-    dialogsData: Array<DialogType>
-    messagesData: MessagesDataType
-    newMessagesCount: number
- }
- export interface DialogType {
+export interface DialogType {
     id: number
     userName: string
     hasNewMessages: boolean
@@ -29,5 +24,10 @@ export interface DialogsInitial {
     senderId: number
     senderName: string
     recipientId: number
+    recipientName: string
+    deletedByRecipient: boolean
+    deletedBySender: boolean
+    distributionId: null | number
+    isSpam: boolean
     viewed: boolean
  }

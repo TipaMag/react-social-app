@@ -1,31 +1,42 @@
-import defaultImg from './../../src/assets/images/default-user-image.png'
-// import { AppActionTypes } from '../types/actions'
+import { GetItemsType } from "../api/api"
+import { UserType } from "../types/Users-types"
+import { InferActionsTypes, AppStateType } from "./redux-store"
+import { ThunkAction } from "redux-thunk"
+import { usersAPI } from "../api/users-api"
 
-interface InitialStateType {
-   friends: Friends[]
-   newMessagesCount: string | number
-}
-export interface Friends {
-   id: number
-   name: string
-   avatar: any
-}
-let initialState: InitialStateType = {
-   friends: [
-      { id: 1, name: 'Andrey', avatar: defaultImg },
-      { id: 2, name: 'Sanya', avatar: defaultImg },
-      { id: 3, name: 'Anya', avatar: defaultImg },
-      { id: 4, name: 'Gena', avatar: defaultImg },
-      { id: 5, name: 'Marina', avatar: defaultImg }
-   ],
-   newMessagesCount: ''
+let initialState = {
+   friends: {} as GetItemsType<UserType>,
 }
 
-const sidebarReducer = (state = initialState, action: any): InitialStateType => {
+type InitialStateType = typeof initialState
+
+const sidebarReducer = (state = initialState, action: SidebarActionsTypes): InitialStateType => {
    switch (action.type) {
+      case 'SET_SIDEBAR_FRIENDS':
+         return {
+            ...state,
+            friends: action.friends
+         }
       default:
          return state
    }
 }
+
+type SidebarActionsTypes = InferActionsTypes<typeof sidebarActions>
+
+export const sidebarActions = {
+   setFriends: (friends: GetItemsType<UserType>) => ({
+      type: 'SET_SIDEBAR_FRIENDS',
+      friends
+   } as const)
+}
+
+type ThunkType = ThunkAction<void, AppStateType, {}, SidebarActionsTypes>
+
+export const getSidebarFriends = (): ThunkType => async (dispatch) => {
+   let response = await usersAPI.getUsers(true, 6, 1, '')
+   dispatch(sidebarActions.setFriends(response))
+}
+
 
 export default sidebarReducer

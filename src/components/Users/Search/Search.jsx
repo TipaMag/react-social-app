@@ -1,23 +1,36 @@
 import React, { useState } from 'react'
-import Button from '../../../elements/Button'
 import styled from 'styled-components'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 const SearchForm = styled.form`
-    margin-left: auto;
     display: flex;
     & input {
         margin-right: 10px;
         outline: none;
+        padding: 10px 30px;
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #e3e4e8;
+        border-top: 1px solid #e3e4e8;
+        &:focus {
+            background-color: var(--LIGHT-BLUE);
+        }
+    }
+    & button {
+        background: transparent;
+        border: transparent;
+        cursor: pointer;
+        outline: none;
     }
 `
-const Search = ({onSearchUser}) => {
+
+const Search = ({friend, onSearchUser}) => {
     let [value, setValue] = useState('')
 
     const onSubmitHandler = (e) => {
         e.preventDefault()
-        onSearchUser(value)
+        onSearchUser(friend, value)
     }
 
     return (
@@ -27,9 +40,9 @@ const Search = ({onSearchUser}) => {
                 onChange={e => setValue(e.target.value)}
                 value={value}
             />
-            <Button type='submit'>
+            <button type='submit'>
                 <FontAwesomeIcon icon={faSearch}/>
-            </Button>
+            </button>
         </SearchForm>
     )
 }

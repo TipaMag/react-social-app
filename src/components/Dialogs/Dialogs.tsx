@@ -1,27 +1,105 @@
 import React, { useEffect, useRef } from "react"
+import styled from 'styled-components'
 import Dialog from "./Dialog/Dialog"
 import Message from "./Message/Message"
 import AddMessageReduxForm from "./DialogsForm/DialogsForm"
-import { DialogsContainer, DialogsList, Messages, MessagesList } from "./Dialogs.styles"
 import { getDialogs, getMessages, clearMessages, sendMessage, removeMessage } from "./../../redux/dialogs-reducer"
-import { DialogType, MessagesDataType } from "../../types/Dialogs-types"
-import { RouteComponentProps, withRouter } from "react-router-dom"
+
+import { useRouteMatch } from "react-router-dom"
 import { AppStateType } from "../../redux/redux-store"
 import { compose } from "redux"
-import { connect } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { withAuthRedirect } from "../Hoc/withAuthRedirect"
 
-type Props = MapStateProps & MapDispatchProps & MyCustomProps & RouteComponentProps<{ userId: string }>
-const Dialogs: React.FC<Props> = ({ dialogs, messages, getDialogs, getMessages, clearMessages, sendMessage, removeMessage, match }) => {
+export const DialogsContainer = styled.div`
+   display: grid;
+   grid-template-columns: 2fr 8fr;
+   grid-gap: 10px;
+   height: 500px;
+`
+export const DialogsList = styled.div`
+   min-width: 220px;
+   position: relative;
+   & ul {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      right: 0%;
+      bottom: 0%;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      padding-right: 5px;
+      overflow-y: auto;
+      &::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+         border-radius: 10px;
+         background-color: #F5F5F5;
+      }
+      &::-webkit-scrollbar {
+         width: 7px;
+         background-color: #F5F5F5;
+      }
+      &::-webkit-scrollbar-thumb {
+         border-radius: 10px;
+         box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+         background-color: var(--DARK-BLUE);
+      }
+   }
+`
+export const Messages = styled.div`
+   display: flex;
+   flex-flow: column;
+`
+export const MessagesList = styled.div`
+   height: 100%;
+   position: relative;
+   margin-bottom: 10px;
+   & ul {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      right: 0%;
+      bottom: 0%;
+      list-style: none;
+      margin: 0;
+      padding: 0px;
+      padding-right: 5px;
+      overflow-y: auto;
+      &::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+         border-radius: 10px;
+         background-color: #F5F5F5;
+      }
+      &::-webkit-scrollbar {
+         width: 7px;
+         background-color: #F5F5F5;
+      }
+      &::-webkit-scrollbar-thumb {
+         border-radius: 10px;
+         box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+         background-color: var(--DARK-BLUE);
+      }
+   }
+`
+
+const Dialogs: React.FC = () => {
+  const match = useRouteMatch<{ userId: string}>()
+  const dispatch = useDispatch()
+
+  const dialogs = useSelector((state: AppStateType) => state.dialogsPage.dialogsData)
+  const messages = useSelector((state: AppStateType) => state.dialogsPage.messagesData)
+
   let userId: number = +match.params.userId
   let listRef = useRef<HTMLUListElement>(null)
+
   useEffect(() => {
-    getDialogs()
+    dispatch(getDialogs())
     if (userId) {
-      getMessages(userId)
+      dispatch(getMessages(userId))
     }
     return () => {
-      clearMessages()
+      dispatch(clearMessages())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -30,14 +108,13 @@ const Dialogs: React.FC<Props> = ({ dialogs, messages, getDialogs, getMessages, 
     scroll()
   }, [messages])
 
-  const addNewMessage = (values: any) => {
-    sendMessage(userId, values.newMessageBody)
-  }
-  const onRemoveMessage = (messageId: string) => {
-    removeMessage(messageId)
-  }
+  const getMessagesHandler = (id: number) => dispatch(getMessages(id))
+  const addNewMessage = (value: any) => dispatch(sendMessage(userId, value.newMessageBody)) 
+  const onRemoveMessage = (messageId: string) => dispatch(removeMessage(messageId))
   const scroll = () => {
-    if (listRef.current) listRef.current.scrollBy(0, listRef.current.scrollHeight)
+    if (listRef.current) {
+      listRef.current.scrollBy(0, listRef.current.scrollHeight)
+    } 
   }
 
   return (
@@ -47,7 +124,7 @@ const Dialogs: React.FC<Props> = ({ dialogs, messages, getDialogs, getMessages, 
           {dialogs.map(dialog => (
             <Dialog key={dialog.id}
               dialog={dialog}
-              getMessages={getMessages}
+              getMessagesHandler={getMessagesHandler}
             />
           ))}
         </ul>
@@ -69,32 +146,6 @@ const Dialogs: React.FC<Props> = ({ dialogs, messages, getDialogs, getMessages, 
   )
 }
 
-interface MyCustomProps {
-  isAuth: boolean // from hoc 'withAuthRedirect'
-}
-interface MapStateProps {
-  dialogs: Array<DialogType>
-  messages: MessagesDataType
-}
-interface MapDispatchProps {
-  getDialogs: () => void
-  getMessages: (userId: number) => void
-  clearMessages: () => void
-  sendMessage: (userId: number, messageBody: string) => void
-  removeMessage: (messageId: string) => void
-}
-const mapStateToProps = (state: AppStateType) => ({
-  dialogs: state.dialogsPage.dialogsData,
-  messages: state.dialogsPage.messagesData
-})
-export default compose(
-  connect<MapStateProps, MapDispatchProps, {}, AppStateType>(mapStateToProps, {
-    getDialogs,
-    getMessages,
-    clearMessages,
-    sendMessage,
-    removeMessage
-  }),
-  withRouter,
+export default compose<React.ComponentType>(
   withAuthRedirect // hoc - redirect to login page if not authorized
 )(Dialogs)

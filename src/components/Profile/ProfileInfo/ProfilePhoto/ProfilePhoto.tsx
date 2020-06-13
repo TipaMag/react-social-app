@@ -1,21 +1,42 @@
 import React from 'react'
-import s from './ProfilePhoto.module.css'
+import styled from 'styled-components'
+
 import defaultUserImage from './../../../../assets/images/default-user-image.png'
-import FileInput from './ProfilePhotoLoadInput/ProfilePhotoLoadInput'
+import FileInput from './ProfilePhotoLoadInput'
+import { useDispatch } from 'react-redux'
+import { setProfilePhoto } from '../../../../redux/profile-reducer'
+
+const PhotoContainer = styled.div`
+    position: relative;
+    &:hover form {
+        display: flex;
+    }
+`
+const PhotoImage = styled.img`
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 2px;
+`
 
 interface Props {
     isOwner: boolean
     profilePhoto: string
-    setProfilePhoto: (formData: FormData) => void
 }
-const ProfilePhoto: React.FC<Props> = ({ isOwner, profilePhoto, setProfilePhoto }) => {
+const ProfilePhoto: React.FC<Props> = ({ isOwner, profilePhoto }) => {
+    const dispatch = useDispatch()
+
+    const onSetProfilePhoto = (formData: FormData) => {
+        dispatch(setProfilePhoto(formData))
+    }
+
     return (
-        <div className={s.userPhotoContainer}>
-            <img src={profilePhoto || defaultUserImage} alt='profile_photo'></img>
+        <PhotoContainer>
+            <PhotoImage src={profilePhoto || defaultUserImage} alt='profile_photo'></PhotoImage>
             {isOwner &&
-                <FileInput setProfilePhoto={setProfilePhoto} />
+                <FileInput onSetProfilePhoto={onSetProfilePhoto} />
             }
-        </div>
+        </PhotoContainer>
     )
 }
 

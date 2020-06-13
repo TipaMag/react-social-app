@@ -63,28 +63,21 @@ const Meta = styled.div`
 `
 interface Props {
   dialog: DialogType,
-  getMessages: (userId: number) => void
+  getMessagesHandler: (userId: number) => void
 }
-const Dialog: React.FC<Props> = ({
-  dialog: { id, userName, hasNewMessages, newMessagesCount, photos },
-  getMessages
-}) => {
-  const onMessagesHandler = () => {
-    getMessages(id)
-  }
+const Dialog: React.FC<Props> = ({ dialog: { id, userName, hasNewMessages, newMessagesCount, photos }, getMessagesHandler }) => {
+
   return (
     <DialogItem>
       <PhotoLink to={"/profile/" + id}>
         <img src={photos.small || defaultUserImage} alt="avatar"></img>
       </PhotoLink>
-      <BodyNavLink to={"/dialogs/" + id} onClick={onMessagesHandler}>
+      <BodyNavLink to={"/dialogs/" + id} onClick={() => getMessagesHandler(id)}>
         <UserName>
           {userName}
         </UserName>
         <Meta>
-          {hasNewMessages
-            && <Counter count={newMessagesCount} />
-          }
+          { hasNewMessages && <Counter count={newMessagesCount} /> }
         </Meta>
       </BodyNavLink>
     </DialogItem>

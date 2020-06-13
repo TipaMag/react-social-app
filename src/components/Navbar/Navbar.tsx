@@ -1,88 +1,117 @@
-import React from "react"
-import s from "./Navbar.module.css"
+import React, { useEffect } from "react"
+import styled from 'styled-components'
 import { NavLink } from "react-router-dom"
-import FriendsElement from "./Friends/Friends"
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faHome, faComments, faUsers, faNewspaper, faMusic, faCogs } from "@fortawesome/free-solid-svg-icons"
 import Counter from "../common/Counter/Counter"
-import { Friends } from "../../redux/sidebar-reducer"
-import { connect } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../redux/redux-store"
+import Friends from "./Friends/Friends"
+import { getSidebarFriends } from "../../redux/sidebar-reducer"
 
-type Props = MapStateProps
-const Navbar: React.FC<Props> = ({ isAuth, friends, newMessagesCount }) => {
+const NavContainer = styled.nav`
+  grid-area: navbar;
+  align-self: start;
+`
+const NavList = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`
+const ListItem = styled.li`
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 3px;
+  & .active {
+    background-color: var(--DARK-BLUE);
+    color: var(--WHITE);
+  }
+  & .active svg {
+    color: var(--WHITE);
+  }
+  &:hover {
+    background-color: var(--LIGHT-BLUE);
+  }
+`
+const StyledNavLink = styled(NavLink)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-size: 16px;
+  padding: 5px 10px;
+  color: var(--DARK-BLUE);
+`
+const StyledIcon = styled(FontAwesomeIcon)`
+  color: var(--DARK-BLUE);
+  margin-right: 10px;
+`
+
+const Navbar: React.FC = () => {
+
+  const dispatch = useDispatch()
+  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
+  const friends = useSelector((state: AppStateType) => state.sidebar.friends)
+  const newMessagesCount = useSelector((state: AppStateType) => state.dialogsPage.newMessagesCount)
+
+  useEffect(() => {
+    dispatch(getSidebarFriends())
+  }, [dispatch])
+
   return (
-    <nav className={s.nav}>
-      <ul className={s.navList}>
-        <li className={s.item}>
-          <NavLink to="/profile" activeClassName={s.active}>
-            <FontAwesomeIcon icon={faHome} />
-           <span className={s.title}>Profile</span>
-          </NavLink>
-        </li>
-        <li className={s.item}>
-          <NavLink to="/dialogs" activeClassName={s.active}>
-            <FontAwesomeIcon icon={faComments} />
-            <span className={s.title}>Messages</span>
+    <NavContainer>
+      <NavList>
+        <ListItem>
+          <StyledNavLink to="/profile" activeClassName="active">
+            <StyledIcon icon={faHome} />
+            Profile
+          </StyledNavLink>
+        </ListItem>
+        <ListItem>
+          <StyledNavLink to="/dialogs" activeClassName="active">
+            <StyledIcon icon={faComments} />
+            Messages
             {newMessagesCount > 0 && isAuth && (
               <Counter count={newMessagesCount} />
             )}
-          </NavLink>
-        </li>
-        <li className={s.item}>
-          <NavLink to="/users" activeClassName={s.active}>
-            <FontAwesomeIcon icon={faUsers} />
-            <span className={s.title}>Users</span>
-          </NavLink>
-        </li>
-        <li className={s.item}>
-          <NavLink to="/News" activeClassName={s.active}>
-            <FontAwesomeIcon icon={faNewspaper} />
-            <span className={s.title}>News</span>
-          </NavLink>
-        </li>
-        <li className={s.item}>
-          <NavLink to="/Music" activeClassName={s.active}>
-            <FontAwesomeIcon icon={faMusic} />
-            <span className={s.title}>Music</span>
-          </NavLink>
-        </li>
-        <li className={s.item}>
-          <NavLink to="/Settings" activeClassName={s.active}>
-            <FontAwesomeIcon icon={faCogs} />
-            <span className={s.title}>Settings</span>
-          </NavLink>
-        </li>
-      </ul>
-      {isAuth && (
-        <div className={s.friends}>
-          <h3>Friends</h3>
-          <ul className={s.friendsList}>
-            {friends.map(item => (
-              <FriendsElement
-                key={item.id}
-                name={item.name}
-                avatar={item.avatar}
-              />
-            ))}
-          </ul>
-        </div>
-      )}
-    </nav>
+          </StyledNavLink>
+        </ListItem>
+        <ListItem>
+          <StyledNavLink to="/users" activeClassName="active">
+            <StyledIcon icon={faUsers} />
+            Users
+          </StyledNavLink>
+        </ListItem>
+        <ListItem>
+          <StyledNavLink to="/News" activeClassName="active">
+            <StyledIcon icon={faNewspaper} />
+            News
+          </StyledNavLink>
+        </ListItem>
+        <ListItem>
+          <StyledNavLink to="/Music" activeClassName="active">
+            <StyledIcon icon={faMusic} />
+            Music
+          </StyledNavLink>
+        </ListItem>
+        <ListItem>
+          <StyledNavLink to="/Settings" activeClassName="active">
+            <StyledIcon icon={faCogs} />
+            Settings
+          </StyledNavLink>
+        </ListItem>
+      </NavList>
+
+      {isAuth && 
+        //@ts-ignore - решить трабл с возможным null
+        <Friends friends={friends}/>
+      }
+
+    </NavContainer>
   )
 }
 
-interface MapStateProps {
-  isAuth: boolean
-  friends: Friends[]
-  newMessagesCount: number
-}
-let mapStateToProps = (state: AppStateType) => ({
-  isAuth: state.auth.isAuth,
-  friends: state.sidebar.friends,
-  newMessagesCount: state.dialogsPage.newMessagesCount
-})
-export default connect<MapStateProps, {}, null, AppStateType>( mapStateToProps, {
-  
-}
-)(Navbar)
+export default Navbar

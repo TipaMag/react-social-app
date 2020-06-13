@@ -12,6 +12,7 @@ export default styled.button`
     transition: 0.2s;
     &:hover {
         background-color: var(--LIGHT-BLUE);
+        color: var(--DARK-BLUE);
     }
     &:active {
         transform: translateY(1px) 
