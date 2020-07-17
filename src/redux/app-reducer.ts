@@ -7,19 +7,18 @@ let initialState = {
 }
 type InitialStateType = typeof initialState
 
-const appReducer = (state = initialState, action: AppActionsTypes): InitialStateType => {
+const mainReducer = (state = initialState, action: AppActionsTypes): InitialStateType => {
    switch (action.type) {
       case 'INITIALIZED_SUCCESS':
          return {
             initialized: true,
          }
-         
       default:
          return state
    }
 }
 
-type AppActionsTypes = InferActionsTypes<typeof appActions>
+export type AppActionsTypes = InferActionsTypes<typeof appActions>
 
 export const appActions = {
    initializedSuccess: () => ({
@@ -35,4 +34,4 @@ export const initializeApp = (): ThunkType => (dispatch) => {
       })
 }
 
-export default appReducer
+export default mainReducer

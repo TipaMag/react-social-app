@@ -58,8 +58,11 @@ const Navbar: React.FC = () => {
   const newMessagesCount = useSelector((state: AppStateType) => state.dialogsPage.newMessagesCount)
 
   useEffect(() => {
-    dispatch(getSidebarFriends())
-  }, [dispatch])
+    if(isAuth) {
+      dispatch(getSidebarFriends())
+    }
+  }, [dispatch, isAuth])
+
 
   return (
     <NavContainer>
@@ -109,7 +112,6 @@ const Navbar: React.FC = () => {
         //@ts-ignore - решить трабл с возможным null
         <Friends friends={friends}/>
       }
-
     </NavContainer>
   )
 }

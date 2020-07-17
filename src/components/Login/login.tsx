@@ -5,6 +5,7 @@ import { login, getCaptchaUrl } from '../../redux/auth-reducer'
 import LoginReduxForm from './LoginForm/LoginForm'
 import { Redirect } from 'react-router-dom'
 import { AppStateType } from "../../redux/redux-store"
+import Button from "../../elements/Button"
 
 const LoginContainer = styled.div`
     border: 1px solid var(--DARK-GRAY);
@@ -20,22 +21,10 @@ const Title = styled.span`
     text-align: center;
     font-size: 30px;
 `
-const TestAccessContainer = styled.div`
+const StyledTestBtn = styled(Button)`
     margin-top: 10px;
-    background-color: darksalmon;
+    width: 100%;
     padding: 10px;
-    font-size: 12px;
-    border-radius: 5px;
-    & p {
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        display: block;
-        text-align: center;
-    }
-    & span {
-        width: 70px;
-        display: inline-block;
-    }
 `
 
 export interface ILoginFormData {
@@ -50,6 +39,12 @@ const Login: React.FC = () => {
     const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
     const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
 
+    let testLoginData = {
+        email: 'free@samuraijs.com',
+        password: 'free',
+        rememberMe: false
+    }
+
     const onSubmit = (formData: ILoginFormData) => {
         dispatch(login(formData.email, formData.password, formData.rememberMe, formData.captcha))
     }
@@ -60,17 +55,7 @@ const Login: React.FC = () => {
             <Title>Login</Title>
             <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl} getCaptchaUrl={getCaptchaUrl} />
 
-            <TestAccessContainer>
-                <p>test access</p>
-                <div>
-                    <span>Email:</span>
-                    <strong>free@samuraijs.com</strong>
-                </div>
-                <div>
-                    <span>Password:</span>
-                    <strong>free</strong>
-                </div>
-            </TestAccessContainer>
+            <StyledTestBtn type='button' onClick={() => onSubmit(testLoginData)}>Test Acces</StyledTestBtn>
         </LoginContainer>
     )
 }

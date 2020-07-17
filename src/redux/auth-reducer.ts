@@ -6,6 +6,7 @@ import { getUserProfile } from "./profile-reducer"
 import { ResultCodesEnum, ResultCodeForCaptchaEnum } from "../api/api"
 import { authAPI } from "../api/auth.api"
 import { securityAPI } from "../api/security-api"
+import { AppActionsTypes, appActions } from "./app-reducer"
 
 
 let initialState = {
@@ -35,6 +36,8 @@ const authReducer = (state = initialState, action: AuthActionsTypes): AuthInitia
             ...state,
             smallPhoto: action.smallPhoto
          }
+      case 'RESET_AUTH_DATA':
+         return initialState
       default:
          return state
    }
@@ -54,10 +57,13 @@ export const authActions = {
    getCaptchaUrlSuccess: (captchaUrl: string) => ({
       type: 'GET_CAPTCHA_URL_SUCCESS',
       captchaUrl
+   } as const),
+   resetAuthData: () => ({
+      type: 'RESET_AUTH_DATA'
    } as const)
 }
 
-type ActionsTypes = AuthActionsTypes | FormAction
+type ActionsTypes = AuthActionsTypes| AppActionsTypes | FormAction
 type ThunkType = ThunkAction<void, AppStateType, {}, ActionsTypes>
 
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
@@ -70,28 +76,32 @@ export const getAuthUserData = (): ThunkType => async (dispatch) => {
 }
 export const login = (email: string, password: string, rememberMe?: boolean, captha?: string): ThunkType => async (dispatch) => {
    let response = await authAPI.login(email, password, rememberMe, captha)
-   if (response.resultCode === ResultCodesEnum.Success) {
-      dispatch(getAuthUserData())
-   }
-   if (response.resultCode === ResultCodesEnum.Error) {
-      let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
-      dispatch(stopSubmit('login', { _error: message }))
-   }
-   if (response.resultCode === ResultCodeForCaptchaEnum.CaptchaIsRequired) {
-      dispatch(getCaptchaUrl())
-   }
-}
-export const logout = (): ThunkType => async (dispatch) => {
-   let response = await authAPI.logout()
-   if (response.resultCode === ResultCodesEnum.Success) {
-      dispatch(authActions.setAuthUserData(null, null, null, false))
+   switch (response.resultCode) {
+      case ResultCodesEnum.Success:
+         dispatch(getAuthUserData())
+         break
+      case ResultCodesEnum.Error:
+         let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+         dispatch(stopSubmit('login', { _error: message }))
+         break
+      case ResultCodeForCaptchaEnum.CaptchaIsRequired:
+         dispatch(getCaptchaUrl())
+         break
+      default:
+         console.log(response.resultCode)
    }
 }
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
    let data = await securityAPI.getCaptchaUrl()
    const captchaUrl = data.url
    dispatch(authActions.getCaptchaUrlSuccess(captchaUrl))
-   // dispatch({type: "sfsff"})
 }
-
+export const logout = (): ThunkType => async (dispatch) => {
+   let response = await authAPI.logout()
+   if (response.resultCode === ResultCodesEnum.Success) {
+      dispatch(authActions.resetAuthData())
+      dispatch({type: 'RESET'})
+      dispatch(appActions.initializedSuccess())
+   }
+}
 export default authReducer
