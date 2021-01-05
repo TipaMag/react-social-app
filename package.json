@@ -16,7 +16,7 @@
     "@types/redux-form": "^8.2.7",
     "@types/styled-components": "^5.1.1",
     "antd": "^3.26.18",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "jest": "^24.9.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
