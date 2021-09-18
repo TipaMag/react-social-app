@@ -1,32 +1,25 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
-import { compose } from 'redux'
-import { withRouter, RouteComponentProps } from 'react-router-dom'
+import { useRouteMatch, useHistory } from 'react-router-dom'
 
 import { getUserProfile } from '../../redux/profile-reducer'
-import ProfileInfo from './ProfileInfo/ProfileInfo'
-import Posts from './Posts/Posts'
-import { AppStateType } from '../../redux/redux-store'
+import { ProfileInfo } from './ProfileInfo/ProfileInfo'
+import { Posts } from './Posts/Posts'
+import * as profileSelectors from '../../redux/profile-selectors'
 
-const ProfileContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
-  grid-gap: 10px;
-  position: relative;
-`
 
-type Props = RouteComponentProps<{userId: string}>
-const Profile: React.FC<Props> = ({ match, history }) => {
+export const Profile: React.FC= () => {
+  const match = useRouteMatch<{userId: string}>()
+  const history = useHistory()
 
   const dispatch = useDispatch()
-  const autorizedProfile = useSelector((state: AppStateType) => state.profilePage.autorizedProfile)
-  const autorizedProfileStatus = useSelector((state: AppStateType) => state.profilePage.autorizedProfileStatus)
-  const profile = useSelector((state: AppStateType) => state.profilePage.profile)
-  const profileStatus = useSelector((state: AppStateType) => state.profilePage.profileStatus)
-  const autorizedUserId = useSelector((state: AppStateType) => state.auth.userId)
-  const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
+  const autorizedProfile = useSelector(profileSelectors.getAutorizedProfile)
+  const autorizedProfileStatus = useSelector(profileSelectors.getAutorizedProfileStatus)
+  const profile = useSelector(profileSelectors.getProfile)
+  const profileStatus = useSelector(profileSelectors.getProfileStatus)
+  const autorizedUserId = useSelector(profileSelectors.getAutorizedUserId)
+  const isAuth = useSelector(profileSelectors.getIsAuth)
 
   useEffect(() => {
     const loadProfile = () => {
@@ -59,4 +52,11 @@ const Profile: React.FC<Props> = ({ match, history }) => {
   )
 }
 
-export default compose(withRouter)(Profile)
+
+const ProfileContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-gap: 10px;
+  position: relative;
+`

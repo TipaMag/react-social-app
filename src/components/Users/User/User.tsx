@@ -1,12 +1,51 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import defaultUserPhoto from '../../../assets/images/default-avatar-icon.png'
 import Button from '../../../elements/Button'
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { UserType } from '../../../types/Users-types'
+
+
+type Props = {
+   user: UserType
+   isAuth: boolean
+   followingInProgress: Array<number>
+   onFollow: (userId: number) => void
+   onUnfollow: (userId: number) => void
+   onStartChatting: (userId: number) => void
+}
+
+export const User: FC<Props> = ({ user, isAuth, followingInProgress, onUnfollow, onFollow, onStartChatting }) => {
+   return (
+      <ListItem>
+         <UserPhoto>
+            <Link to={'/profile/' + user.id}>
+               <img src={user.photos.small != null ? user.photos.small : defaultUserPhoto} alt='avatar'></img>
+            </Link>
+         </UserPhoto>
+
+         <UserInfo>
+            <UserInfoName>{user.name}</UserInfoName>
+            <UserInfoTitle>{user.status}</UserInfoTitle>
+            {isAuth &&
+               <SendMessageStyledLink to={'/dialogs/' + user.id} onClick={() => onStartChatting(user.id)}>
+                  Write message
+               </SendMessageStyledLink>
+            }
+         </UserInfo>
+
+         {isAuth &&
+            <FollowingBtn>
+               {user.followed
+                  ? <Button disabled={followingInProgress.some(id => id === user.id)} onClick={() => onUnfollow(user.id)}>unfollow</Button>
+                  : <Button disabled={followingInProgress.some(id => id === user.id)} onClick={() => onFollow(user.id)}>follow</Button>
+               }
+            </FollowingBtn>
+         }
+      </ListItem>
+   )
+}
+
 
 export const ListItem = styled.li`
    display: flex;
@@ -52,44 +91,3 @@ export const SendMessageStyledLink = styled(Link)`
 export const FollowingBtn = styled.div`
     margin: 0 20px;
 `
-
-type Props = {
-   user: UserType
-   isAuth: boolean
-   onFollow: (userId: number) => void
-   onUnfollow: (userId: number) => void
-   onStartChatting: (userId: number) => void
-   followingInProgress: Array<number>
-}
-
-const User: React.FC<Props> = ({ user, isAuth, followingInProgress, onUnfollow, onFollow, onStartChatting }) => {
-   return (
-      <ListItem>
-         <UserPhoto>
-            <Link to={'/profile/' + user.id}>
-               <img src={user.photos.small != null ? user.photos.small : defaultUserPhoto} alt='avatar'></img>
-            </Link>
-         </UserPhoto>
-
-         <UserInfo>
-            <UserInfoName>{user.name}</UserInfoName>
-            <UserInfoTitle>{user.status}</UserInfoTitle>
-            {isAuth &&
-               <SendMessageStyledLink to={'/dialogs/' + user.id} onClick={() => onStartChatting(user.id)}>
-                  Write message
-               </SendMessageStyledLink>
-            }
-         </UserInfo>
-
-         {isAuth &&
-            <FollowingBtn>
-               {user.followed
-                  ? <Button disabled={followingInProgress.some(id => id === user.id)} onClick={() => onUnfollow(user.id)}>unfollow</Button>
-                  : <Button disabled={followingInProgress.some(id => id === user.id)} onClick={() => onFollow(user.id)}>follow</Button>
-               }
-            </FollowingBtn>
-         }
-      </ListItem>
-   )
-}
-export default User

@@ -1,6 +1,5 @@
 import { stopSubmit, reset, FormAction } from 'redux-form'
-import { ThunkAction } from "redux-thunk"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 
 import { ResultCodesEnum } from "../api/api"
 
@@ -26,11 +25,7 @@ type InitialStateType = typeof initialState
 const profileReducer = (state = initialState, action: ProfileActionsTypes): InitialStateType => {
    switch (action.type) {
       case 'SET_POST':
-         let newPost = {
-            id: 6,
-            message: action.newPostBody,
-            likesCount: 0
-         }
+         let newPost = { id: 6, message: action.newPostBody, likesCount: 0 }
          return {
             ...state,
             postsData: [newPost, ...state.postsData],
@@ -97,11 +92,10 @@ export const profileActions = {
    } as const)
 }
 
-type ActionsTypes = ProfileActionsTypes | AuthActionsTypes | FormAction
-type GetStateType = () => AppStateType
-type ThunkType = ThunkAction<void, AppStateType, {}, ActionsTypes>
+type ThunkType = BaseThunkType<ProfileActionsTypes | AuthActionsTypes | FormAction>
 
-export const getUserProfile = (userId: number): ThunkType => async (dispatch, getState: GetStateType) => {
+export const getUserProfile = (userId: number): ThunkType => async (dispatch, getState) => {
+   debugger
    if (userId === getState().auth.userId) {
       let data = await profileAPI.getProfile(userId)
       dispatch(profileActions.setAuthorizedUserProfile(data))
@@ -114,7 +108,7 @@ export const getUserProfile = (userId: number): ThunkType => async (dispatch, ge
    dispatch(profileActions.setUserProfile(data))
    dispatch(getUserProfileStatus(userId))
 }
-export const getUserProfileStatus = (userId: number): ThunkType => async (dispatch, getState: GetStateType) => {
+export const getUserProfileStatus = (userId: number): ThunkType => async (dispatch, getState) => {
    let data = await profileAPI.getProfileStatus(userId)
    if (userId === getState().auth.userId) {
       dispatch(profileActions.setAuthorizedUserProfileStatus(data))
@@ -123,19 +117,19 @@ export const getUserProfileStatus = (userId: number): ThunkType => async (dispat
    dispatch(profileActions.setUserProfileStatus(data))
 }
 export const updateProfileStatus = (status: string): ThunkType => async (dispatch) => {
-   let response = await profileAPI.updateProfileStatus(status)
-   if (response.resultCode === ResultCodesEnum.Success) {
+   let data = await profileAPI.updateProfileStatus(status)
+   if (data.resultCode === ResultCodesEnum.Success) {
       dispatch(profileActions.setAuthorizedUserProfileStatus(status))
    }
 }
 export const setProfilePhoto = (formData: FormData): ThunkType => async (dispatch) => {
-   let response = await profileAPI.setProfilePhoto(formData)
-   if (response.resultCode === ResultCodesEnum.Success) {
-      dispatch(profileActions.setUserPhotoSuccess(response.data.photos))
-      dispatch(authActions.setAuthUserSmallPhoto(response.data.photos.small))
+   let data = await profileAPI.setProfilePhoto(formData)
+   if (data.resultCode === ResultCodesEnum.Success) {
+      dispatch(profileActions.setUserPhotoSuccess(data.data.photos))
+      dispatch(authActions.setAuthUserSmallPhoto(data.data.photos.small))
    }
 }
-export const saveProfileInfo = (formData: ProfileType): ThunkType => async (dispatch, getState: GetStateType) => {
+export const saveProfileInfo = (formData: ProfileType): ThunkType => async (dispatch, getState) => {
    let userId = getState().auth.userId
    let response = await profileAPI.saveProfileInfo(formData)
    if (response.resultCode === ResultCodesEnum.Success) {

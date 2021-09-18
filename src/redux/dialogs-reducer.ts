@@ -1,9 +1,8 @@
 import { ResultCodesEnum } from "../api/api"
-import { ThunkAction } from "redux-thunk"
 import { reset } from "redux-form"
 import { DialogType, MessagesDataType, MessageType } from "../types/Dialogs-types"
 
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 import { dialogsAPI } from "../api/dialogs-api"
 
 
@@ -16,7 +15,6 @@ const initialState = {
   } as MessagesDataType,
   newMessagesCount: 0
 }
-
 type InitialStateType = typeof initialState
 
 const dialogsReducer = ( state = initialState, action: DialogsActionsTypes ): InitialStateType => {
@@ -72,8 +70,6 @@ const dialogsReducer = ( state = initialState, action: DialogsActionsTypes ): In
   }
 }
 
-type DialogsActionsTypes = InferActionsTypes<typeof dialogsActions>
-
 export const dialogsActions = {
   setDialogs: (dialogs: Array<DialogType>) => ({
     type: 'SET_DIALOGS',
@@ -100,8 +96,8 @@ export const dialogsActions = {
   } as const)
 }
 
-
-type ThunkType = ThunkAction<void, AppStateType, {}, DialogsActionsTypes>
+type DialogsActionsTypes = InferActionsTypes<typeof dialogsActions>
+type ThunkType = BaseThunkType<DialogsActionsTypes>
 
 export const getDialogs = (): ThunkType => async dispatch => {
   let response = await dialogsAPI.getDialogs()

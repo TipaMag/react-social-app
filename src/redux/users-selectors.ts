@@ -8,32 +8,16 @@ import { AppStateType } from "./redux-store"
 // export const getUsers = createSelector(
 //     [getUsersSelector],
 //     (items) => {
-//         return items.filter(u => true)
+//         return items.filter(item => true)
 //     }
 // )
 
-export const getUsers = (state: AppStateType) => {
-    return state.usersPage.users
-}
-export const getFriends = (state: AppStateType) => {
-    return state.usersPage.friends
-}
-export const getAuth = (state: AppStateType) => {
-    return state.auth.isAuth
-}
-export const getUsersPageSize = (state: AppStateType) => {
-    return state.usersPage.pageSize
-}
-export const getCurrentPage = (state: AppStateType) => {
-    return state.usersPage.currentPage
-}
-export const getIsFetching = (state: AppStateType) => {
-    return state.usersPage.isFetching
-}
-export const getFollowingInProgress = (state: AppStateType) => {
-    return state.usersPage.followingInProgress
-}
-export const getSearchUser = (state: AppStateType) => {
-    return state.usersPage.searchUser
-}
+export const getUsers = (state: AppStateType) => state.usersPage.users
+export const getFriends = (state: AppStateType) => state.usersPage.friends
+export const getAuth = (state: AppStateType) => state.auth.isAuth
+export const getUsersPageSize = (state: AppStateType) => state.usersPage.pageSize
+export const getCurrentPage = (state: AppStateType) => state.usersPage.currentPage
+export const getIsFetching = (state: AppStateType) => state.usersPage.isFetching
+export const getFollowingInProgress = (state: AppStateType) => state.usersPage.followingInProgress
+export const getSearchUser = (state: AppStateType) => state.usersPage.searchUser
 

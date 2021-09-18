@@ -2,15 +2,14 @@ import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import ProfileEditForm from "./ProfileEditForm/ProfileEditForm"
 import { saveProfileInfo } from '../../redux/profile-reducer'
-import { withRouter, RouteComponentProps } from "react-router-dom"
-import { compose } from "redux"
+import { useHistory } from "react-router-dom"
 import Preloader from "../common/Preloader/Preloader"
 import { AppStateType } from "../../redux/redux-store"
 import { ProfileType } from "../../types/Profile-types"
 
-type Props = RouteComponentProps
 
-const ProfileEdit: React.FC<Props> = ({ history }) => {
+export const ProfileEdit: React.FC = () => {
+    const history = useHistory()
 
     const dispatch = useDispatch()
     const autorizedProfile = useSelector((state: AppStateType) => state.profilePage.autorizedProfile)
@@ -25,5 +24,3 @@ const ProfileEdit: React.FC<Props> = ({ history }) => {
         <ProfileEditForm initialValues={autorizedProfile} onSubmit={handleSubmit} autorizedProfile={autorizedProfile} />
     )
 }
-
-export default compose(withRouter)(ProfileEdit)

@@ -8,7 +8,7 @@ interface Props {
    message: string
    likesCount: number
 }
-const Post: React.FC<Props> = ({message, likesCount}) => {
+export const Post: React.FC<Props> = ({message, likesCount}) => {
    return (
       <li className={s.post}>
          <div className={s.postHeader}>
@@ -26,7 +26,5 @@ const Post: React.FC<Props> = ({message, likesCount}) => {
             <span className={s.likeCount}>{likesCount}</span>
          </div>
       </li>
-   );
+   )
 }
-
-export default Post

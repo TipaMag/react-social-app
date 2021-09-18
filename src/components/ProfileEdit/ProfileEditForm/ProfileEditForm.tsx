@@ -5,21 +5,6 @@ import { inputField, textareaField, inputCheckboxField } from '../../common/Form
 import Button from '../../../elements/Button'
 import { ProfileType } from '../../../types/Profile-types'
 
-const FormRow = styled.div`
-    display: flex;
-    font-size: 13px;
-    padding: 5px 0;
-`
-const RowLabel = styled.label`
-    width: 170px;
-    color: #828282;
-`
-const CommonErrorMsg = styled.div`
-    display: inline-block;
-    border: 1px solid red;
-    padding: 5px;
-    color: red;
-`
 
 type Props = {
     autorizedProfile: ProfileType
@@ -63,3 +48,20 @@ const ProfileEditForm: React.FC<Props & InjectedFormProps<ProfileType, Props>> =
 export default reduxForm<ProfileType, Props>({
     form: 'edit-profile'
 })(ProfileEditForm)
+
+
+const FormRow = styled.div`
+    display: flex;
+    font-size: 13px;
+    padding: 5px 0;
+`
+const RowLabel = styled.label`
+    width: 170px;
+    color: #828282;
+`
+const CommonErrorMsg = styled.div`
+    display: inline-block;
+    border: 1px solid red;
+    padding: 5px;
+    color: red;
+`

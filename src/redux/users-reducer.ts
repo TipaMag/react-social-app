@@ -1,9 +1,8 @@
-import { GetItemsType, ResultCodesEnum } from "../api/api"
+import { GetItemsType, ResponseType, ResultCodesEnum } from "../api/api"
 import { updateObjectInArray } from "../components/utils/object-helpers"
 
 import {  UserType } from "../types/Users-types"
-import { ThunkAction } from "redux-thunk"
-import { AppStateType, InferActionsTypes } from "./redux-store"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 import { Dispatch } from "redux"
 import { usersAPI } from "../api/users-api"
 
@@ -55,7 +54,7 @@ const usersReducer = (state = initialState, action: UserActionsTypes): initialSt
             ...state,
             followingInProgress: action.isFetching
                ? [...state.followingInProgress, action.userId]
-               : [state.followingInProgress.filter(id => id !== action.userId)]
+               : [...state.followingInProgress.filter(id => id !== action.userId)]
          }
       case 'SET_CURRENT_USERS_PAGE':
          return {
@@ -87,8 +86,6 @@ const usersReducer = (state = initialState, action: UserActionsTypes): initialSt
          return state
    }
 }
-
-type UserActionsTypes = InferActionsTypes<typeof usersActions>
 
 export const usersActions = {
    setUsers: (users: GetItemsType<UserType>) => ({ 
@@ -130,12 +127,11 @@ export const usersActions = {
    } as const)
 }
 
- 
-type GetStateType = () => AppStateType
+type UserActionsTypes = InferActionsTypes<typeof usersActions>
 type DispatchType = Dispatch<UserActionsTypes>
-type ThunkType = ThunkAction<void, AppStateType, {}, UserActionsTypes>
+type ThunkType = BaseThunkType<UserActionsTypes>
 
-export const requestUsers = (friend: boolean, pageSize?: number, page?: number): ThunkType => async (dispatch, getState: GetStateType) => {
+export const requestUsers = (friend: boolean, pageSize?: number, page?: number): ThunkType => async (dispatch, getState) => {
    if(!friend) {
       dispatch(usersActions.toggleIsFetching(true))
       if (page) dispatch(usersActions.setCurrentUsersPage(page))
@@ -150,8 +146,20 @@ export const requestUsers = (friend: boolean, pageSize?: number, page?: number):
       dispatch(usersActions.toggleIsFetching(false))
    }
 }
+export const searchUsers = (friend: boolean, searchUser: string): ThunkType => (dispatch, getState) => {
+   if (searchUser !== getState().usersPage.searchUser) {
+      dispatch(usersActions.setSearchUser(searchUser))
+      dispatch(requestUsers(friend))
+   }
+}
 
-const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: (userId: number) => UserActionsTypes) => {
+export const setFollow = (userId: number): ThunkType => async (dispatch) => {
+   await _followUnfollowFlow(dispatch, userId, usersAPI.setFollow.bind(usersAPI), usersActions.followSuccess)
+}
+export const setUnfollow = (userId: number): ThunkType => async (dispatch) => {
+   await _followUnfollowFlow(dispatch, userId, usersAPI.setUnfollow.bind(usersAPI), usersActions.unfollowSuccess)
+}
+const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: (userId: number) => Promise<ResponseType> , actionCreator: (userId: number) => UserActionsTypes) => {
    dispatch(usersActions.toggleFollowingProgress(true, userId))
    let response = await apiMethod(userId)
    if (response.resultCode === ResultCodesEnum.Success) {
@@ -159,18 +167,7 @@ const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMe
    }
    dispatch(usersActions.toggleFollowingProgress(false, userId))
 }
-export const setFollow = (userId: number): ThunkType => async (dispatch) => {
-   _followUnfollowFlow(dispatch, userId, usersAPI.setFollow.bind(usersAPI), usersActions.followSuccess)
-}
-export const setUnfollow = (userId: number): ThunkType => async (dispatch) => {
-   _followUnfollowFlow(dispatch, userId, usersAPI.setUnfollow.bind(usersAPI), usersActions.unfollowSuccess)
-}
 
-export const searchUsers = (friend: boolean, searchUser: string): ThunkType => (dispatch, getState: GetStateType) => {
-   if (searchUser !== getState().usersPage.searchUser) {
-      dispatch(usersActions.setSearchUser(searchUser))
-      dispatch(requestUsers(friend))
-   }
-}
+
 
 export default usersReducer

@@ -2,42 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from 'redux-form'
 
-const FormControl = styled.div`
-    display: flex;
-    flex-flow: column;
-`
-const Label = styled.label`
-    display: flex;
-`
-const Input = styled.input`
-    width: 100%;
-    text-align: center;
-    border: 1px solid var(--DARK-GRAY);
-    padding: 5px 10px;
-    font-size: 16px;
-    border-radius: 5px;
-`
-const InputCheckbox = styled.input`
-
-`
-const Textarea = styled.textarea`
-    resize: none;
-    padding: 7px;
-    border-radius: 5px;
-`
-const Message = styled.span`
-    padding: 5px;
-    border-radius: 5px;
-    text-align: center;
-    margin-top: 5px;
-`
-const ErrorMessage = styled(Message)`
-    background-color: var(--LIGHT-RED);
-`
-const WarningMessage = styled(Message)`
-    background-color: var(--YELLOW);
-`
-
 
 interface IFieldProps {
     input: WrappedFieldInputProps
@@ -81,3 +45,40 @@ export const textareaField: React.FC<IFieldProps> = ({ input, placeholder, meta:
         }
     </FormControl>
 )
+
+
+const FormControl = styled.div`
+    display: flex;
+    flex-flow: column;
+`
+const Label = styled.label`
+    display: flex;
+`
+const Input = styled.input`
+    width: 100%;
+    text-align: center;
+    border: 1px solid var(--DARK-GRAY);
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+`
+const InputCheckbox = styled.input`
+
+`
+const Textarea = styled.textarea`
+    resize: none;
+    padding: 7px;
+    border-radius: 5px;
+`
+const Message = styled.span`
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 5px;
+`
+const ErrorMessage = styled(Message)`
+    background-color: var(--LIGHT-RED);
+`
+const WarningMessage = styled(Message)`
+    background-color: var(--YELLOW);
+`

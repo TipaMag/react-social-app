@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import s from './ProfileInfo.module.css'
 import { startChatting } from '../../../redux/dialogs-reducer'
 
-import ProfileStatus from './ProfileStatus/ProfileStatus'
-import ProfilePhoto from './ProfilePhoto/ProfilePhoto'
+import { ProfileStatus } from './ProfileStatus/ProfileStatus'
+import { ProfilePhoto } from './ProfilePhoto/ProfilePhoto'
 import ProfileData from './ProfileData/ProfileData'
 
 import Button from '../../../elements/Button'
@@ -19,7 +19,7 @@ interface Props {
   profileStatus: string
 }
 
-const ProfileInfo: React.FC<Props> = ({isOwner, profile, profileStatus, isAuth}) => {
+export const ProfileInfo: FC<Props> = ({isOwner, profile, profileStatus, isAuth}) => {
   const dispatch = useDispatch()
 
   const onStartChatting = () => {
@@ -55,5 +55,3 @@ const ProfileInfo: React.FC<Props> = ({isOwner, profile, profileStatus, isAuth})
     </div>
   )
 }
-
-export default ProfileInfo

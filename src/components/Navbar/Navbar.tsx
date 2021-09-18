@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { NavLink } from "react-router-dom"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faHome, faComments, faUsers, faNewspaper, faMusic, faCogs } from "@fortawesome/free-solid-svg-icons"
+import { faHome, faComments, faCommentDots, faUsers, faNewspaper, faMusic, faCogs } from "@fortawesome/free-solid-svg-icons"
 import Counter from "../common/Counter/Counter"
 import { useDispatch, useSelector } from "react-redux"
 import { AppStateType } from "../../redux/redux-store"
@@ -104,6 +104,12 @@ const Navbar: React.FC = () => {
           <StyledNavLink to="/Settings" activeClassName="active">
             <StyledIcon icon={faCogs} />
             Settings
+          </StyledNavLink>
+        </ListItem>
+        <ListItem>
+          <StyledNavLink to="/chat" activeClassName="active">
+            <StyledIcon icon={faCommentDots} />
+            Chat
           </StyledNavLink>
         </ListItem>
       </NavList>

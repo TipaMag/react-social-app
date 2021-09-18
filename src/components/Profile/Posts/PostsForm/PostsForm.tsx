@@ -8,18 +8,6 @@ import Button from '../../../../elements/Button'
 
 const maxLength10 = maxLength(300)
 
-const Form = styled.form`
-    display: grid;
-    grid-template-columns: 8fr 2fr;
-    grid-gap: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: var(--WHITE);
-    & textarea {
-        border: none;
-    }
-`
-
 export type PostValue = {
     newPostBody: string
 }
@@ -40,3 +28,16 @@ const AddPostForm: React.FC<InjectedFormProps<PostValue, {}>> = ({ handleSubmit,
 export default reduxForm<PostValue, {}>({
     form: 'profileAddPostForm'
 })(AddPostForm)
+
+
+const Form = styled.form`
+    display: grid;
+    grid-template-columns: 8fr 2fr;
+    grid-gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: var(--WHITE);
+    & textarea {
+        border: none;
+    }
+`

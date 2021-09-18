@@ -3,35 +3,13 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 import { updateProfileStatus } from '../../../../redux/profile-reducer'
 
-const StatusContainer = styled.div`
-    border-radius: 5px;
-    overflow: hidden;
-    &:hover {
-        background-color: var(--LIGHT-GRAY);
-        cursor: pointer;
-    }
-`
-const StatusText = styled.span`
-    display: block;
-    font-size: 13px;
-    line-height: 16px;
-    width: 100%;
-    padding: 5px 10px;
-`
-const StatusInput = styled.input`
-    padding: 5px 10px;
-    outline: none;
-    width: 100%;
-    font-size: 15px;
-    border: none;
-    background-color: var(--SOFT-BLUE);
-`
+
 
 interface Props {
     isOwner: boolean
     profileStatus: string
 }
-const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus}) => {
+export const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus}) => {
     const dispatch = useDispatch()
     
     let [editMode, setEditMode] = useState(false)
@@ -62,4 +40,28 @@ const ProfileStatus: React.FC<Props> = ({isOwner, profileStatus}) => {
         </StatusContainer>
     )
 }
-export default ProfileStatus
+
+
+const StatusContainer = styled.div`
+    border-radius: 5px;
+    overflow: hidden;
+    &:hover {
+        background-color: var(--LIGHT-GRAY);
+        cursor: pointer;
+    }
+`
+const StatusText = styled.span`
+    display: block;
+    font-size: 13px;
+    line-height: 16px;
+    width: 100%;
+    padding: 5px 10px;
+`
+const StatusInput = styled.input`
+    padding: 5px 10px;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+    border: none;
+    background-color: var(--SOFT-BLUE);
+`

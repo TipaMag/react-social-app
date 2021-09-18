@@ -1,5 +1,5 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux"
-import thunk, { ThunkMiddleware } from 'redux-thunk'
+import { createStore, combineReducers, applyMiddleware, compose, Action } from "redux"
+import thunk, { ThunkAction, ThunkMiddleware } from 'redux-thunk'
 import { reducer as formReducer } from 'redux-form'
 
 import mainReducer from "./app-reducer"
@@ -25,14 +25,14 @@ const appReducer = combineReducers({
 export type AppStateType = ReturnType<typeof appReducer>
 export type InferActionsTypes<T> = T extends {[key: string]: (...args: any[]) => infer U} ? U : never
 
+export type BaseThunkType<A extends Action, R = void> = ThunkAction<R, AppStateType, {}, A>
+
 const rootReducer = (state: any, action: any) => { // решить вопрос с типизацией
    if(action.type === 'RESET') {
       state = undefined
    }
    return appReducer(state, action)
 }
-
-
 
 
 // @ts-ignore

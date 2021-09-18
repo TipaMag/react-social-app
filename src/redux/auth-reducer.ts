@@ -1,10 +1,9 @@
-import { AppStateType, InferActionsTypes } from "./redux-store"
-import { ThunkAction } from "redux-thunk"
+import { BaseThunkType, InferActionsTypes } from "./redux-store"
 import { stopSubmit, FormAction } from 'redux-form'
 
 import { getUserProfile } from "./profile-reducer"
 import { ResultCodesEnum, ResultCodeForCaptchaEnum } from "../api/api"
-import { authAPI } from "../api/auth.api"
+import { authAPI } from "../api/auth-api"
 import { securityAPI } from "../api/security-api"
 import { AppActionsTypes, appActions } from "./app-reducer"
 
@@ -36,14 +35,10 @@ const authReducer = (state = initialState, action: AuthActionsTypes): AuthInitia
             ...state,
             smallPhoto: action.smallPhoto
          }
-      case 'RESET_AUTH_DATA':
-         return initialState
       default:
          return state
    }
 }
-
-export type AuthActionsTypes = InferActionsTypes<typeof authActions>
 
 export const authActions = {
    setAuthUserData: (userId: number | null, login: string | null, email: string | null, isAuth: boolean) => ({
@@ -57,38 +52,36 @@ export const authActions = {
    getCaptchaUrlSuccess: (captchaUrl: string) => ({
       type: 'GET_CAPTCHA_URL_SUCCESS',
       captchaUrl
-   } as const),
-   resetAuthData: () => ({
-      type: 'RESET_AUTH_DATA'
    } as const)
 }
 
-type ActionsTypes = AuthActionsTypes| AppActionsTypes | FormAction
-type ThunkType = ThunkAction<void, AppStateType, {}, ActionsTypes>
+export type AuthActionsTypes = InferActionsTypes<typeof authActions>
+type ThunkType = BaseThunkType<AuthActionsTypes | AppActionsTypes | FormAction> 
 
 export const getAuthUserData = (): ThunkType => async (dispatch) => {
-   let response = await authAPI.getAuth()
-   if (response.resultCode === ResultCodesEnum.Success) {
-      let { id, login, email } = response.data
+   let data = await authAPI.getAuth()
+   debugger
+   if (data.resultCode === ResultCodesEnum.Success) {
+      let { id, login, email } = data.data
       dispatch(authActions.setAuthUserData(id, login, email, true))
       dispatch(getUserProfile(id))
    }
 }
 export const login = (email: string, password: string, rememberMe?: boolean, captha?: string): ThunkType => async (dispatch) => {
-   let response = await authAPI.login(email, password, rememberMe, captha)
-   switch (response.resultCode) {
+   let data = await authAPI.login(email, password, rememberMe, captha)
+   switch (data.resultCode) {
       case ResultCodesEnum.Success:
          dispatch(getAuthUserData())
          break
       case ResultCodesEnum.Error:
-         let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+         let message = data.messages.length > 0 ? data.messages[0] : 'Some error'
          dispatch(stopSubmit('login', { _error: message }))
          break
       case ResultCodeForCaptchaEnum.CaptchaIsRequired:
          dispatch(getCaptchaUrl())
          break
       default:
-         console.log(response.resultCode)
+         console.log(data.resultCode)
    }
 }
 export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
@@ -97,9 +90,8 @@ export const getCaptchaUrl = (): ThunkType => async (dispatch) => {
    dispatch(authActions.getCaptchaUrlSuccess(captchaUrl))
 }
 export const logout = (): ThunkType => async (dispatch) => {
-   let response = await authAPI.logout()
-   if (response.resultCode === ResultCodesEnum.Success) {
-      dispatch(authActions.resetAuthData())
+   let data = await authAPI.logout()
+   if (data.resultCode === ResultCodesEnum.Success) {
       dispatch({type: 'RESET'})
       dispatch(appActions.initializedSuccess())
    }
